@@ -1,4 +1,4 @@
-A WordPress plugin for the OpenEstate-PHP-Export 0.2.5
+A WordPress plugin for the OpenEstate-PHP-Export 0.2.6
 ======================================================
 
 This plugin integrates [OpenEstate-PHP-Export](https://github.com/OpenEstate/OpenEstate-PHP-Export)
@@ -94,6 +94,11 @@ Screenshots
 Changelog
 ---------
 
+### 0.2.6
+
+-   Write wrapped CSS into page header
+-   Fixed session initialization
+
 ### 0.2.5
 
 -   Some smaller fixes
@@ -126,6 +131,10 @@ Changelog
 
 Upgrade Notice
 --------------
+
+### 0.2.6
+
+-   This version requires at least OpenEstate-ImmoTool 0.9.22 / 1.0-beta20
 
 ### 0.2
 
