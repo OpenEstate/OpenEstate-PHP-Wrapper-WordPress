@@ -3,11 +3,11 @@
 Plugin Name: OpenEstate PHP-Wrapper
 Plugin URI: http://wiki.openestate.org/PHP-Wrapper_-_Wordpress
 Description: This plugin integrates PHP-exported properties from OpenEstate-ImmoTool into WordPress.
-Version: 0.2
+Version: 0.2.2
 Author: Andreas Rudolph, Walter Wagner (OpenEstate.org)
-Author URI: http://www.openestate.org/
+Author URI: http://openestate.org/
 License: GPL3
-Id: $Id: openestate-php-wrapper.php 594 2010-12-12 01:37:49Z andy $
+Id: $Id: openestate-php-wrapper.php 911 2011-06-16 00:48:39Z andy $
 */
 
 add_action('init', 'openestate_wrapper_init');
@@ -82,7 +82,7 @@ function openestate_wrapper_setup() {
     <h3 style="padding:0; margin:0;"><?php echo __('info_module', 'openestate-php-wrapper'); ?></h3>
     <div style="text-align:center;">
       OpenEstate PHP-Wrapper<br/>
-      <?php echo __('info_version', 'openestate-php-wrapper'); ?> 0.1
+      <?php echo __('info_version', 'openestate-php-wrapper'); ?> 0.2.2
     </div>
     <h3><?php echo __('info_license', 'openestate-php-wrapper'); ?></h3>
     <div style="text-align:center;">
@@ -419,6 +419,10 @@ function openestate_wrapper_post_callback( $matches ) {
     $scriptUrl = trim( get_option('openestate_wrapper_script_url') );
     if (strlen($scriptUrl)>0 && substr($scriptUrl, -1)!='/') $scriptUrl .= '/';
     define( 'IMMOTOOL_BASE_URL', $scriptUrl );
+  }
+
+  if (is_file(IMMOTOOL_BASE_PATH . 'immotool.php.lock')) {
+    return __('error_update_is_running', 'openestate-php-wrapper');
   }
 
   // Definition der zu verwendenden Parameter.
