@@ -3,11 +3,11 @@
 Plugin Name: OpenEstate PHP-Wrapper
 Plugin URI: http://wiki.openestate.org/PHP-Wrapper_-_Wordpress
 Description: This plugin integrates PHP-exported properties from OpenEstate-ImmoTool into WordPress.
-Version: 0.2.2
+Version: 0.2.3
 Author: Andreas Rudolph, Walter Wagner (OpenEstate.org)
 Author URI: http://openestate.org/
 License: GPL3
-Id: $Id: openestate-php-wrapper.php 911 2011-06-16 00:48:39Z andy $
+Id: $Id: openestate-php-wrapper.php 1113 2011-10-21 19:11:06Z andy $
 */
 
 add_action('init', 'openestate_wrapper_init');
@@ -499,6 +499,7 @@ function openestate_wrapper_post_callback( $matches ) {
       }
     }
     if ($useDefaultParams) {
+      $_REQUEST[ IMMOTOOL_PARAM_INDEX_FILTER_CLEAR ] = '1';
       if (isset($settings['lang']))
         $_REQUEST[ IMMOTOOL_PARAM_LANG ] = $settings['lang'];
       if (isset($settings['view']))
