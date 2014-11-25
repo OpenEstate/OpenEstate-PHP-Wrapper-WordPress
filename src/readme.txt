@@ -4,7 +4,7 @@ Donate link: http://en.openestate.org/sponsors/
 Tags: homes, listings, openestate, promote, properties, property, real estate, realestate, real-estate, realty, wrapper
 Requires at least: 3.0.0
 Tested up to: 3.4
-Stable tag: 0.2.4
+Stable tag: 0.2.5
 
 This plugin integrates your properties from OpenEstate-ImmoTool into your WordPress blog.
 
@@ -75,6 +75,9 @@ This plugin is focused on users of the freeware real-estate software [OpenEstate
 4. Integrate the 'wrapper-tag' into your articles / pages.
 
 == Changelog ==
+
+= 0.2.5 =
+* Some smaller fixes
 
 = 0.2.4 =
 * Predefined filters / orderings is handled incorrectly under certain circumstances.
