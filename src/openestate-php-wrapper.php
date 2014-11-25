@@ -3,11 +3,11 @@
 Plugin Name: OpenEstate PHP-Wrapper
 Plugin URI: http://wiki.openestate.org/PHP-Wrapper_-_Wordpress
 Description: This plugin integrates PHP-exported properties from OpenEstate-ImmoTool into WordPress.
-Version: 0.2.4
+Version: 0.2.5
 Author: Andreas Rudolph, Walter Wagner (OpenEstate.org)
 Author URI: http://openestate.org/
 License: GPL3
-Id: $Id: openestate-php-wrapper.php 1620 2012-07-03 08:13:59Z andy $
+Id: $Id: openestate-php-wrapper.php 1710 2012-08-15 15:08:34Z andy $
 */
 
 add_action('init', 'openestate_wrapper_init');
@@ -196,10 +196,13 @@ function build_tag()
     var filters = [];
 <?php
 $i = 0;
-foreach (immotool_functions::list_available_filters() as $key) {
-  echo '    filters['.$i.'] = \''.$key.'\';' . "\n";
-  $i++;
-} ?>
+$filters = immotool_functions::list_available_filters();
+if (is_array($filters)) {
+  foreach ($filters as $key) {
+    echo '    filters['.$i.'] = \''.$key.'\';' . "\n";
+    $i++;
+  }
+}?>
     for (var i=0; i<filters.length; i++)
     {
       obj2 = document.getElementById('filter_' + filters[i]);
@@ -270,8 +273,11 @@ foreach (immotool_functions::list_available_filters() as $key) {
         <td style="padding-bottom:0.8em;">
           <select id="index_lang" style="border:1px solid #c0c0c0;" onchange="build_tag();">
               <?php
-              foreach (immotool_functions::get_language_codes() as $code) {
-                echo '<option value="' . $code . '">' . immotool_functions::get_language_name( $code ) . '</option>';
+              $languageCodes = immotool_functions::get_language_codes();
+              if (is_array($languageCodes)) {
+                foreach ($languageCodes as $code) {
+                  echo '<option value="' . $code . '">' . immotool_functions::get_language_name( $code ) . '</option>';
+                }
               }
               ?>
           </select>
@@ -319,28 +325,30 @@ foreach (immotool_functions::list_available_filters() as $key) {
       </tr>
 
       <?php
-      //foreach ($setupIndex->FilterOptions as $key)
-      foreach (immotool_functions::list_available_filters() as $key) {
-        $filterObj = immotool_functions::get_filter( $key );
-        if (!is_object($filterObj)) {
-          //echo "Filter-Objekt $key nicht gefunden<hr/>";
-          continue;
+      $filters = immotool_functions::list_available_filters();
+      if (is_array($filters)) {
+        foreach ($filters as $key) {
+          $filterObj = immotool_functions::get_filter( $key );
+          if (!is_object($filterObj)) {
+            //echo "Filter-Objekt $key nicht gefunden<hr/>";
+            continue;
+          }
+          $filterValue = (isset($settings['immotool_index']['filter'][$key]))? $settings['immotool_index']['filter'][$key]: '';
+          $filterWidget = $filterObj->getWidget( $filterValue, $setupLang, $setupTranslations, $setupIndex );
+          if (!is_string($filterWidget) || strlen($filterWidget)==0) {
+            //echo "Filter-Widget $key nicht erzeugt<hr/>";
+            continue;
+          }
+          $filterWidget = str_replace( '<select ', '<select style="border:1px solid #c0c0c0;" ', $filterWidget );
+          $filterWidget = str_replace( '<select ', '<select onchange="build_tag();" ', $filterWidget );
+          $filterWidget = str_replace( '<input ', '<input onchange="build_tag();" ', $filterWidget );
+          ?>
+        <tr>
+          <td style="width:20%; text-align:right; white-space:nowrap; padding-right:1em; vertical-align:top;"><?php echo __('view_index_filter', 'openestate-php-wrapper'); ?><br/><span style="font-style:italic;font-size:0.9em;"><?php echo $filterObj->getTitle( $setupTranslations, $setupLang ); ?></span></td>
+          <td style="padding-bottom:0.8em;"><?php echo $filterWidget; ?></td>
+        </tr>
+          <?php
         }
-        $filterValue = (isset($settings['immotool_index']['filter'][$key]))? $settings['immotool_index']['filter'][$key]: '';
-        $filterWidget = $filterObj->getWidget( $filterValue, $setupLang, $setupTranslations, $setupIndex );
-        if (!is_string($filterWidget) || strlen($filterWidget)==0) {
-          //echo "Filter-Widget $key nicht erzeugt<hr/>";
-          continue;
-        }
-        $filterWidget = str_replace( '<select ', '<select style="border:1px solid #c0c0c0;" ', $filterWidget );
-        $filterWidget = str_replace( '<select ', '<select onchange="build_tag();" ', $filterWidget );
-        $filterWidget = str_replace( '<input ', '<input onchange="build_tag();" ', $filterWidget );
-        ?>
-      <tr>
-        <td style="width:20%; text-align:right; white-space:nowrap; padding-right:1em; vertical-align:top;"><?php echo __('view_index_filter', 'openestate-php-wrapper'); ?><br/><span style="font-style:italic;font-size:0.9em;"><?php echo $filterObj->getTitle( $setupTranslations, $setupLang ); ?></span></td>
-        <td style="padding-bottom:0.8em;"><?php echo $filterWidget; ?></td>
-      </tr>
-        <?php
       }
       ?>
     </table>
@@ -373,9 +381,12 @@ foreach (immotool_functions::list_available_filters() as $key) {
         <td style="padding-bottom:0.8em;">
           <select id="expose_lang" style="border:1px solid #c0c0c0;" onchange="build_tag();">
               <?php
-              foreach (immotool_functions::get_language_codes() as $code) {
-                $selected = ($settings['immotool_expose']['lang']==$code)? 'selected="selected"': '';
-                echo '<option value="' . $code . '" ' . $selected . '>' . immotool_functions::get_language_name( $code ) . '</option>';
+              $languageCodes = immotool_functions::get_language_codes();
+              if (is_array($languageCodes)) {
+                foreach ($languageCodes as $code) {
+                  $selected = ($settings['immotool_expose']['lang']==$code)? 'selected="selected"': '';
+                  echo '<option value="' . $code . '" ' . $selected . '>' . immotool_functions::get_language_name( $code ) . '</option>';
+                }
               }
               ?>
           </select>
@@ -469,6 +480,8 @@ function openestate_wrapper_post_callback( $matches ) {
     define('IMMOTOOL_PARAM_EXPOSE_CONTACT', 'wrapped_contact');
   if (!defined('IMMOTOOL_PARAM_EXPOSE_CAPTCHA'))
     define('IMMOTOOL_PARAM_EXPOSE_CAPTCHA', 'wrapped_captchacode');
+  if (!defined('OPENESTATE_WRAPPER'))
+    define('OPENESTATE_WRAPPER', '1');
 
   // Script ermitteln
   $wrap = (isset($_REQUEST['wrap']) && is_string($_REQUEST['wrap']))? $_REQUEST['wrap']: $settings['wrap'];
@@ -519,12 +532,14 @@ function openestate_wrapper_post_callback( $matches ) {
     // vorgegebene Filter-Kriterien mit der Anfrage zusammenführen
     if (!isset($_REQUEST[ 'wrap' ]) || isset($_REQUEST[ IMMOTOOL_PARAM_INDEX_FILTER ])) {
       $filters = $settings['filter'];
-      foreach ($filters as $filter=>$value) {
-        if (!is_array($_REQUEST[ IMMOTOOL_PARAM_INDEX_FILTER ])) {
-          $_REQUEST[ IMMOTOOL_PARAM_INDEX_FILTER ] = array();
-        }
-        if (!isset($_REQUEST[ IMMOTOOL_PARAM_INDEX_FILTER ][$filter])) {
-          $_REQUEST[ IMMOTOOL_PARAM_INDEX_FILTER ][$filter] = $value;
+      if (is_array($filters)) {
+        foreach ($filters as $filter=>$value) {
+          if (!is_array($_REQUEST[ IMMOTOOL_PARAM_INDEX_FILTER ])) {
+            $_REQUEST[ IMMOTOOL_PARAM_INDEX_FILTER ] = array();
+          }
+          if (!isset($_REQUEST[ IMMOTOOL_PARAM_INDEX_FILTER ][$filter])) {
+            $_REQUEST[ IMMOTOOL_PARAM_INDEX_FILTER ][$filter] = $value;
+          }
         }
       }
     }
