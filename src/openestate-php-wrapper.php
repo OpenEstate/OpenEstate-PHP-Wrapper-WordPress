@@ -17,43 +17,58 @@ Id: $Id: openestate-php-wrapper.php 2060 2013-02-13 03:27:08Z andy $
  * @param string $environmentErrors Errors during initialization.
  * @return boolean True, if the wrapper was loaded successfully.
  */
-function openestate_wrapper_load( $scriptPath, $scriptUrl, &$environmentErrors ) {
+function openestate_wrapper_load($scriptPath, $scriptUrl, &$environmentErrors) {
 
-  if (!defined('OPENESTATE_WRAPPER'))
+  if (!defined('OPENESTATE_WRAPPER')) {
     define('OPENESTATE_WRAPPER', '1');
+  }
 
   // Definition der zu verwendenden Parameter.
-  if (!defined('IMMOTOOL_PARAM_LANG'))
+  if (!defined('IMMOTOOL_PARAM_LANG')) {
     define('IMMOTOOL_PARAM_LANG', 'wrapped_lang');
-  if (!defined('IMMOTOOL_PARAM_FAV'))
+  }
+  if (!defined('IMMOTOOL_PARAM_FAV')) {
     define('IMMOTOOL_PARAM_FAV', 'wrapped_fav');
-  if (!defined('IMMOTOOL_PARAM_INDEX_PAGE'))
+  }
+  if (!defined('IMMOTOOL_PARAM_INDEX_PAGE')) {
     define('IMMOTOOL_PARAM_INDEX_PAGE', 'wrapped_page');
-  if (!defined('IMMOTOOL_PARAM_INDEX_RESET'))
+  }
+  if (!defined('IMMOTOOL_PARAM_INDEX_RESET')) {
     define('IMMOTOOL_PARAM_INDEX_RESET', 'wrapped_reset');
-  if (!defined('IMMOTOOL_PARAM_INDEX_ORDER'))
+  }
+  if (!defined('IMMOTOOL_PARAM_INDEX_ORDER')) {
     define('IMMOTOOL_PARAM_INDEX_ORDER', 'wrapped_order');
-  if (!defined('IMMOTOOL_PARAM_INDEX_FILTER'))
+  }
+  if (!defined('IMMOTOOL_PARAM_INDEX_FILTER')) {
     define('IMMOTOOL_PARAM_INDEX_FILTER', 'wrapped_filter');
-  if (!defined('IMMOTOOL_PARAM_INDEX_FILTER_CLEAR'))
+  }
+  if (!defined('IMMOTOOL_PARAM_INDEX_FILTER_CLEAR')) {
     define('IMMOTOOL_PARAM_INDEX_FILTER_CLEAR', 'wrapped_clearFilters');
-  if (!defined('IMMOTOOL_PARAM_INDEX_VIEW'))
+  }
+  if (!defined('IMMOTOOL_PARAM_INDEX_VIEW')) {
     define('IMMOTOOL_PARAM_INDEX_VIEW', 'wrapped_view');
-  if (!defined('IMMOTOOL_PARAM_INDEX_MODE'))
+  }
+  if (!defined('IMMOTOOL_PARAM_INDEX_MODE')) {
     define('IMMOTOOL_PARAM_INDEX_MODE', 'wrapped_mode');
-  if (!defined('IMMOTOOL_PARAM_EXPOSE_ID'))
+  }
+  if (!defined('IMMOTOOL_PARAM_EXPOSE_ID')) {
     define('IMMOTOOL_PARAM_EXPOSE_ID', 'wrapped_id');
-  if (!defined('IMMOTOOL_PARAM_EXPOSE_VIEW'))
+  }
+  if (!defined('IMMOTOOL_PARAM_EXPOSE_VIEW')) {
     define('IMMOTOOL_PARAM_EXPOSE_VIEW', 'wrapped_view');
-  if (!defined('IMMOTOOL_PARAM_EXPOSE_IMG'))
+  }
+  if (!defined('IMMOTOOL_PARAM_EXPOSE_IMG')) {
     define('IMMOTOOL_PARAM_EXPOSE_IMG', 'wrapped_img');
-  if (!defined('IMMOTOOL_PARAM_EXPOSE_CONTACT'))
+  }
+  if (!defined('IMMOTOOL_PARAM_EXPOSE_CONTACT')) {
     define('IMMOTOOL_PARAM_EXPOSE_CONTACT', 'wrapped_contact');
-  if (!defined('IMMOTOOL_PARAM_EXPOSE_CAPTCHA'))
+  }
+  if (!defined('IMMOTOOL_PARAM_EXPOSE_CAPTCHA')) {
     define('IMMOTOOL_PARAM_EXPOSE_CAPTCHA', 'wrapped_captchacode');
+  }
 
   // minimale Skript-Umgebung laden
-  $environmentFiles = array( 'config.php', 'private.php', 'include/functions.php', 'data/language.php' );
+  $environmentFiles = array('config.php', 'private.php', 'include/functions.php', 'data/language.php');
   if (!is_dir($scriptPath)) {
     $environmentErrors[] = __('error_no_export_path', 'openestate-php-wrapper');
     return false;
@@ -62,24 +77,24 @@ function openestate_wrapper_load( $scriptPath, $scriptUrl, &$environmentErrors )
     define('IMMOTOOL_BASE_PATH', $scriptPath);
   }
   foreach ($environmentFiles as $file) {
-    if (!is_file(IMMOTOOL_BASE_PATH.$file)) {
+    if (!is_file(IMMOTOOL_BASE_PATH . $file)) {
       $environmentErrors[] = __('error_no_export_file_found', 'openestate-php-wrapper') . ': <i>' . $file . '</i>';
     }
   }
-  if (count($environmentErrors)==0) {
+  if (count($environmentErrors) == 0) {
     if (!defined('IN_WEBSITE')) {
       define('IN_WEBSITE', 1);
     }
     foreach ($environmentFiles as $file) {
       //echo IMMOTOOL_BASE_PATH . $file . '<hr/>';
-      require_once(IMMOTOOL_BASE_PATH.$file);
+      require_once(IMMOTOOL_BASE_PATH . $file);
     }
     if (!defined('IMMOTOOL_SCRIPT_VERSION')) {
       $environmentErrors[] = __('error_no_export_version_found', 'openestate-php-wrapper');
     }
   }
 
-  return count($environmentErrors)==0;
+  return count($environmentErrors) == 0;
 }
 
 /**
@@ -92,25 +107,28 @@ function openestate_wrapper_load_from_settings() {
   if (!defined('OPENESTATE_WRAPPER_LOADED')) {
     // Server-Pfad zu den ImmoTool-Skripten
     if (!defined('IMMOTOOL_BASE_PATH')) {
-      $scriptPath = trim( get_option('openestate_wrapper_script_path') );
-      if (strlen($scriptPath)>0 && substr($scriptPath, -1)!='/') $scriptPath .= '/';
-      define( 'IMMOTOOL_BASE_PATH', $scriptPath );
+      $scriptPath = trim(get_option('openestate_wrapper_script_path'));
+      if (strlen($scriptPath) > 0 && substr($scriptPath, -1) != '/') {
+        $scriptPath .= '/';
+      }
+      define('IMMOTOOL_BASE_PATH', $scriptPath);
     }
 
     // URL zu den ImmoTool-Skripten
     if (!defined('IMMOTOOL_BASE_URL')) {
-      $scriptUrl = trim( get_option('openestate_wrapper_script_url') );
-      if (strlen($scriptUrl)>0 && substr($scriptUrl, -1)!='/') $scriptUrl .= '/';
-      define( 'IMMOTOOL_BASE_URL', $scriptUrl );
+      $scriptUrl = trim(get_option('openestate_wrapper_script_url'));
+      if (strlen($scriptUrl) > 0 && substr($scriptUrl, -1) != '/') {
+        $scriptUrl .= '/';
+      }
+      define('IMMOTOOL_BASE_URL', $scriptUrl);
     }
 
     // ImmoTool-Umgebung einbinden
     $environmentErrors = array();
-    $environmentIsValid = openestate_wrapper_load( IMMOTOOL_BASE_PATH, IMMOTOOL_BASE_URL, $environmentErrors );
+    $environmentIsValid = openestate_wrapper_load(IMMOTOOL_BASE_PATH, IMMOTOOL_BASE_URL, $environmentErrors);
     if (!$environmentIsValid) {
-      wp_die('<h1>'.__('setup_problem', 'openestate-php-wrapper').'</h1><ul><li>' . implode( '</li><li>', $environmentErrors ) . '</li></ul>');
+      wp_die('<h1>' . __('setup_problem', 'openestate-php-wrapper') . '</h1><ul><li>' . implode('</li><li>', $environmentErrors) . '</li></ul>');
     }
-
     else {
       define('OPENESTATE_WRAPPER_LOADED', '1');
 
@@ -129,7 +147,7 @@ add_action('init', 'openestate_wrapper_init');
  * Init script environment on public pages.
  */
 function openestate_wrapper_init() {
-  load_plugin_textdomain( 'openestate-php-wrapper', false, 'openestate-php-wrapper/languages' );
+  load_plugin_textdomain('openestate-php-wrapper', false, 'openestate-php-wrapper/languages');
 
   if (!is_admin() && !in_array($GLOBALS['pagenow'], array('wp-login.php', 'wp-register.php'))) {
     openestate_wrapper_load_from_settings();
@@ -145,36 +163,40 @@ add_action('admin_menu', 'openestate_wrapper_menu');
 function openestate_wrapper_menu() {
   add_options_page('OpenEstate PHP-Wrapper', 'OpenEstate-Wrapper', 'manage_options', 'openestate_wrapper_setup', 'openestate_wrapper_setup');
 
-	//call register settings function
-	add_action( 'admin_init', 'openestate_wrapper_settings' );
+  //call register settings function
+  add_action('admin_init', 'openestate_wrapper_settings');
 }
 
 /**
  * Register settings for the wrapper plugin.
  */
 function openestate_wrapper_settings() {
-	//register our settings
-	register_setting( 'openestate-wrapper-setup', 'openestate_wrapper_script_path' );
-	register_setting( 'openestate-wrapper-setup', 'openestate_wrapper_script_url' );
+  //register our settings
+  register_setting('openestate-wrapper-setup', 'openestate_wrapper_script_path');
+  register_setting('openestate-wrapper-setup', 'openestate_wrapper_script_url');
 }
 
 /**
  * Show setup form in the administration area.
  */
 function openestate_wrapper_setup() {
-  if (!current_user_can('manage_options'))  {
-    wp_die( __('error_access_denied', 'openestate-php-wrapper') );
+  if (!current_user_can('manage_options')) {
+    wp_die(__('error_access_denied', 'openestate-php-wrapper'));
   }
 
-  $scriptPath = trim( get_option('openestate_wrapper_script_path') );
-  if (strlen($scriptPath)>0 && substr($scriptPath, -1)!='/') $scriptPath .= '/';
+  $scriptPath = trim(get_option('openestate_wrapper_script_path'));
+  if (strlen($scriptPath) > 0 && substr($scriptPath, -1) != '/') {
+    $scriptPath .= '/';
+  }
 
-  $scriptUrl = trim( get_option('openestate_wrapper_script_url') );
-  if (strlen($scriptUrl)>0 && substr($scriptUrl, -1)!='/') $scriptUrl .= '/';
+  $scriptUrl = trim(get_option('openestate_wrapper_script_url'));
+  if (strlen($scriptUrl) > 0 && substr($scriptUrl, -1) != '/') {
+    $scriptUrl .= '/';
+  }
 
   // ImmoTool-Umgebung einbinden
   $environmentErrors = array();
-  $environmentIsValid = openestate_wrapper_load( $scriptPath, $scriptUrl, $environmentErrors );
+  $environmentIsValid = openestate_wrapper_load($scriptPath, $scriptUrl, $environmentErrors);
 
   // Wenn eine gültige ImmoTool-Umgebung konfiguriert ist, können weitere Einstellungen vorgenommen werden
   $setupIndex = null;
@@ -188,7 +210,7 @@ function openestate_wrapper_setup() {
       immotool_functions::init_config($setupIndex, 'load_config_index');
       //immotool_functions::init_config($setupExpose, 'load_config_expose');
     }
-    $setupLang = immotool_functions::init_language( $setupIndex->DefaultLanguage, $setupIndex->DefaultLanguage, $setupTranslations );
+    $setupLang = immotool_functions::init_language($setupIndex->DefaultLanguage, $setupIndex->DefaultLanguage, $setupTranslations);
     if (!is_array($setupTranslations)) {
       $environmentErrors[] = __('error_no_translation_found', 'openestate-php-wrapper');
       $environmentIsValid = false;
@@ -249,7 +271,9 @@ function openestate_wrapper_setup() {
               echo '</ul>';
               echo '<h3 style="color:red;">' . __('setup_errors', 'openestate-php-wrapper') . '</h3>';
               echo '<ul>';
-              foreach ($environmentErrors as $error) echo '<li style="color:red;">&raquo; ' . $error . '</li>';
+              foreach ($environmentErrors as $error) {
+                echo '<li style="color:red;">&raquo; ' . $error . '</li>';
+              }
               echo '</ul>';
             }
             ?>
@@ -442,25 +466,25 @@ if (is_array($filters)) {
       $filters = immotool_functions::list_available_filters();
       if (is_array($filters)) {
         foreach ($filters as $key) {
-          $filterObj = immotool_functions::get_filter( $key );
+          $filterObj = immotool_functions::get_filter($key);
           if (!is_object($filterObj)) {
             //echo "Filter-Objekt $key nicht gefunden<hr/>";
             continue;
           }
-          $filterValue = (isset($settings['immotool_index']['filter'][$key]))? $settings['immotool_index']['filter'][$key]: '';
-          $filterWidget = $filterObj->getWidget( $filterValue, $setupLang, $setupTranslations, $setupIndex );
-          if (!is_string($filterWidget) || strlen($filterWidget)==0) {
+          $filterValue = (isset($settings['immotool_index']['filter'][$key])) ? $settings['immotool_index']['filter'][$key] : '';
+          $filterWidget = $filterObj->getWidget($filterValue, $setupLang, $setupTranslations, $setupIndex);
+          if (!is_string($filterWidget) || strlen($filterWidget) == 0) {
             //echo "Filter-Widget $key nicht erzeugt<hr/>";
             continue;
           }
-          $filterWidget = str_replace( '<select ', '<select style="border:1px solid #c0c0c0;" ', $filterWidget );
-          $filterWidget = str_replace( '<select ', '<select onchange="build_tag();" ', $filterWidget );
-          $filterWidget = str_replace( '<input ', '<input onchange="build_tag();" ', $filterWidget );
+          $filterWidget = str_replace('<select ', '<select style="border:1px solid #c0c0c0;" ', $filterWidget);
+          $filterWidget = str_replace('<select ', '<select onchange="build_tag();" ', $filterWidget);
+          $filterWidget = str_replace('<input ', '<input onchange="build_tag();" ', $filterWidget);
           ?>
-        <tr>
-          <td style="width:20%; text-align:right; white-space:nowrap; padding-right:1em; vertical-align:top;"><?php echo __('view_index_filter', 'openestate-php-wrapper'); ?><br/><span style="font-style:italic;font-size:0.9em;"><?php echo $filterObj->getTitle( $setupTranslations, $setupLang ); ?></span></td>
-          <td style="padding-bottom:0.8em;"><?php echo $filterWidget; ?></td>
-        </tr>
+          <tr>
+            <td style="width:20%; text-align:right; white-space:nowrap; padding-right:1em; vertical-align:top;"><?php echo __('view_index_filter', 'openestate-php-wrapper'); ?><br/><span style="font-style:italic;font-size:0.9em;"><?php echo $filterObj->getTitle($setupTranslations, $setupLang); ?></span></td>
+            <td style="padding-bottom:0.8em;"><?php echo $filterWidget; ?></td>
+          </tr>
           <?php
         }
       }
@@ -494,15 +518,15 @@ if (is_array($filters)) {
         <td style="width:20%; text-align:right; white-space:nowrap; padding-right:1em; vertical-align:top;"><?php echo __('view_expose_language', 'openestate-php-wrapper'); ?></td>
         <td style="padding-bottom:0.8em;">
           <select id="expose_lang" style="border:1px solid #c0c0c0;" onchange="build_tag();">
-              <?php
-              $languageCodes = immotool_functions::get_language_codes();
-              if (is_array($languageCodes)) {
-                foreach ($languageCodes as $code) {
-                  $selected = ($settings['immotool_expose']['lang']==$code)? 'selected="selected"': '';
-                  echo '<option value="' . $code . '" ' . $selected . '>' . immotool_functions::get_language_name( $code ) . '</option>';
-                }
+            <?php
+            $languageCodes = immotool_functions::get_language_codes();
+            if (is_array($languageCodes)) {
+              foreach ($languageCodes as $code) {
+                $selected = ($settings['immotool_expose']['lang'] == $code) ? 'selected="selected"' : '';
+                echo '<option value="' . $code . '" ' . $selected . '>' . immotool_functions::get_language_name($code) . '</option>';
               }
-              ?>
+            }
+            ?>
           </select>
         </td>
       </tr>
@@ -518,7 +542,6 @@ build_tag();
 <?php
 }
 
-
 // Load HTML headers for the wrapped environment.
 add_action('wp_head', 'openestate_wrapper_header');
 
@@ -530,14 +553,16 @@ function openestate_wrapper_header() {
     echo "\n\n<!-- OpenEstate-Wrapper v" . IMMOTOOL_SCRIPT_VERSION . " (begin) -->";
 
     // allgemeiner Stylesheet
-    echo "\n".'<link rel="stylesheet" type="text/css" media="all" href="' . IMMOTOOL_BASE_URL . 'style.php?wrapped=1" />';
+    echo "\n" . '<link rel="stylesheet" type="text/css" media="all" href="' . IMMOTOOL_BASE_URL . 'style.php?wrapped=1" />';
 
     // zusätzlicher Stylesheet
     if (class_exists('immotool_setup')) {
       $setup = new immotool_setup();
-      if (is_callable(array('immotool_myconfig', 'load_config_default'))) immotool_myconfig::load_config_default( $setup );
-      if (is_string($setup->AdditionalStylesheet) && strlen($setup->AdditionalStylesheet)>0) {
-        echo "\n".'<link rel="stylesheet" type="text/css" media="all" href="' . $setup->AdditionalStylesheet . '" />';
+      if (is_callable(array('immotool_myconfig', 'load_config_default'))) {
+        immotool_myconfig::load_config_default($setup);
+      }
+      if (is_string($setup->AdditionalStylesheet) && strlen($setup->AdditionalStylesheet) > 0) {
+        echo "\n" . '<link rel="stylesheet" type="text/css" media="all" href="' . $setup->AdditionalStylesheet . '" />';
       }
     }
     echo "\n<!-- OpenEstate-Wrapper v" . IMMOTOOL_SCRIPT_VERSION . " (end) -->\n\n";
@@ -552,12 +577,14 @@ add_filter('the_content', 'openestate_wrapper_post');
  * @param string $post Current posting.
  * @return string Modified posting.
  */
-function openestate_wrapper_post( $post ) {
-  if (!is_single() && !is_page()) return $post;
+function openestate_wrapper_post($post) {
+  if (!is_single() && !is_page()) {
+    return $post;
+  }
 
   // OpenEstate-Platzhalter suchen und ersetzen
   $regex = '/\[\s?OpenEstatePhpWrapper\s+([^\]]*)\]/is';
-  return preg_replace_callback( $regex, 'openestate_wrapper_post_callback', $post );
+  return preg_replace_callback($regex, 'openestate_wrapper_post_callback', $post);
 }
 
 /**
@@ -565,7 +592,7 @@ function openestate_wrapper_post( $post ) {
  * @param array $matches Matched [OpenEstatePhpWrapper] placeholder.
  * @return string Wrapped content.
  */
-function openestate_wrapper_post_callback( $matches ) {
+function openestate_wrapper_post_callback($matches) {
 
   // initialisieren, falls noch nicht geschehen
   openestate_wrapper_load_from_settings();
@@ -574,14 +601,16 @@ function openestate_wrapper_post_callback( $matches ) {
   //echo '<pre>'; print_r($matches); echo '</pre>';
   $regex = '/\s?([^=]*)\s?="([^"]*)"/is';
   $values = array();
-  preg_match_all( $regex, $matches[1], $values );
+  preg_match_all($regex, $matches[1], $values);
   //echo '<pre>'; print_r($values); echo '</pre>';
   $settings = array();
-  foreach ($values[1] as $pos=>$key) {
+  foreach ($values[1] as $pos => $key) {
     $key = trim($key);
-    if (substr($key, 0, 7)=='filter_') {
-      if (!isset($settings['filter'])) $settings['filter'] = array();
-      $settings['filter'][substr($key,7)] = $values[2][$pos];
+    if (substr($key, 0, 7) == 'filter_') {
+      if (!isset($settings['filter'])) {
+        $settings['filter'] = array();
+      }
+      $settings['filter'][substr($key, 7)] = $values[2][$pos];
     }
     else {
       $settings[$key] = $values[2][$pos];
@@ -594,23 +623,26 @@ function openestate_wrapper_post_callback( $matches ) {
   }
 
   // Script ermitteln
-  $wrap = (isset($_REQUEST['wrap']))? $_REQUEST['wrap']: null;
+  $wrap = (isset($_REQUEST['wrap'])) ? $_REQUEST['wrap'] : null;
   if (!is_string($wrap) && isset($settings['wrap'])) {
     $wrap = $settings['wrap'];
   }
-  if ($wrap=='expose') {
+  if ($wrap == 'expose') {
     $wrap = 'expose';
     $script = 'expose.php';
     //echo '<pre>' . print_r($_REQUEST, true) . '</pre>'; return;
 
     // Standard-Konfigurationswerte beim ersten Aufruf setzen
-    if (!isset($_REQUEST[ 'wrap' ])) {
-      if (isset($settings['lang']))
-        $_REQUEST[ IMMOTOOL_PARAM_LANG ] = $settings['lang'];
-      if (isset($settings['id']))
-        $_REQUEST[ IMMOTOOL_PARAM_EXPOSE_ID ] = $settings['id'];
-      if (isset($settings['view']))
-        $_REQUEST[ IMMOTOOL_PARAM_EXPOSE_VIEW ] = $settings['view'];
+    if (!isset($_REQUEST['wrap'])) {
+      if (isset($settings['lang'])) {
+        $_REQUEST[IMMOTOOL_PARAM_LANG] = $settings['lang'];
+      }
+      if (isset($settings['id'])) {
+        $_REQUEST[IMMOTOOL_PARAM_EXPOSE_ID] = $settings['id'];
+      }
+      if (isset($settings['view'])) {
+        $_REQUEST[IMMOTOOL_PARAM_EXPOSE_VIEW] = $settings['view'];
+      }
     }
   }
   else {
@@ -619,39 +651,46 @@ function openestate_wrapper_post_callback( $matches ) {
     //echo '<pre>' . print_r($_REQUEST, true) . '</pre>'; return;
 
     // Standard-Konfigurationswerte beim ersten Aufruf setzen
-    if (!isset($_REQUEST[ 'wrap' ])) {
-      $_REQUEST[ IMMOTOOL_PARAM_INDEX_FILTER_CLEAR ] = '1';
-      if (isset($settings['lang']))
-        $_REQUEST[ IMMOTOOL_PARAM_LANG ] = $settings['lang'];
-      if (isset($settings['view']))
-        $_REQUEST[ IMMOTOOL_PARAM_INDEX_VIEW ] = $settings['view'];
-      if (isset($settings['mode']))
-        $_REQUEST[ IMMOTOOL_PARAM_INDEX_MODE ] = $settings['mode'];
+    if (!isset($_REQUEST['wrap'])) {
+      $_REQUEST[IMMOTOOL_PARAM_INDEX_FILTER_CLEAR] = '1';
+      if (isset($settings['lang'])) {
+        $_REQUEST[IMMOTOOL_PARAM_LANG] = $settings['lang'];
+      }
+      if (isset($settings['view'])) {
+        $_REQUEST[IMMOTOOL_PARAM_INDEX_VIEW] = $settings['view'];
+      }
+      if (isset($settings['mode'])) {
+        $_REQUEST[IMMOTOOL_PARAM_INDEX_MODE] = $settings['mode'];
+      }
       if (isset($settings['order_by'])) {
         $order = $settings['order_by'];
-        if (isset($settings['order_dir'])) $order .= '-' . $settings['order_dir'];
-        else $order .= '-asc';
-        $_REQUEST[ IMMOTOOL_PARAM_INDEX_ORDER ] = $order;
+        if (isset($settings['order_dir'])) {
+          $order .= '-' . $settings['order_dir'];
+        }
+        else {
+          $order .= '-asc';
+        }
+        $_REQUEST[IMMOTOOL_PARAM_INDEX_ORDER] = $order;
       }
     }
 
     // Zurücksetzen der gewählten Filter
     if (isset($_REQUEST[IMMOTOOL_PARAM_INDEX_RESET])) {
       unset($_REQUEST[IMMOTOOL_PARAM_INDEX_RESET]);
-      $_REQUEST[ IMMOTOOL_PARAM_INDEX_FILTER ] = array();
-      $_REQUEST[ IMMOTOOL_PARAM_INDEX_FILTER_CLEAR ] = '1';
+      $_REQUEST[IMMOTOOL_PARAM_INDEX_FILTER] = array();
+      $_REQUEST[IMMOTOOL_PARAM_INDEX_FILTER_CLEAR] = '1';
     }
 
     // vorgegebene Filter-Kriterien mit der Anfrage zusammenführen
-    if (!isset($_REQUEST[ 'wrap' ]) || isset($_REQUEST[ IMMOTOOL_PARAM_INDEX_FILTER ])) {
-      $filters = (isset($settings['filter']))? $settings['filter']: null;
+    if (!isset($_REQUEST['wrap']) || isset($_REQUEST[IMMOTOOL_PARAM_INDEX_FILTER])) {
+      $filters = (isset($settings['filter'])) ? $settings['filter'] : null;
       if (is_array($filters)) {
-        foreach ($filters as $filter=>$value) {
-          if (!isset($_REQUEST[ IMMOTOOL_PARAM_INDEX_FILTER ]) || !is_array($_REQUEST[ IMMOTOOL_PARAM_INDEX_FILTER ])) {
-            $_REQUEST[ IMMOTOOL_PARAM_INDEX_FILTER ] = array();
+        foreach ($filters as $filter => $value) {
+          if (!isset($_REQUEST[IMMOTOOL_PARAM_INDEX_FILTER]) || !is_array($_REQUEST[IMMOTOOL_PARAM_INDEX_FILTER])) {
+            $_REQUEST[IMMOTOOL_PARAM_INDEX_FILTER] = array();
           }
-          if (!isset($_REQUEST[ IMMOTOOL_PARAM_INDEX_FILTER ][$filter])) {
-            $_REQUEST[ IMMOTOOL_PARAM_INDEX_FILTER ][$filter] = $value;
+          if (!isset($_REQUEST[IMMOTOOL_PARAM_INDEX_FILTER][$filter])) {
+            $_REQUEST[IMMOTOOL_PARAM_INDEX_FILTER][$filter] = $value;
           }
         }
       }
@@ -669,8 +708,14 @@ function openestate_wrapper_post_callback( $matches ) {
   // Ausgabe erzeugen
   $stylesheets = array();
   $hiddenParams = array();
-  if (isset($_REQUEST['p'])) $hiddenParams['p'] = $_REQUEST['p'];
-  if (isset($_REQUEST['cat'])) $hiddenParams['cat'] = $_REQUEST['cat'];
-  if (isset($_REQUEST['page_id'])) $hiddenParams['page_id'] = $_REQUEST['page_id'];
-  return immotool_functions::wrap_page( $page, $wrap, get_permalink(), IMMOTOOL_BASE_URL, $stylesheets, $hiddenParams );
+  if (isset($_REQUEST['p'])) {
+    $hiddenParams['p'] = $_REQUEST['p'];
+  }
+  if (isset($_REQUEST['cat'])) {
+    $hiddenParams['cat'] = $_REQUEST['cat'];
+  }
+  if (isset($_REQUEST['page_id'])) {
+    $hiddenParams['page_id'] = $_REQUEST['page_id'];
+  }
+  return immotool_functions::wrap_page($page, $wrap, get_permalink(), IMMOTOOL_BASE_URL, $stylesheets, $hiddenParams);
 }
