@@ -11,7 +11,7 @@ Description
 
 ### English
 
-OpenEstate.org provides a freeware software-solution - called OpenEstate-ImmoTool -
+OpenEstate.org provides a freeware software - called *OpenEstate-ImmoTool* -
 for small and medium sized real-estate-agencies all over the world.
 
 As one certain feature of this software, the managed properties can be exported
@@ -21,11 +21,11 @@ properties can be easily integrated into WordPress without any frames.
 ### Deutsch
 
 Im Rahmen des OpenEstate-Projektes wird unter Anderem eine kostenlose
-Immobiliensoftware unter dem Namen 'OpenEstate-ImmoTool' entwickelt. Gemeinsam
+Immobiliensoftware unter dem Namen *OpenEstate-ImmoTool* entwickelt. Gemeinsam
 mit den Anwendern soll eine Softwarelösung für kleine bis mittelgroße
 Immobilienunternehmen entwickelt werden.
 
-Unter Anderem können die im OpenEstate-ImmoTool verwalteten Immobilien als
+Unter Anderem können die im *OpenEstate-ImmoTool* verwalteten Immobilien als
 PHP-Skripte auf die eigene Webseite exportiert werden. Mit Hilfe dieses Addons
 kann dieser PHP-Export unkompliziert in WordPress integriert werden.
 
@@ -35,25 +35,25 @@ Installation
 
 ### English
 
-1.  Create a new export interface inside OpenEstate-ImmoTool.
+1.  Create a new export interface inside *OpenEstate-ImmoTool*.
 2.  Select 'FTP' as transport method and enter the FTP-data of your webspace. You should create a separate directory on your FTP webspace.
 3.  Select 'Website (PHP)' as export method.
 4.  Execute the PHP-export and the currently available properties are exported to your website.
 5.  Install and activate this plugin in your WordPress blog.
 6.  Register the path and URL of the PHP-export inside the plugin settings.
-7.  After path and URL is correctly configured, a generator is displayed to create certain 'wrapper-tags'.
-8.  Put a generated 'wrapper-tag' anywhere inside your articles / pages.
+7.  After path and URL is correctly configured, a generator is displayed to create certain shortcodes.
+8.  Put a generated shortcode anywhere inside your articles / pages.
 
 ### Deutsch
 
-1.  Erzeugen Sie eine neue Export-Schnittstelle im OpenEstate-ImmoTool.
+1.  Erzeugen Sie eine neue Export-Schnittstelle im *OpenEstate-ImmoTool*.
 2.  Wählen Sie die Transportart 'FTP' aus und tragen Sie die Zugangsdaten des Webspace ein. Für den Export sollte ein separates Verzeichnis auf dem Webspace angelegt werden.
 3.  Wählen das Exportformat 'Website (PHP)' aus.
 4.  Starten Sie den PHP-Export und die aktuell vorhandenen Immobilien werden zur Webseite exportiert.
 5.  Installieren und aktivieren Sie dieses Plugin in Ihrem WordPress Blog.
 6.  Registrieren Sie Pfad und URL des PHP-Exportes in den Einstellungen des Plugins.
-7.  Nachdem Pfad und URL korrekt konfiguriert wurden, können mit Hilfe eines Generators beliebige 'Wrapper-Tags' erzeugt werden.
-8.  Ein 'Wrapper-Tag' kann an beliebiger Stelle in einem Artikel oder einer Seite eingefügt werden.
+7.  Nachdem Pfad und URL korrekt konfiguriert wurden, können mit Hilfe eines Generators beliebige Shortcodes erzeugt werden.
+8.  Ein Shortcode kann an beliebiger Stelle in einem Artikel oder einer Seite eingefügt werden.
 
 Weitere Informationen zur Vorgehensweise finden Sie im [OpenEstate-Wiki](http://wiki.openestate.org/PHP-Wrapper_-_WordPress).
 
@@ -63,7 +63,7 @@ Frequently Asked Questions
 
 ### Who may need this plugin?
 
-This plugin is focused on users of the freeware real-estate software [OpenEstate-ImmoTool](http://en.openestate.org/immotool/).
+This plugin is focused on users of the freeware real-estate software [*OpenEstate-ImmoTool*](http://en.openestate.org/immotool/).
 
 ### Where can I get help, when I have problems with this plugin?
 
@@ -74,20 +74,16 @@ This plugin is focused on users of the freeware real-estate software [OpenEstate
 Screenshots
 -----------
 
-### Setup script path & URL
-
+**Setup script path & URL:**
 ![Screenshot](src/screenshot-1.png?raw=true)
 
-### Generate a 'wrapper-tag' for a property listing.
-
+**Generate a shortcode for a property listing:**
 ![Screenshot](src/screenshot-2.png?raw=true)
 
-### Generate a 'wrapper-tag' for a property detailled view.
-
+**Generate a shortcode for a property detailled view:**
 ![Screenshot](src/screenshot-3.png?raw=true)
 
-### Integrate the 'wrapper-tag' into your articles / pages.
-
+**Integrate the shortcode into your articles / pages:**
 ![Screenshot](src/screenshot-4.png?raw=true)
 
 
@@ -97,6 +93,7 @@ Changelog
 ### 0.3.0
 -   Bugfix: Make use of the [WordPress Shortcode API](http://codex.wordpress.org/Shortcode_API) in order to fix a compatibility issue with WordPress 4.0.1.
 -   Bugfix: Don't shutdown the whole website, if the plugin is improperly configured.
+-   made some syntax fixes
 
 ### 0.2.7
 
@@ -123,7 +120,7 @@ Changelog
 
 ### 0.2.2
 
--   Show an information message, if the properties are currently updated via OpenEstate-ImmoTool.
+-   Show an information message, if the properties are currently updated via *OpenEstate-ImmoTool*.
 
 ### 0.2.1
 
@@ -143,8 +140,14 @@ Upgrade Notice
 
 ### 0.2.6
 
--   This version requires at least OpenEstate-ImmoTool 0.9.22 / 1.0-beta20
+-   This version requires at least *OpenEstate-ImmoTool* 0.9.22 / 1.0-beta20
 
 ### 0.2
 
--   This version requires at least OpenEstate-ImmoTool 0.9.13.3
+-   This version requires at least *OpenEstate-ImmoTool* 0.9.13.3
+
+
+License
+-------
+
+[GNU General Public License 3](http://www.gnu.org/licenses/gpl-3.0-standalone.html)
