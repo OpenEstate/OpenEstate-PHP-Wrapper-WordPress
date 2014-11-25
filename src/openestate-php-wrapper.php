@@ -187,6 +187,11 @@ function openestate_wrapper_setup() {
     wp_die(__('error_access_denied', 'openestate-php-wrapper'));
   }
 
+  // get plugin informations
+  $pluginData = get_plugin_data(__FILE__);
+  $pluginVersion = (is_array($pluginData) && isset($pluginData['Version'])) ?
+      $pluginData['Version'] : '???';
+
   $scriptPath = trim(get_option('openestate_wrapper_script_path'));
   if (strlen($scriptPath) > 0 && substr($scriptPath, -1) != '/') {
     $scriptPath .= '/';
@@ -225,7 +230,7 @@ function openestate_wrapper_setup() {
     <h3 style="padding:0; margin:0;"><?php echo __('info_module', 'openestate-php-wrapper'); ?></h3>
     <div style="text-align:center;">
       OpenEstate PHP-Wrapper<br/>
-      <?php echo __('info_version', 'openestate-php-wrapper'); ?> 0.2.4
+      <?php echo __('info_version', 'openestate-php-wrapper') . ' ' . $pluginVersion; ?>
     </div>
     <h3><?php echo __('info_license', 'openestate-php-wrapper'); ?></h3>
     <div style="text-align:center;">

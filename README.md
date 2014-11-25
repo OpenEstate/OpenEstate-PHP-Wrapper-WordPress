@@ -94,6 +94,7 @@ Changelog
 -   Bugfix: Make use of the [WordPress Shortcode API](http://codex.wordpress.org/Shortcode_API) in order to fix a compatibility issue with WordPress 4.0.1.
 -   Bugfix: Don't shutdown the whole website, if the plugin is improperly configured.
 -   Bugfix: Show correct home path of the WordPress installation on the plugins admin page.
+-   Bugfix: Show correct plugin version number on the plugins admin page.
 -   made some syntax fixes
 
 ### 0.2.7
