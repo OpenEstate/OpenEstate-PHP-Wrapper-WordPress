@@ -89,6 +89,7 @@ This plugin is focused on users of the freeware real-estate software [OpenEstate
 -   Bugfix: Show correct home path of the WordPress installation on the plugins admin page.
 -   Bugfix: Show correct plugin version number on the plugins admin page.
 -   made some syntax fixes
+-   translated any source code comments into English
 
 = 0.2.7 =
 
