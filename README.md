@@ -1,4 +1,4 @@
-A WordPress plugin for the OpenEstate-PHP-Export 0.2.2
+A WordPress plugin for the OpenEstate-PHP-Export 0.2.3
 ======================================================
 
 This plugin integrates [OpenEstate-PHP-Export](https://github.com/OpenEstate/OpenEstate-PHP-Export)
@@ -93,6 +93,10 @@ Screenshots
 
 Changelog
 ---------
+
+### 0.2.3
+
+-   Filters are not correctly cleared, if the user switches between different property pages.
 
 ### 0.2.2
 
