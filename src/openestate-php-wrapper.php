@@ -3,11 +3,11 @@
 Plugin Name: OpenEstate PHP-Wrapper
 Plugin URI: http://wiki.openestate.org/PHP-Wrapper_-_Wordpress
 Description: This plugin integrates PHP-exported properties from OpenEstate-ImmoTool into WordPress.
-Version: 0.2.3
+Version: 0.2.4
 Author: Andreas Rudolph, Walter Wagner (OpenEstate.org)
 Author URI: http://openestate.org/
 License: GPL3
-Id: $Id: openestate-php-wrapper.php 1113 2011-10-21 19:11:06Z andy $
+Id: $Id: openestate-php-wrapper.php 1620 2012-07-03 08:13:59Z andy $
 */
 
 add_action('init', 'openestate_wrapper_init');
@@ -64,12 +64,16 @@ function openestate_wrapper_setup() {
 
   // Wenn eine gültige ImmoTool-Umgebung konfiguriert ist, können weitere Einstellungen vorgenommen werden
   $setupIndex = null;
-  $setupExpose = null;
+  //$setupExpose = null;
   $setupTranslations = null;
   $setupLang = null;
   if ($environmentIsValid) {
     $setupIndex = new immotool_setup_index();
-    $setupExpose = new immotool_setup_expose();
+    //$setupExpose = new immotool_setup_expose();
+    if (is_callable(array('immotool_functions', 'init_config'))) {
+      immotool_functions::init_config($setupIndex, 'load_config_index');
+      //immotool_functions::init_config($setupExpose, 'load_config_expose');
+    }
     $setupLang = immotool_functions::init_language( $setupIndex->DefaultLanguage, $setupIndex->DefaultLanguage, $setupTranslations );
     if (!is_array($setupTranslations)) {
       $environmentErrors[] = __('error_no_translation_found', 'openestate-php-wrapper');
@@ -82,7 +86,7 @@ function openestate_wrapper_setup() {
     <h3 style="padding:0; margin:0;"><?php echo __('info_module', 'openestate-php-wrapper'); ?></h3>
     <div style="text-align:center;">
       OpenEstate PHP-Wrapper<br/>
-      <?php echo __('info_version', 'openestate-php-wrapper'); ?> 0.2.2
+      <?php echo __('info_version', 'openestate-php-wrapper'); ?> 0.2.4
     </div>
     <h3><?php echo __('info_license', 'openestate-php-wrapper'); ?></h3>
     <div style="text-align:center;">
@@ -281,7 +285,18 @@ foreach (immotool_functions::list_available_filters() as $key) {
               <?php
               $sortedOrders = array();
               $availableOrders = array();
-              foreach ($setupIndex->OrderOptions as $key) {
+              $orderNames = array();
+              if (!is_callable(array('immotool_functions', 'list_available_orders'))) {
+                // Mechanismus für ältere PHP-Exporte, um die registrierten Sortierungen zu verwenden
+                if (is_array($setupIndex->OrderOptions)) {
+                  $orderNames = $setupIndex->OrderOptions;
+                }
+              }
+              else {
+                // alle verfügbaren Sortierungen verwenden
+                $orderNames = immotool_functions::list_available_orders();
+              }
+              foreach ($orderNames as $key) {
                 $orderObj = immotool_functions::get_order($key);
                 //$by = $orderObj->getName();
                 $by = $orderObj->getTitle( $setupTranslations, $setupLang );
@@ -460,20 +475,10 @@ function openestate_wrapper_post_callback( $matches ) {
   if ($wrap=='expose') {
     $wrap = 'expose';
     $script = 'expose.php';
+    //echo '<pre>' . print_r($_REQUEST, true) . '</pre>'; return;
 
-    // Standard-Parameter ggf. setzen
-    //echo '<pre>';
-    //print_r($_REQUEST);
-    //echo '</pre>';
-    $params = array( 'wrap', IMMOTOOL_PARAM_LANG, IMMOTOOL_PARAM_EXPOSE_ID, IMMOTOOL_PARAM_EXPOSE_VIEW );
-    $useDefaultParams = true;
-    foreach ($params as $param) {
-      if (isset($_REQUEST[ $param ])) {
-        $useDefaultParams = false;
-        break;
-      }
-    }
-    if ($useDefaultParams) {
+    // Standard-Konfigurationswerte beim ersten Aufruf setzen
+    if (!isset($_REQUEST[ 'wrap' ])) {
       if (isset($settings['lang']))
         $_REQUEST[ IMMOTOOL_PARAM_LANG ] = $settings['lang'];
       if (isset($settings['id']))
@@ -485,20 +490,10 @@ function openestate_wrapper_post_callback( $matches ) {
   else {
     $wrap = 'index';
     $script = 'index.php';
+    //echo '<pre>' . print_r($_REQUEST, true) . '</pre>'; return;
 
-    // Standard-Parameter ggf. setzen
-    //echo '<pre>';
-    //print_r($_REQUEST);
-    //echo '</pre>';
-    $params = array( 'wrap', IMMOTOOL_PARAM_LANG, IMMOTOOL_PARAM_INDEX_VIEW, IMMOTOOL_PARAM_INDEX_MODE, IMMOTOOL_PARAM_INDEX_ORDER, IMMOTOOL_PARAM_INDEX_FILTER );
-    $useDefaultParams = true;
-    foreach ($params as $param) {
-      if (isset($_REQUEST[ $param ])) {
-        $useDefaultParams = false;
-        break;
-      }
-    }
-    if ($useDefaultParams) {
+    // Standard-Konfigurationswerte beim ersten Aufruf setzen
+    if (!isset($_REQUEST[ 'wrap' ])) {
       $_REQUEST[ IMMOTOOL_PARAM_INDEX_FILTER_CLEAR ] = '1';
       if (isset($settings['lang']))
         $_REQUEST[ IMMOTOOL_PARAM_LANG ] = $settings['lang'];
@@ -506,10 +501,32 @@ function openestate_wrapper_post_callback( $matches ) {
         $_REQUEST[ IMMOTOOL_PARAM_INDEX_VIEW ] = $settings['view'];
       if (isset($settings['mode']))
         $_REQUEST[ IMMOTOOL_PARAM_INDEX_MODE ] = $settings['mode'];
-      if (isset($settings['order_by']) && isset($settings['order_dir']))
-        $_REQUEST[ IMMOTOOL_PARAM_INDEX_ORDER ] = $settings['order_by'].'-'.$settings['order_dir'];
-      if (isset($settings['filter']))
-        $_REQUEST[ IMMOTOOL_PARAM_INDEX_FILTER ] = $settings['filter'];
+      if (isset($settings['order_by'])) {
+        $order = $settings['order_by'];
+        if (isset($settings['order_dir'])) $order .= '-' . $settings['order_dir'];
+        else $order .= '-asc';
+        $_REQUEST[ IMMOTOOL_PARAM_INDEX_ORDER ] = $order;
+      }
+    }
+
+    // Zurücksetzen der gewählten Filter
+    if (isset($_REQUEST[IMMOTOOL_PARAM_INDEX_RESET])) {
+      unset($_REQUEST[IMMOTOOL_PARAM_INDEX_RESET]);
+      $_REQUEST[ IMMOTOOL_PARAM_INDEX_FILTER ] = array();
+      $_REQUEST[ IMMOTOOL_PARAM_INDEX_FILTER_CLEAR ] = '1';
+    }
+
+    // vorgegebene Filter-Kriterien mit der Anfrage zusammenführen
+    if (!isset($_REQUEST[ 'wrap' ]) || isset($_REQUEST[ IMMOTOOL_PARAM_INDEX_FILTER ])) {
+      $filters = $settings['filter'];
+      foreach ($filters as $filter=>$value) {
+        if (!is_array($_REQUEST[ IMMOTOOL_PARAM_INDEX_FILTER ])) {
+          $_REQUEST[ IMMOTOOL_PARAM_INDEX_FILTER ] = array();
+        }
+        if (!isset($_REQUEST[ IMMOTOOL_PARAM_INDEX_FILTER ][$filter])) {
+          $_REQUEST[ IMMOTOOL_PARAM_INDEX_FILTER ][$filter] = $value;
+        }
+      }
     }
   }
 
