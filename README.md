@@ -1,4 +1,4 @@
-A WordPress plugin for the OpenEstate-PHP-Export 0.2.3
+A WordPress plugin for the OpenEstate-PHP-Export 0.2.4
 ======================================================
 
 This plugin integrates [OpenEstate-PHP-Export](https://github.com/OpenEstate/OpenEstate-PHP-Export)
@@ -93,6 +93,11 @@ Screenshots
 
 Changelog
 ---------
+
+### 0.2.4
+
+-   Predefined filters / orderings is handled incorrectly under certain circumstances.
+-   Show all available ordering-options within administration dashboard.
 
 ### 0.2.3
 
