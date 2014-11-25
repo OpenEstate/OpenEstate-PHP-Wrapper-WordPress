@@ -95,7 +95,8 @@ Changelog
 ---------
 
 ### 0.3.0
--   Make use of the [WordPress Shortcode API](http://codex.wordpress.org/Shortcode_API) in order to fix a compatibility issue with WordPress 4.0.1.
+-   Bugfix: Make use of the [WordPress Shortcode API](http://codex.wordpress.org/Shortcode_API) in order to fix a compatibility issue with WordPress 4.0.1.
+-   Bugfix: Don't shutdown the whole website, if the plugin is improperly configured.
 
 ### 0.2.7
 

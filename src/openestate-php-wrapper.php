@@ -127,7 +127,10 @@ function openestate_wrapper_load_from_settings() {
     $environmentErrors = array();
     $environmentIsValid = openestate_wrapper_load(IMMOTOOL_BASE_PATH, IMMOTOOL_BASE_URL, $environmentErrors);
     if (!$environmentIsValid) {
-      wp_die('<h1>' . __('setup_problem', 'openestate-php-wrapper') . '</h1><ul><li>' . implode('</li><li>', $environmentErrors) . '</li></ul>');
+      define('OPENESTATE_WRAPPER_LOADED', '0');
+      if (is_array($environmentErrors) && count($environmentErrors) > 0) {
+        $GLOBALS['openestate_environment_errors'] = $environmentErrors;
+      }
     }
     else {
       define('OPENESTATE_WRAPPER_LOADED', '1');
@@ -549,7 +552,7 @@ add_action('wp_head', 'openestate_wrapper_header');
  * Load HTML headers for the wrapped environment.
  */
 function openestate_wrapper_header() {
-  if (defined('OPENESTATE_WRAPPER_LOADED')) {
+  if (defined('OPENESTATE_WRAPPER_LOADED') && OPENESTATE_WRAPPER_LOADED=='1') {
     echo "\n\n<!-- OpenEstate-Wrapper v" . IMMOTOOL_SCRIPT_VERSION . " (begin) -->";
 
     // allgemeiner Stylesheet
@@ -581,6 +584,14 @@ function openestate_wrapper_shortcode($atts) {
 
   // initialisieren, falls noch nicht geschehen
   openestate_wrapper_load_from_settings();
+  if (!defined('OPENESTATE_WRAPPER_LOADED') || OPENESTATE_WRAPPER_LOADED == '0') {
+    //wp_die('<h1>' . __('setup_problem', 'openestate-php-wrapper') . '</h1><ul><li>' . implode('</li><li>', $environmentErrors) . '</li></ul>');
+    $output = '<h2>' . __('setup_problem', 'openestate-php-wrapper') . '</h2>';
+    if (isset($GLOBALS['openestate_environment_errors'])) {
+      $output .= '<ul><li>' . implode('</li><li>', $GLOBALS['openestate_environment_errors']) . '</li></ul>';
+    }
+    return $output;
+  }
 
   // load attributes from the shortcode
   //$values = shortcode_atts(array(), $atts);
