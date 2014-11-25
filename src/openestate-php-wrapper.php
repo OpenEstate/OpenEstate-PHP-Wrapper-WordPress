@@ -284,7 +284,7 @@ function openestate_wrapper_setup() {
         </tr>
         <tr>
           <td style="width:20%; text-align:right; white-space:nowrap; padding-right:1em; vertical-align:top;"><?php echo __('setup_path', 'openestate-php-wrapper'); ?></td>
-          <td><input type="text" name="openestate_wrapper_script_path" value="<?php echo $scriptPath; ?>" style="width:100%;"/><br/><i><?php echo __('setup_path_info', 'openestate-php-wrapper'); ?></i> <span style="font-weight:bold; white-space:nowrap;"><?php echo $_SERVER['DOCUMENT_ROOT']; ?></span></td>
+          <td><input type="text" name="openestate_wrapper_script_path" value="<?php echo $scriptPath; ?>" style="width:100%;"/><br/><i><?php echo __('setup_path_info', 'openestate-php-wrapper'); ?></i> <span style="font-weight:bold; white-space:nowrap;"><?php echo get_home_path(); ?></span></td>
         </tr>
         <tr>
           <td style="width:20%; text-align:right; white-space:nowrap; padding-right:1em; vertical-align:top;"><?php echo __('setup_url', 'openestate-php-wrapper'); ?></td>
