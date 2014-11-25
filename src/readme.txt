@@ -77,6 +77,7 @@ This plugin is focused on users of the freeware real-estate software [OpenEstate
 == Changelog ==
 
 = 0.3.0 =
+* Make use of the [WordPress Shortcode API](http://codex.wordpress.org/Shortcode_API) in order to fix a compatibility issue with WordPress 4.0.1.
 
 = 0.2.7 =
 * Fixed possible PHP notice message

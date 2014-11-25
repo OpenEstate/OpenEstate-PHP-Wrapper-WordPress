@@ -2,7 +2,7 @@
 /*
 Plugin Name: OpenEstate PHP-Wrapper
 Plugin URI: https://wordpress.org/plugins/openestate-php-wrapper/
-Description: This plugin integrates PHP-exported properties from OpenEstate-ImmoTool into WordPress.
+Description: This plugin integrates OpenEstate-PHP-Export into a WordPress blog.
 Version: 0.3-SNAPSHOT
 Author: Andreas Rudolph, Walter Wagner (OpenEstate.org)
 Author URI: http://openestate.org/
@@ -569,51 +569,33 @@ function openestate_wrapper_header() {
   }
 }
 
-// Wrap exported scripts into [OpenEstatePhpWrapper] placeholder.
-add_filter('the_content', 'openestate_wrapper_post');
+// Register the [OpenEstatePhpWrapper] shortcode.
+add_shortcode('OpenEstatePhpWrapper', 'openestate_wrapper_shortcode');
 
 /**
- * Wrap exported scripts into [OpenEstatePhpWrapper] placeholder.
- * @param string $post Current posting.
- * @return string Modified posting.
- */
-function openestate_wrapper_post($post) {
-  if (!is_single() && !is_page()) {
-    return $post;
-  }
-
-  // OpenEstate-Platzhalter suchen und ersetzen
-  $regex = '/\[\s?OpenEstatePhpWrapper\s+([^\]]*)\]/is';
-  return preg_replace_callback($regex, 'openestate_wrapper_post_callback', $post);
-}
-
-/**
- * Replace [OpenEstatePhpWrapper] placeholder with wrapped content.
- * @param array $matches Matched [OpenEstatePhpWrapper] placeholder.
+ * Replace [OpenEstatePhpWrapper] shortcode with wrapped content.
+ * @param array $atts Attributes in the [OpenEstatePhpWrapper] shortcode.
  * @return string Wrapped content.
  */
-function openestate_wrapper_post_callback($matches) {
+function openestate_wrapper_shortcode($atts) {
 
   // initialisieren, falls noch nicht geschehen
   openestate_wrapper_load_from_settings();
 
-  // Konfiguration im OpenEstate-Platzhalter ermitteln
-  //echo '<pre>'; print_r($matches); echo '</pre>';
-  $regex = '/\s?([^=]*)\s?="([^"]*)"/is';
-  $values = array();
-  preg_match_all($regex, $matches[1], $values);
-  //echo '<pre>'; print_r($values); echo '</pre>';
+  // load attributes from the shortcode
+  //$values = shortcode_atts(array(), $atts);
+  $values = $atts;
   $settings = array();
-  foreach ($values[1] as $pos => $key) {
+  foreach ($values as $key => $value) {
     $key = trim($key);
     if (substr($key, 0, 7) == 'filter_') {
       if (!isset($settings['filter'])) {
         $settings['filter'] = array();
       }
-      $settings['filter'][substr($key, 7)] = $values[2][$pos];
+      $settings['filter'][substr($key, 7)] = $value;
     }
     else {
-      $settings[$key] = $values[2][$pos];
+      $settings[$key] = $value;
     }
   }
   //echo '<pre>' . print_r($settings, true) . '</pre>';
