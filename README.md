@@ -1,4 +1,4 @@
-A WordPress plugin for the OpenEstate-PHP-Export 0.1
+A WordPress plugin for the OpenEstate-PHP-Export 0.2
 ====================================================
 
 This plugin integrates [OpenEstate-PHP-Export](https://github.com/OpenEstate/OpenEstate-PHP-Export)
