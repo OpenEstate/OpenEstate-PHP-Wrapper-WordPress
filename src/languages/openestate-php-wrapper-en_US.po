@@ -1,219 +1,210 @@
-# Translation of the WordPress plugin   by .
-# Copyright (C) 2010
-# This file is distributed under the same license as the  package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+# Translation of the WordPress plugin OpenEstate-PHP Wrapper by OpenEstate.org.
+# Copyright (C) 2010-2014
+# This file is distributed under the same license as the package.
+# OpenEstate.org <info@openestate.org>, 2010-214.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: OpenEstate PHP-Wrapper\n"
-"Report-Msgid-Bugs-To: http://wordpress.org/tag/openestate-php-wrapper\n"
-"POT-Creation-Date: 2011-06-14 21:25:09+00:00\n"
-"PO-Revision-Date: 2011-06-14 23:26+0100\n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"Language: \n"
+"Report-Msgid-Bugs-To: info@openestate.org\n"
+"POT-Creation-Date: 2014-11-25 23:52+0100\n"
+"PO-Revision-Date: 2014-11-25 23:52+0100\n"
+"Last-Translator: Andreas Rudolph <andy@openindex.de>\n"
+"Language-Team: OpenEstate.org <info@openestate.org>\n"
+"Language: en_US\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 1.6.10\n"
+"X-Poedit-SourceCharset: UTF-8\n"
 
-#: openestate-php-wrapper.php:32
-msgid "error_access_denied"
-msgstr "You're not authorized to modify this plugin."
-
-#: openestate-php-wrapper.php:45
+#: openestate-php-wrapper.php:73
 msgid "error_no_export_path"
 msgstr "Please enter a valid script path!"
 
-#: openestate-php-wrapper.php:51
+#: openestate-php-wrapper.php:81
 msgid "error_no_export_file_found"
 msgstr "The file was not found in the script path"
 
-#: openestate-php-wrapper.php:60
+#: openestate-php-wrapper.php:93
 msgid "error_no_export_version_found"
 msgstr "Can't load the script version!"
 
-#: openestate-php-wrapper.php:75
+#: openestate-php-wrapper.php:187
+msgid "error_access_denied"
+msgstr "You're not authorized to modify this plugin."
+
+#: openestate-php-wrapper.php:223
 msgid "error_no_translation_found"
 msgstr "Can't find translation!"
 
-#: openestate-php-wrapper.php:82
+#: openestate-php-wrapper.php:230
 msgid "info_module"
 msgstr "Module"
 
-#: openestate-php-wrapper.php:85
-#: openestate-php-wrapper.php:123
+#: openestate-php-wrapper.php:233 openestate-php-wrapper.php:271
 msgid "info_version"
 msgstr "version"
 
-#: openestate-php-wrapper.php:87
+#: openestate-php-wrapper.php:235
 msgid "info_license"
 msgstr "License"
 
-#: openestate-php-wrapper.php:91
+#: openestate-php-wrapper.php:239
 msgid "info_authors"
 msgstr "Authors"
 
-#: openestate-php-wrapper.php:98
+#: openestate-php-wrapper.php:246
 msgid "info_support_us"
 msgstr "Support us!"
 
-#: openestate-php-wrapper.php:112
+#: openestate-php-wrapper.php:260
 msgid "setup"
 msgstr "Configure exported scripts"
 
-#: openestate-php-wrapper.php:122
+#: openestate-php-wrapper.php:270
 msgid "setup_success"
 msgstr "The exported scripts are correctly configured!"
 
-#: openestate-php-wrapper.php:127
+#: openestate-php-wrapper.php:275 openestate-php-wrapper.php:594
 msgid "setup_problem"
 msgstr "The exported scripts are NOT correctly configured!"
 
-#: openestate-php-wrapper.php:129
+#: openestate-php-wrapper.php:277
 msgid "setup_step_export"
 msgstr "Export your properties from ImmoTool to your website via PHP."
 
-#: openestate-php-wrapper.php:130
+#: openestate-php-wrapper.php:278
 msgid "setup_step_config"
-msgstr "Configure path and URL, that points to the exported scripts, and click 'Save' to perform a new validation."
+msgstr ""
+"Configure path and URL, that points to the exported scripts, and click "
+"'Save' to perform a new validation."
 
-#: openestate-php-wrapper.php:132
+#: openestate-php-wrapper.php:280
 msgid "setup_errors"
 msgstr "Error messages"
 
-#: openestate-php-wrapper.php:141
+#: openestate-php-wrapper.php:291
 msgid "setup_path"
 msgstr "Script path"
 
-#: openestate-php-wrapper.php:142
+#: openestate-php-wrapper.php:292
 msgid "setup_path_info"
-msgstr "Enter the path on your server, that points to the exported scripts. The path of this CMS installation is:"
+msgstr ""
+"Enter the path on your server, that points to the exported scripts. The path "
+"of this CMS installation is:"
 
-#: openestate-php-wrapper.php:145
+#: openestate-php-wrapper.php:295
 msgid "setup_url"
 msgstr "Script URL"
 
-#: openestate-php-wrapper.php:146
+#: openestate-php-wrapper.php:296
 msgid "setup_url_info"
-msgstr "Enter the URL on your server, that points to the exported scripts. The URL of this CMS installation is:"
+msgstr ""
+"Enter the URL on your server, that points to the exported scripts. The URL "
+"of this CMS installation is:"
 
-#: openestate-php-wrapper.php:149
+#: openestate-php-wrapper.php:299
 msgid "setup_submit"
 msgstr "Save"
 
-#: openestate-php-wrapper.php:235
+#: openestate-php-wrapper.php:388
 msgid "view"
 msgstr "Configure generated view"
 
-#: openestate-php-wrapper.php:236
+#: openestate-php-wrapper.php:389
 msgid "view_info"
-msgstr "Use the following formular to generate a placeholder, that can be inserted into any WordPress article or page."
+msgstr ""
+"Use the following formular to generate a shortcode, that can be inserted "
+"into any article or page of your WordPress blog."
 
-#: openestate-php-wrapper.php:240
+#: openestate-php-wrapper.php:393
 msgid "view_index"
 msgstr "Property listing / index.php"
 
-#: openestate-php-wrapper.php:245
+#: openestate-php-wrapper.php:398
 msgid "view_index_view"
 msgstr "View"
 
-#: openestate-php-wrapper.php:248
+#: openestate-php-wrapper.php:401
 msgid "view_index_view_summary"
 msgstr "Summary"
 
-#: openestate-php-wrapper.php:249
+#: openestate-php-wrapper.php:402
 msgid "view_index_view_fav"
 msgstr "Favourites"
 
-#: openestate-php-wrapper.php:255
+#: openestate-php-wrapper.php:408
 msgid "view_index_mode"
 msgstr "Mode"
 
-#: openestate-php-wrapper.php:258
+#: openestate-php-wrapper.php:411
 msgid "view_index_mode_entry"
 msgstr "Tabular mode"
 
-#: openestate-php-wrapper.php:259
+#: openestate-php-wrapper.php:412
 msgid "view_index_mode_gallery"
 msgstr "Gallery mode"
 
-#: openestate-php-wrapper.php:265
+#: openestate-php-wrapper.php:418
 msgid "view_index_language"
 msgstr "Language"
 
-#: openestate-php-wrapper.php:278
+#: openestate-php-wrapper.php:434
 msgid "view_index_order"
 msgstr "Order"
 
-#: openestate-php-wrapper.php:300
+#: openestate-php-wrapper.php:467
 msgid "view_index_order_asc"
 msgstr "ascending"
 
-#: openestate-php-wrapper.php:301
+#: openestate-php-wrapper.php:468
 msgid "view_index_order_desc"
 msgstr "descending"
 
-#: openestate-php-wrapper.php:325
+#: openestate-php-wrapper.php:493
 msgid "view_index_filter"
 msgstr "Filter"
 
-#: openestate-php-wrapper.php:335
+#: openestate-php-wrapper.php:504
 msgid "view_expose"
 msgstr "Property details / expose.php"
 
-#: openestate-php-wrapper.php:339
+#: openestate-php-wrapper.php:508
 msgid "view_expose_id"
 msgstr "Property ID"
 
-#: openestate-php-wrapper.php:345
+#: openestate-php-wrapper.php:514
 msgid "view_expose_view"
 msgstr "View"
 
-#: openestate-php-wrapper.php:348
+#: openestate-php-wrapper.php:517
 msgid "view_expose_view_details"
 msgstr "Details"
 
-#: openestate-php-wrapper.php:349
+#: openestate-php-wrapper.php:518
 msgid "view_expose_view_texts"
 msgstr "Description"
 
-#: openestate-php-wrapper.php:350
+#: openestate-php-wrapper.php:519
 msgid "view_expose_view_gallery"
 msgstr "Gallery"
 
-#: openestate-php-wrapper.php:351
+#: openestate-php-wrapper.php:520
 msgid "view_expose_view_contact"
 msgstr "Contact"
 
-#: openestate-php-wrapper.php:352
+#: openestate-php-wrapper.php:521
 msgid "view_expose_view_terms"
 msgstr "Terms"
 
-#: openestate-php-wrapper.php:357
+#: openestate-php-wrapper.php:526
 msgid "view_expose_language"
 msgstr "Language"
 
-#: openestate-php-wrapper.php:425
+#: openestate-php-wrapper.php:620
 msgid "error_update_is_running"
-msgstr "<h3>The properties are currently updated!</h3><p>Please revisit this page after some minutes.</p>"
-
-#. Plugin Name of the plugin/theme
-msgid "OpenEstate PHP-Wrapper"
-msgstr "OpenEstate PHP-Wrapper"
-
-#. Plugin URI of the plugin/theme
-msgid "http://wiki.openestate.org/PHP-Wrapper_-_Wordpress"
-msgstr "http://wiki.openestate.org/PHP-Wrapper_-_Wordpress"
-
-#. Description of the plugin/theme
-msgid "This plugin integrates PHP-exported properties from OpenEstate-ImmoTool into WordPress."
-msgstr "This plugin integrates PHP-exported properties from OpenEstate-ImmoTool into WordPress."
-
-#. Author of the plugin/theme
-msgid "Andreas Rudolph, Walter Wagner (OpenEstate.org)"
-msgstr "Andreas Rudolph, Walter Wagner (OpenEstate.org)"
-
-#. Author URI of the plugin/theme
-msgid "http://openestate.org/"
-msgstr "http://openestate.org/"
-
+msgstr ""
+"<h3>The properties are currently updated!</h3><p>Please revisit this page "
+"after some minutes.</p>"
