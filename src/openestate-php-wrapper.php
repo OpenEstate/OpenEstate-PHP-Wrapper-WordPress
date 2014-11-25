@@ -604,6 +604,9 @@ function openestate_wrapper_shortcode($atts) {
     return __('error_update_is_running', 'openestate-php-wrapper');
   }
 
+  // keep wrapper settings in a global variable for further use
+  $GLOBALS['openestate_wrapper_settings'] = $settings;
+
   // Script ermitteln
   $wrap = (isset($_REQUEST['wrap'])) ? $_REQUEST['wrap'] : null;
   if (!is_string($wrap) && isset($settings['wrap'])) {
