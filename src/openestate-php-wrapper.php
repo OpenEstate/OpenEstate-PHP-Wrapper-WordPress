@@ -3,11 +3,11 @@
 Plugin Name: OpenEstate PHP-Wrapper
 Plugin URI: http://wiki.openestate.org/PHP-Wrapper_-_Wordpress
 Description: This plugin integrates PHP-exported properties from OpenEstate-ImmoTool into WordPress.
-Version: 0.2.6
+Version: 0.2.7
 Author: Andreas Rudolph, Walter Wagner (OpenEstate.org)
 Author URI: http://openestate.org/
 License: GPL3
-Id: $Id: openestate-php-wrapper.php 1877 2012-10-24 21:09:35Z andy $
+Id: $Id: openestate-php-wrapper.php 2060 2013-02-13 03:27:08Z andy $
 */
 
 /**
@@ -53,7 +53,7 @@ function openestate_wrapper_load( $scriptPath, $scriptUrl, &$environmentErrors )
     define('IMMOTOOL_PARAM_EXPOSE_CAPTCHA', 'wrapped_captchacode');
 
   // minimale Skript-Umgebung laden
-  $environmentFiles = array( 'config.php', 'include/functions.php', 'data/language.php' );
+  $environmentFiles = array( 'config.php', 'private.php', 'include/functions.php', 'data/language.php' );
   if (!is_dir($scriptPath)) {
     $environmentErrors[] = __('error_no_export_path', 'openestate-php-wrapper');
     return false;
@@ -594,7 +594,10 @@ function openestate_wrapper_post_callback( $matches ) {
   }
 
   // Script ermitteln
-  $wrap = (isset($_REQUEST['wrap']) && is_string($_REQUEST['wrap']))? $_REQUEST['wrap']: $settings['wrap'];
+  $wrap = (isset($_REQUEST['wrap']))? $_REQUEST['wrap']: null;
+  if (!is_string($wrap) && isset($settings['wrap'])) {
+    $wrap = $settings['wrap'];
+  }
   if ($wrap=='expose') {
     $wrap = 'expose';
     $script = 'expose.php';
@@ -641,10 +644,10 @@ function openestate_wrapper_post_callback( $matches ) {
 
     // vorgegebene Filter-Kriterien mit der Anfrage zusammenführen
     if (!isset($_REQUEST[ 'wrap' ]) || isset($_REQUEST[ IMMOTOOL_PARAM_INDEX_FILTER ])) {
-      $filters = $settings['filter'];
+      $filters = (isset($settings['filter']))? $settings['filter']: null;
       if (is_array($filters)) {
         foreach ($filters as $filter=>$value) {
-          if (!is_array($_REQUEST[ IMMOTOOL_PARAM_INDEX_FILTER ])) {
+          if (!isset($_REQUEST[ IMMOTOOL_PARAM_INDEX_FILTER ]) || !is_array($_REQUEST[ IMMOTOOL_PARAM_INDEX_FILTER ])) {
             $_REQUEST[ IMMOTOOL_PARAM_INDEX_FILTER ] = array();
           }
           if (!isset($_REQUEST[ IMMOTOOL_PARAM_INDEX_FILTER ][$filter])) {
