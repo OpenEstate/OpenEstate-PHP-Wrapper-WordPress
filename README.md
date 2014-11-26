@@ -36,22 +36,22 @@ Installation
 ### English
 
 1.  Create a new export interface inside *OpenEstate-ImmoTool*.
-2.  Select 'FTP' as transport method and enter the FTP-data of your webspace. You should create a separate directory on your FTP webspace.
-3.  Select 'Website (PHP)' as export method.
-4.  Execute the PHP-export and the currently available properties are exported to your website.
+2.  Select **FTP** as transport method and enter the FTP settings of your webspace. You should create a separate directory on your FTP webspace, that is accessible with a web browser.
+3.  Select **Website (PHP)** as export format.
+4.  Execute the PHP export and the currently available properties are exported to your website.
 5.  Install and activate this plugin in your WordPress blog.
-6.  Register the path and URL of the PHP-export inside the plugin settings.
+6.  Configure the path and URL of the export folder in the plugin settings.
 7.  After path and URL is correctly configured, a generator is displayed to create certain shortcodes.
 8.  Put a generated shortcode anywhere inside your articles / pages.
 
 ### Deutsch
 
 1.  Erzeugen Sie eine neue Export-Schnittstelle im *OpenEstate-ImmoTool*.
-2.  Wählen Sie die Transportart 'FTP' aus und tragen Sie die Zugangsdaten des Webspace ein. Für den Export sollte ein separates Verzeichnis auf dem Webspace angelegt werden.
-3.  Wählen das Exportformat 'Website (PHP)' aus.
+2.  Wählen Sie die Transportart **FTP** aus und tragen Sie die Verbindungsdaten des Webspaces ein. Für den Export sollte ein separates Verzeichnis auf dem Webspace angelegt werden, das über den Web-Browser erreichbar ist.
+3.  Wählen das Exportformat **Website (PHP)** aus.
 4.  Starten Sie den PHP-Export und die aktuell vorhandenen Immobilien werden zur Webseite exportiert.
 5.  Installieren und aktivieren Sie dieses Plugin in Ihrem WordPress Blog.
-6.  Registrieren Sie Pfad und URL des PHP-Exportes in den Einstellungen des Plugins.
+6.  Registrieren Sie Pfad und URL des Exportverzeichnisses in den Einstellungen des Plugins.
 7.  Nachdem Pfad und URL korrekt konfiguriert wurden, können mit Hilfe eines Generators beliebige Shortcodes erzeugt werden.
 8.  Ein Shortcode kann an beliebiger Stelle in einem Artikel oder einer Seite eingefügt werden.
 
