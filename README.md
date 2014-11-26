@@ -90,6 +90,10 @@ Screenshots
 Changelog
 ---------
 
+### 0.4.0
+
+*not released yet*
+
 ### 0.3.0
 
 -   Bugfix: Make use of the [WordPress Shortcode API](http://codex.wordpress.org/Shortcode_API) in order to fix a compatibility issue with WordPress 4.0.1.
