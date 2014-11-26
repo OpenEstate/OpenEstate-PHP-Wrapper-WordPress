@@ -3,7 +3,7 @@
 Plugin Name: OpenEstate PHP-Wrapper
 Plugin URI: https://wordpress.org/plugins/openestate-php-wrapper/
 Description: This plugin integrates OpenEstate-PHP-Export into a WordPress blog.
-Version: 0.3-SNAPSHOT
+Version: 0.3.0
 Author: Andreas Rudolph, Walter Wagner (OpenEstate.org)
 Author URI: http://openestate.org/
 License: GPL3
