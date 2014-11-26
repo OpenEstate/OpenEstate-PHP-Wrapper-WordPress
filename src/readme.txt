@@ -4,7 +4,7 @@ Donate link: http://en.openestate.org/sponsors/
 Tags: homes, listings, openestate, promote, properties, property, real estate, realestate, real-estate, realty, wrapper
 Requires at least: 3.0.0
 Tested up to: 4.0.1
-Stable tag: 0.3.0
+Stable tag: 0.4-SNAPSHOT
 License: GPLv3
 
 This plugin integrates your properties from OpenEstate-ImmoTool into your WordPress blog.

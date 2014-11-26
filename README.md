@@ -1,5 +1,5 @@
-OpenEstate-PHP-Wrapper for WordPress 0.3.0
-==========================================
+OpenEstate-PHP-Wrapper for WordPress 0.4-SNAPSHOT
+=================================================
 
 This plugin integrates [OpenEstate-PHP-Export](https://github.com/OpenEstate/OpenEstate-PHP-Export)
 into a WordPress blog. You can find more informations at the
