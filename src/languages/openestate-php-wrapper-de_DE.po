@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenEstate PHP-Wrapper\n"
 "Report-Msgid-Bugs-To: info@openestate.org\n"
-"POT-Creation-Date: 2014-11-25 23:52+0100\n"
-"PO-Revision-Date: 2014-11-25 23:52+0100\n"
+"POT-Creation-Date: 2014-11-26 01:05+0100\n"
+"PO-Revision-Date: 2014-11-26 01:05+0100\n"
 "Last-Translator: Andreas Rudolph <andy@openindex.de>\n"
 "Language-Team: OpenEstate.org <info@openestate.org>\n"
 "Language: de_DE\n"
@@ -31,180 +31,180 @@ msgstr "Datei befindet sich nicht im Export-Pfad"
 msgid "error_no_export_version_found"
 msgstr "Die Skript-Version konnte nicht ermittelt werden!"
 
-#: openestate-php-wrapper.php:187
+#: openestate-php-wrapper.php:198
 msgid "error_access_denied"
 msgstr "Sie haben keine ausreichenden Rechte, um diesen Bereich zu bearbeiten."
 
-#: openestate-php-wrapper.php:223
+#: openestate-php-wrapper.php:242
 msgid "error_no_translation_found"
 msgstr "Übersetzung kann nicht ermittelt werden!"
 
-#: openestate-php-wrapper.php:230
+#: openestate-php-wrapper.php:251
 msgid "info_module"
 msgstr "Modul"
 
-#: openestate-php-wrapper.php:233 openestate-php-wrapper.php:271
+#: openestate-php-wrapper.php:254 openestate-php-wrapper.php:292
 msgid "info_version"
 msgstr "version"
 
-#: openestate-php-wrapper.php:235
+#: openestate-php-wrapper.php:256
 msgid "info_license"
 msgstr "Lizenz"
 
-#: openestate-php-wrapper.php:239
+#: openestate-php-wrapper.php:260
 msgid "info_authors"
 msgstr "Autoren"
 
-#: openestate-php-wrapper.php:246
+#: openestate-php-wrapper.php:267
 msgid "info_support_us"
 msgstr "Unterstützung"
 
-#: openestate-php-wrapper.php:260
+#: openestate-php-wrapper.php:281
 msgid "setup"
 msgstr "Anbindung der ImmoTool-Skripte"
 
-#: openestate-php-wrapper.php:270
+#: openestate-php-wrapper.php:291
 msgid "setup_success"
 msgstr "Die ImmoTool-Skripte sind korrekt eingebunden!"
 
-#: openestate-php-wrapper.php:275 openestate-php-wrapper.php:594
+#: openestate-php-wrapper.php:296 openestate-php-wrapper.php:620
 msgid "setup_problem"
 msgstr "Die ImmoTool-Skripte sind NICHT korrekt eingebunden!"
 
-#: openestate-php-wrapper.php:277
+#: openestate-php-wrapper.php:298
 msgid "setup_step_export"
 msgstr "Führen Sie einen PHP-Export via ImmoTool auf diesen Webspace durch."
 
-#: openestate-php-wrapper.php:278
+#: openestate-php-wrapper.php:299
 msgid "setup_step_config"
 msgstr ""
 "Tragen Sie den Pfad und URL des Exportes ein und klicken Sie zur erneuten "
 "Prüfung auf 'Speichern'."
 
-#: openestate-php-wrapper.php:280
+#: openestate-php-wrapper.php:301
 msgid "setup_errors"
 msgstr "Fehlermeldungen"
 
-#: openestate-php-wrapper.php:291
+#: openestate-php-wrapper.php:312
 msgid "setup_path"
 msgstr "Skript-Pfad"
 
-#: openestate-php-wrapper.php:292
+#: openestate-php-wrapper.php:313
 msgid "setup_path_info"
 msgstr ""
 "Tragen Sie hier den Pfad des Servers ein, wo die vom ImmoTool erzeugten "
 "Skripte abgelegt wurden. Der Serverpfad dieser WordPress-Installation lautet:"
 
-#: openestate-php-wrapper.php:295
+#: openestate-php-wrapper.php:316
 msgid "setup_url"
 msgstr "Skript-URL"
 
-#: openestate-php-wrapper.php:296
+#: openestate-php-wrapper.php:317
 msgid "setup_url_info"
 msgstr ""
 "Tragen Sie hier die Webadresse ein, über welche der ImmoTool-Export aus dem "
 "Internet erreichbar ist. Die Webadresse dieser WordPress-Installation lautet:"
 
-#: openestate-php-wrapper.php:299
+#: openestate-php-wrapper.php:320
 msgid "setup_submit"
 msgstr "Speichern"
 
-#: openestate-php-wrapper.php:388
+#: openestate-php-wrapper.php:409
 msgid "view"
 msgstr "Darstellung auf der Webseite"
 
-#: openestate-php-wrapper.php:389
+#: openestate-php-wrapper.php:410
 msgid "view_info"
 msgstr ""
 "Verwenden Sie das folgende Formular, um einen Shortcode zu erzeugen. Der "
 "erzeugte Shortcode kann in einem WordPress-Artikel oder auf einer WordPress-"
 "Seite eingefügt werden."
 
-#: openestate-php-wrapper.php:393
+#: openestate-php-wrapper.php:414
 msgid "view_index"
 msgstr "Immobilienübersicht / index.php"
 
-#: openestate-php-wrapper.php:398
+#: openestate-php-wrapper.php:419
 msgid "view_index_view"
 msgstr "Ansicht"
 
-#: openestate-php-wrapper.php:401
+#: openestate-php-wrapper.php:422
 msgid "view_index_view_summary"
 msgstr "Immobilienübersicht"
 
-#: openestate-php-wrapper.php:402
+#: openestate-php-wrapper.php:423
 msgid "view_index_view_fav"
 msgstr "Vormerkliste"
 
-#: openestate-php-wrapper.php:408
+#: openestate-php-wrapper.php:429
 msgid "view_index_mode"
 msgstr "Darstellung"
 
-#: openestate-php-wrapper.php:411
+#: openestate-php-wrapper.php:432
 msgid "view_index_mode_entry"
 msgstr "als Liste"
 
-#: openestate-php-wrapper.php:412
+#: openestate-php-wrapper.php:433
 msgid "view_index_mode_gallery"
 msgstr "als Galerie"
 
-#: openestate-php-wrapper.php:418
+#: openestate-php-wrapper.php:439
 msgid "view_index_language"
 msgstr "Sprache"
 
-#: openestate-php-wrapper.php:434
+#: openestate-php-wrapper.php:455
 msgid "view_index_order"
 msgstr "Sortierung"
 
-#: openestate-php-wrapper.php:467
+#: openestate-php-wrapper.php:490
 msgid "view_index_order_asc"
 msgstr "aufsteigend"
 
-#: openestate-php-wrapper.php:468
+#: openestate-php-wrapper.php:491
 msgid "view_index_order_desc"
 msgstr "absteigend"
 
-#: openestate-php-wrapper.php:493
+#: openestate-php-wrapper.php:516
 msgid "view_index_filter"
 msgstr "Filterkriterium"
 
-#: openestate-php-wrapper.php:504
+#: openestate-php-wrapper.php:527
 msgid "view_expose"
 msgstr "Exposéansicht / expose.php"
 
-#: openestate-php-wrapper.php:508
+#: openestate-php-wrapper.php:531
 msgid "view_expose_id"
 msgstr "ID der Immobilie"
 
-#: openestate-php-wrapper.php:514
+#: openestate-php-wrapper.php:537
 msgid "view_expose_view"
 msgstr "Ansicht"
 
-#: openestate-php-wrapper.php:517
+#: openestate-php-wrapper.php:540
 msgid "view_expose_view_details"
 msgstr "Details"
 
-#: openestate-php-wrapper.php:518
+#: openestate-php-wrapper.php:541
 msgid "view_expose_view_texts"
 msgstr "Beschreibung"
 
-#: openestate-php-wrapper.php:519
+#: openestate-php-wrapper.php:542
 msgid "view_expose_view_gallery"
 msgstr "Galerie"
 
-#: openestate-php-wrapper.php:520
+#: openestate-php-wrapper.php:543
 msgid "view_expose_view_contact"
 msgstr "Kontakt"
 
-#: openestate-php-wrapper.php:521
+#: openestate-php-wrapper.php:544
 msgid "view_expose_view_terms"
 msgstr "AGB"
 
-#: openestate-php-wrapper.php:526
+#: openestate-php-wrapper.php:549
 msgid "view_expose_language"
 msgstr "Sprache"
 
-#: openestate-php-wrapper.php:620
+#: openestate-php-wrapper.php:646
 msgid "error_update_is_running"
 msgstr ""
 "<h3>Der Immobilienbestand wird momentan aktualisiert!</h3><p>Bitte besuchen "
