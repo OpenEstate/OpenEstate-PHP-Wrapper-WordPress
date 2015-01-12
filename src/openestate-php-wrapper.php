@@ -7,7 +7,6 @@ Version: 0.4-SNAPSHOT
 Author: Andreas Rudolph, Walter Wagner (OpenEstate.org)
 Author URI: http://openestate.org/
 License: GPL3
-Id: $Id$
 */
 
 /**
