@@ -30,6 +30,7 @@ mkdir -p "$TEMP_DIR/phpexport"
 cd "$TEMP_DIR/phpexport"
 tar xfz "$TEMP_DIR/phpexport.tar.gz"
 mv "$(ls -1)/src" "$PHPEXPORT_DIR"
+rm -Rf "$TEMP_DIR/phpexport"
 
 echo ""
 echo "PHP-Export was successfully extracted!"

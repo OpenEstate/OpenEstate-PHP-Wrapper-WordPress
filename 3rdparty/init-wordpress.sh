@@ -30,6 +30,7 @@ mkdir -p "$TEMP_DIR/wordpress"
 cd "$TEMP_DIR/wordpress"
 tar xfz "$TEMP_DIR/wordpress.tar.gz"
 mv "$(ls -1)" "$WORDPRESS_DIR"
+rm -Rf "$TEMP_DIR/wordpress"
 
 echo ""
 echo "WordPress was successfully extracted!"
