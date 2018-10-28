@@ -20,7 +20,7 @@ The [*OpenEstate* project](https://openestate.org) provides a freeware software 
 
 As one certain feature of this software, the managed properties can be exported to any website that supports *PHP*. Together with this plugin the exported properties can be easily integrated into a *WordPress* based website without any frames.
 
-**Please notice:** This plugin version does only work with PHP exports in version 1.x!
+**Please notice:** This plugin version does only work with PHP exports in version 2.x!
 
 = Deutsch =
 
@@ -28,7 +28,7 @@ Im Rahmen des [*OpenEstate*-Projekts](https://openestate.org)) wird unter andere
 
 Unter anderem können die im *OpenEstate-ImmoTool* verwalteten Immobilien als *PHP*-Skripte auf die eigene Webseite exportiert werden. Mit Hilfe dieses Plugins kann der *PHP*-Export unkompliziert in eine auf *WordPress* basierende Webseite integriert werden.
 
-**Bitte beachten:** Diese Version des Plugins kann nur mit PHP-Exporten in Version 1.x genutzt werden!
+**Bitte beachten:** Diese Version des Plugins kann nur mit PHP-Exporten in Version 2.x genutzt werden!
 
 
 == Installation ==

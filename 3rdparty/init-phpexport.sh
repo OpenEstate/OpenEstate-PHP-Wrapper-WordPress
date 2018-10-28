@@ -3,7 +3,7 @@
 # Copyright 2010-2018 OpenEstate.org
 #
 
-URL="https://github.com/OpenEstate/OpenEstate-PHP-Export/archive/develop-1.7.tar.gz"
+URL="https://github.com/OpenEstate/OpenEstate-PHP-Export/archive/develop.tar.gz"
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 TEMP_DIR="$DIR/temp"
@@ -11,7 +11,7 @@ PHPEXPORT_DIR="$DIR/phpexport"
 set -e
 
 echo ""
-echo "Downloading development version of PHP-Export 1.7..."
+echo "Downloading development version of PHP-Export..."
 mkdir -p "$TEMP_DIR"
 rm -Rf "$TEMP_DIR/phpexport.tar.gz"
 curl -L \
