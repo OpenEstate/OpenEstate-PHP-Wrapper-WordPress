@@ -78,10 +78,6 @@ Register an account at [OpenEstate.org](https://openestate.org/) and [open a tic
 
 == Changelog ==
 
-= 0.4.0 =
-
-*not released yet*
-
 = 0.3.1 =
 
 -   minor improvements and fixes
