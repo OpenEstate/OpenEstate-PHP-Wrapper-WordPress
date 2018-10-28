@@ -9,7 +9,7 @@ Author URI: http://openestate.org/
 License: GPL3
 */
 
-/** @noinspection PhpUnusedParameterInspection, HtmlUnknownTarget, HtmlFormInputWithoutLabel */
+/** @noinspection PhpUnusedParameterInspection, HtmlUnknownTarget, HtmlFormInputWithoutLabel, ES6ConvertVarToLetConst */
 
 /**
  * Init script environment.
@@ -90,6 +90,7 @@ function openestate_wrapper_load( $scriptPath, $scriptUrl, &$environmentErrors )
 		}
 		foreach ( $environmentFiles as $file ) {
 			//echo IMMOTOOL_BASE_PATH . $file . '<hr/>';
+			/** @noinspection PhpIncludeInspection */
 			require_once( IMMOTOOL_BASE_PATH . $file );
 		}
 		if ( ! defined( 'IMMOTOOL_SCRIPT_VERSION' ) ) {
@@ -202,7 +203,7 @@ function openestate_wrapper_setup() {
 		wp_die( __( 'error_access_denied', 'openestate-php-wrapper' ) );
 	}
 
-	// get informations about this plugin
+	// get information about this plugin
 	// see http://codex.wordpress.org/Function_Reference/get_plugin_data
 	$pluginData    = get_plugin_data( __FILE__ );
 	$pluginVersion = ( is_array( $pluginData ) && isset( $pluginData['Version'] ) ) ?
@@ -341,8 +342,8 @@ function openestate_wrapper_setup() {
                 <script language="JavaScript" type="text/javascript">
                     <!--
                     function show_wrapper_settings($value) {
-                        document.getElementById('immotool_wrap_script_index_settings').style.visibility = ($value == 'index') ? 'visible' : 'collapse';
-                        document.getElementById('immotool_wrap_script_expose_settings').style.visibility = ($value == 'expose') ? 'visible' : 'collapse';
+                        document.getElementById('immotool_wrap_script_index_settings').style.visibility = ($value === 'index') ? 'visible' : 'collapse';
+                        document.getElementById('immotool_wrap_script_expose_settings').style.visibility = ($value === 'expose') ? 'visible' : 'collapse';
                     }
 
                     function build_tag() {
@@ -355,7 +356,7 @@ function openestate_wrapper_setup() {
                         var obj2 = null;
                         var params = '';
 
-                        if (wrap_index != null && wrap_index.checked == true) {
+                        if (wrap_index != null && wrap_index.checked === true) {
                             params += ' wrap="' + wrap_index.value + '"';
 
                             obj2 = document.getElementById('index_view');
@@ -386,19 +387,19 @@ function openestate_wrapper_setup() {
                             for (var i = 0; i < filters.length; i++) {
                                 obj2 = document.getElementById('filter_' + filters[i]);
                                 if (obj2 == null) continue;
-                                val = '';
+                                var val = '';
                                 //alert( filters[i] + ': ' + obj2.checked );
-                                if (obj2.checked == true || obj2.checked == false) {
-                                    if (obj2.checked == true) val = obj2.value;
+                                if (obj2.checked === true || obj2.checked === false) {
+                                    if (obj2.checked === true) val = obj2.value;
                                 }
                                 else {
                                     val = obj2.value;
                                 }
-                                if (val != '' && obj2 != null) params += ' filter_' + filters[i] + '="' + val + '"';
+                                if (val !== '' && obj2 != null) params += ' filter_' + filters[i] + '="' + val + '"';
                             }
                         }
 
-                        else if (wrap_expose != null && wrap_expose.checked == true) {
+                        else if (wrap_expose != null && wrap_expose.checked === true) {
                             params += ' wrap="' + wrap_expose.value + '"';
 
                             obj2 = document.getElementById('expose_view');
@@ -408,7 +409,7 @@ function openestate_wrapper_setup() {
                             if (obj2 != null) params += ' lang="' + obj2.value + '"';
 
                             obj2 = document.getElementById('expose_id');
-                            if (obj2 != null && obj2.value != '') params += ' id="' + obj2.value + '"';
+                            if (obj2 != null && obj2.value !== '') params += ' id="' + obj2.value + '"';
                         }
 
                         obj.innerHTML = '[OpenEstatePhpWrapper' + params + ']';
@@ -496,7 +497,7 @@ function openestate_wrapper_setup() {
 								asort( $sortedOrders );
 
 								foreach ( $sortedOrders as $key => $by ) {
-									$orderObj = $availableOrders[ $key ];
+									//$orderObj = $availableOrders[ $key ];
 									echo '<option value="' . $key . '">' . $by . '</option>';
 								}
 								?>
@@ -574,7 +575,7 @@ function openestate_wrapper_setup() {
 								$languageCodes = immotool_functions::get_language_codes();
 								if ( is_array( $languageCodes ) ) {
 									foreach ( $languageCodes as $code ) {
-										$selected = ( $settings['immotool_expose']['lang'] == $code ) ? 'selected="selected"' : '';
+										$selected = ( isset( $settings ) && $settings['immotool_expose']['lang'] == $code ) ? 'selected="selected"' : '';
 										echo '<option value="' . $code . '" ' . $selected . '>' . immotool_functions::get_language_name( $code ) . '</option>';
 									}
 								}
@@ -633,13 +634,13 @@ add_shortcode( 'OpenEstatePhpWrapper', 'openestate_wrapper_shortcode' );
 /**
  * Replace [OpenEstatePhpWrapper] shortcode with wrapped content.
  *
- * @param array $atts Attributes in the [OpenEstatePhpWrapper] shortcode.
+ * @param array $attributes Attributes in the [OpenEstatePhpWrapper] shortcode.
  *
  * @return string Wrapped content.
  *
  * @see http://codex.wordpress.org/Shortcode_API
  */
-function openestate_wrapper_shortcode( $atts ) {
+function openestate_wrapper_shortcode( $attributes ) {
 
 	// init OpenEstate-PHP-Export, if that was not already done
 	openestate_wrapper_load_from_settings();
@@ -654,10 +655,8 @@ function openestate_wrapper_shortcode( $atts ) {
 	}
 
 	// load attributes from the shortcode
-	//$values = shortcode_atts(array(), $atts);
-	$values   = $atts;
 	$settings = array();
-	foreach ( $values as $key => $value ) {
+	foreach ( $attributes as $key => $value ) {
 		$key = trim( $key );
 		if ( substr( $key, 0, 7 ) == 'filter_' ) {
 			if ( ! isset( $settings['filter'] ) ) {
@@ -734,7 +733,7 @@ function openestate_wrapper_shortcode( $atts ) {
 			$_REQUEST[ IMMOTOOL_PARAM_INDEX_FILTER_CLEAR ] = '1';
 		}
 
-		// load configured filter criterias into the request
+		// load configured filter criteria into the request
 		if ( ! isset( $_REQUEST['wrap'] ) || isset( $_REQUEST[ IMMOTOOL_PARAM_INDEX_FILTER ] ) ) {
 			$filters = ( isset( $settings['filter'] ) ) ? $settings['filter'] : null;
 			if ( is_array( $filters ) ) {
