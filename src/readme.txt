@@ -24,7 +24,7 @@ As one certain feature of this software, the managed properties can be exported 
 
 = Deutsch =
 
-Im Rahmen des [*OpenEstate*-Projekts](https://openestate.org)) wird unter anderem eine kostenlose Immobiliensoftware unter dem Namen *OpenEstate-ImmoTool* entwickelt. Dies ist eine Softwarelösung für kleine bis mittelgroße Immobilienunternehmen.
+Im Rahmen des [*OpenEstate*-Projekts](https://openestate.org) wird unter anderem eine kostenlose Immobiliensoftware unter dem Namen *OpenEstate-ImmoTool* entwickelt. Dies ist eine Softwarelösung für kleine bis mittelgroße Immobilienunternehmen.
 
 Unter anderem können die im *OpenEstate-ImmoTool* verwalteten Immobilien als *PHP*-Skripte auf die eigene Webseite exportiert werden. Mit Hilfe dieses Plugins kann der *PHP*-Export unkompliziert in eine auf *WordPress* basierende Webseite integriert werden.
 

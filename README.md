@@ -22,7 +22,7 @@ frames.
 
 ### Deutsch
 
-Im Rahmen des [*OpenEstate*-Projekts](https://openestate.org)) wird unter anderem eine kostenlose Immobiliensoftware 
+Im Rahmen des [*OpenEstate*-Projekts](https://openestate.org) wird unter anderem eine kostenlose Immobiliensoftware 
 unter dem Namen *OpenEstate-ImmoTool* entwickelt. Dies ist eine Softwarelösung für kleine bis mittelgroße 
 Immobilienunternehmen.
 
