@@ -100,10 +100,17 @@ Changelog
 
 *not released yet*
 
+### 0.3.1
+
+-   minor improvements and fixes
+-   reworked translation
+-   switched license to GPLv2 or later
+-   tested against the latest version of *WordPress* (4.9.8)
+
 ### 0.3.0
 
 -   Bugfix: Make use of the [WordPress Shortcode API](http://codex.wordpress.org/Shortcode_API) in order to fix a 
-    compatibility issue with WordPress 4.0.1.
+    compatibility issue with *WordPress* 4.0.1.
 -   Bugfix: Don't shutdown the whole website, if the plugin is improperly configured.
 -   Bugfix: Show correct home path of the WordPress installation on the plugins admin page.
 -   Bugfix: Show correct plugin version number on the plugins admin page.
