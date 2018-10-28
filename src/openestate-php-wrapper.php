@@ -2,10 +2,10 @@
 /*
 Plugin Name: OpenEstate PHP-Wrapper
 Plugin URI: https://wordpress.org/plugins/openestate-php-wrapper/
-Description: This plugin integrates OpenEstate-PHP-Export into a WordPress blog.
+Description: This plugin integrates OpenEstate-PHP-Export 1.x into a WordPress blog.
 Version: 0.4-SNAPSHOT
 Author: Andreas Rudolph, Walter Wagner (OpenEstate.org)
-Author URI: http://openestate.org/
+Author URI: https://openestate.org/
 License: GPL3
 */
 
@@ -130,7 +130,11 @@ function openestate_wrapper_load_from_settings() {
 
 		// init OpenEstate-PHP-Export with the configured script path / URL
 		$environmentErrors  = array();
-		$environmentIsValid = openestate_wrapper_load( IMMOTOOL_BASE_PATH, IMMOTOOL_BASE_URL, $environmentErrors );
+		$environmentIsValid = openestate_wrapper_load(
+			IMMOTOOL_BASE_PATH,
+			IMMOTOOL_BASE_URL,
+			$environmentErrors
+		);
 		if ( ! $environmentIsValid ) {
 			define( 'OPENESTATE_WRAPPER_LOADED', '0' );
 			if ( is_array( $environmentErrors ) && count( $environmentErrors ) > 0 ) {
@@ -158,7 +162,11 @@ function openestate_wrapper_init() {
 
 	// init translations
 	// see https://codex.wordpress.org/Function_Reference/load_plugin_textdomain
-	load_plugin_textdomain( 'openestate-php-wrapper', false, 'openestate-php-wrapper/languages' );
+	load_plugin_textdomain(
+		'openestate-php-wrapper',
+		false,
+		'openestate-php-wrapper/languages'
+	);
 
 	if ( ! is_admin() && ! in_array( $GLOBALS['pagenow'], array( 'wp-login.php', 'wp-register.php' ) ) ) {
 		openestate_wrapper_load_from_settings();
@@ -178,7 +186,13 @@ function openestate_wrapper_menu() {
 
 	// add an OpenEstate-Wrapper into WordPress administration
 	// see http://codex.wordpress.org/Function_Reference/add_options_page
-	add_options_page( 'OpenEstate PHP-Wrapper', 'OpenEstate-Wrapper', 'manage_options', 'openestate_wrapper_setup', 'openestate_wrapper_setup' );
+	add_options_page(
+		'OpenEstate PHP-Wrapper',
+		'OpenEstate-Wrapper',
+		'manage_options',
+		'openestate_wrapper_setup',
+		'openestate_wrapper_setup'
+	);
 
 	// call register settings function
 	// see http://codex.wordpress.org/Plugin_API/Action_Reference/admin_init
@@ -191,8 +205,14 @@ function openestate_wrapper_menu() {
  * @see http://codex.wordpress.org/Function_Reference/register_setting
  */
 function openestate_wrapper_settings() {
-	register_setting( 'openestate-wrapper-setup', 'openestate_wrapper_script_path' );
-	register_setting( 'openestate-wrapper-setup', 'openestate_wrapper_script_url' );
+	register_setting(
+		'openestate-wrapper-setup',
+		'openestate_wrapper_script_path'
+	);
+	register_setting(
+		'openestate-wrapper-setup',
+		'openestate_wrapper_script_url'
+	);
 }
 
 /**
@@ -242,7 +262,11 @@ function openestate_wrapper_setup() {
 		}
 
 		// init translations of OpenEstate-PHP-Export
-		$setupLang = immotool_functions::init_language( $setupIndex->DefaultLanguage, $setupIndex->DefaultLanguage, $setupTranslations );
+		$setupLang = immotool_functions::init_language(
+			$setupIndex->DefaultLanguage,
+			$setupIndex->DefaultLanguage,
+			$setupTranslations
+		);
 		if ( ! is_array( $setupTranslations ) ) {
 			$environmentErrors[] = __( 'error_no_translation_found', 'openestate-php-wrapper' );
 			$environmentIsValid  = false;
@@ -297,7 +321,9 @@ function openestate_wrapper_setup() {
 							if ( $environmentIsValid ) {
 								echo '<h3 style="color:green; margin:0;">' .
 								     __( 'setup_success', 'openestate-php-wrapper' ) . '<br/>' .
-								     '<span style="font-size:0.7em;">' . __( 'info_version', 'openestate-php-wrapper' ) . ' ' . IMMOTOOL_SCRIPT_VERSION . '</span>' .
+								     '<span style="font-size:0.7em;">'
+								     . __( 'info_version', 'openestate-php-wrapper' ) . ' ' . IMMOTOOL_SCRIPT_VERSION
+								     . '</span>' .
 								     '</h3>';
 							} else {
 								echo '<h3 style="color:red; margin-top:0;">' . __( 'setup_problem', 'openestate-php-wrapper' ) . '</h3>';
@@ -316,7 +342,9 @@ function openestate_wrapper_setup() {
                         </td>
                     </tr>
                     <tr>
-                        <td style="width:20%; text-align:right; white-space:nowrap; padding-right:1em; vertical-align:top;"><?php echo __( 'setup_path', 'openestate-php-wrapper' ); ?></td>
+                        <td style="width:20%; text-align:right; white-space:nowrap; padding-right:1em; vertical-align:top;">
+							<?php echo __( 'setup_path', 'openestate-php-wrapper' ); ?>
+                        </td>
                         <td>
                             <input type="text" name="openestate_wrapper_script_path" value="<?php echo $scriptPath; ?>"
                                    style="width:100%;"/><br/><i><?php echo __( 'setup_path_info', 'openestate-php-wrapper' ); ?></i>
@@ -324,16 +352,21 @@ function openestate_wrapper_setup() {
                         </td>
                     </tr>
                     <tr>
-                        <td style="width:20%; text-align:right; white-space:nowrap; padding-right:1em; vertical-align:top;"><?php echo __( 'setup_url', 'openestate-php-wrapper' ); ?></td>
-                        <td><input type="text" name="openestate_wrapper_script_url" value="<?php echo $scriptUrl; ?>"
-                                   style="width:100%;"/><br/><i><?php echo __( 'setup_url_info', 'openestate-php-wrapper' ); ?></i>
+                        <td style="width:20%; text-align:right; white-space:nowrap; padding-right:1em; vertical-align:top;">
+							<?php echo __( 'setup_url', 'openestate-php-wrapper' ); ?>
+                        </td>
+                        <td>
+                            <input type="text" name="openestate_wrapper_script_url" value="<?php echo $scriptUrl; ?>"
+                                   style="width:100%;"/><br/>
+                            <i><?php echo __( 'setup_url_info', 'openestate-php-wrapper' ); ?></i>
                             <span style="font-weight:bold; white-space:nowrap;"><?php echo get_bloginfo( 'url' ); ?></span>
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="2" style="text-align:center; padding:1em;"><input type="submit"
-                                                                                       value="<?php echo __( 'setup_submit', 'openestate-php-wrapper' ); ?>"
-                                                                                       class="button-primary"/></td>
+                        <td colspan="2" style="text-align:center; padding:1em;">
+                            <input type="submit" class="button-primary"
+                                   value="<?php echo __( 'setup_submit', 'openestate-php-wrapper' ); ?>"/>
+                        </td>
                     </tr>
                 </table>
             </form>
@@ -380,7 +413,8 @@ function openestate_wrapper_setup() {
 							$filters = immotool_functions::list_available_filters();
 							if ( is_array( $filters ) ) {
 								foreach ( $filters as $key ) {
-									echo '    filters[' . $i . '] = \'' . $key . '\';' . "\n";
+									echo '                            ';
+									echo 'filters[' . $i . '] = \'' . $key . '\';' . "\n";
 									$i ++;
 								}
 							}?>
@@ -419,20 +453,22 @@ function openestate_wrapper_setup() {
                 </script>
                 <h3 style="margin-top:1.5em;"><?php echo __( 'view', 'openestate-php-wrapper' ); ?></h3>
                 <p><?php echo __( 'view_info', 'openestate-php-wrapper' ); ?></p>
-                <textarea id="openestate_wrapper"
-                          style="border:1px solid red; background-color:#FFFFE0; padding:0.5em; font-family:monospace; width:100%;"
-                          readonly="readonly" onclick="this.select();" cols="50"
-                          rows="2">[OpenEstatePhpWrapper]</textarea>
+                <textarea id="openestate_wrapper" readonly="readonly" onclick="this.select();" cols="50" rows="2"
+                          style="border:1px solid red; background-color:#FFFFE0; padding:0.5em; font-family:monospace; width:100%;">
+                    [OpenEstatePhpWrapper]
+                </textarea>
                 <h4>
-                    <input type="radio" id="immotool_wrap_script_index" name="immotool_wrap_script" value="index"
+                    <input id="immotool_wrap_script_index" type="radio" name="immotool_wrap_script" value="index"
                            onchange="show_wrapper_settings('index');build_tag();" checked="checked"/>
                     <label for="immotool_wrap_script_index"><?php echo __( 'view_index', 'openestate-php-wrapper' ); ?></label>
                 </h4>
-                <table cellpadding="0" cellspacing="0" border="0" id="immotool_wrap_script_index_settings"
+                <table id="immotool_wrap_script_index_settings" cellpadding="0" cellspacing="0" border="0"
                        style="width:100%;">
 
                     <tr>
-                        <td style="width:20%; text-align:right; white-space:nowrap; padding-right:1em; vertical-align:top;"><?php echo __( 'view_index_view', 'openestate-php-wrapper' ); ?></td>
+                        <td style="width:20%; text-align:right; white-space:nowrap; padding-right:1em; vertical-align:top;">
+							<?php echo __( 'view_index_view', 'openestate-php-wrapper' ); ?>
+                        </td>
                         <td style="padding-bottom:0.8em;">
                             <select id="index_view" style="border:1px solid #c0c0c0;" onchange="build_tag();">
                                 <option value="index"><?php echo __( 'view_index_view_summary', 'openestate-php-wrapper' ); ?></option>
@@ -442,7 +478,9 @@ function openestate_wrapper_setup() {
                     </tr>
 
                     <tr>
-                        <td style="width:20%; text-align:right; white-space:nowrap; padding-right:1em; vertical-align:top;"><?php echo __( 'view_index_mode', 'openestate-php-wrapper' ); ?></td>
+                        <td style="width:20%; text-align:right; white-space:nowrap; padding-right:1em; vertical-align:top;">
+							<?php echo __( 'view_index_mode', 'openestate-php-wrapper' ); ?>
+                        </td>
                         <td style="padding-bottom:0.8em;">
                             <select id="index_mode" style="border:1px solid #c0c0c0;" onchange="build_tag();">
                                 <option value="entry"><?php echo __( 'view_index_mode_entry', 'openestate-php-wrapper' ); ?></option>
@@ -452,7 +490,9 @@ function openestate_wrapper_setup() {
                     </tr>
 
                     <tr>
-                        <td style="width:20%; text-align:right; white-space:nowrap; padding-right:1em; vertical-align:top;"><?php echo __( 'view_index_language', 'openestate-php-wrapper' ); ?></td>
+                        <td style="width:20%; text-align:right; white-space:nowrap; padding-right:1em; vertical-align:top;">
+							<?php echo __( 'view_index_language', 'openestate-php-wrapper' ); ?>
+                        </td>
                         <td style="padding-bottom:0.8em;">
                             <select id="index_lang" style="border:1px solid #c0c0c0;" onchange="build_tag();">
 								<?php
@@ -468,7 +508,9 @@ function openestate_wrapper_setup() {
                     </tr>
 
                     <tr>
-                        <td style="width:20%; text-align:right; white-space:nowrap; padding-right:1em; vertical-align:top;"><?php echo __( 'view_index_order', 'openestate-php-wrapper' ); ?></td>
+                        <td style="width:20%; text-align:right; white-space:nowrap; padding-right:1em; vertical-align:top;">
+							<?php echo __( 'view_index_order', 'openestate-php-wrapper' ); ?>
+                        </td>
                         <td style="padding-bottom:0.8em;">
                             <select id="index_order_by" style="border:1px solid #c0c0c0;" onchange="build_tag();">
 								<?php
@@ -529,11 +571,15 @@ function openestate_wrapper_setup() {
 							$filterWidget = str_replace( '<input ', '<input onchange="build_tag();" ', $filterWidget );
 							?>
                             <tr>
-                                <td style="width:20%; text-align:right; white-space:nowrap; padding-right:1em; vertical-align:top;"><?php echo __( 'view_index_filter', 'openestate-php-wrapper' ); ?>
-                                    <br/><span
-                                            style="font-style:italic;font-size:0.9em;"><?php echo $filterObj->getTitle( $setupTranslations, $setupLang ); ?></span>
+                                <td style="width:20%; text-align:right; white-space:nowrap; padding-right:1em; vertical-align:top;">
+									<?php echo __( 'view_index_filter', 'openestate-php-wrapper' ); ?><br/>
+                                    <span style="font-style:italic;font-size:0.9em;">
+                                        <?php echo $filterObj->getTitle( $setupTranslations, $setupLang ); ?>
+                                    </span>
                                 </td>
-                                <td style="padding-bottom:0.8em;"><?php echo $filterWidget; ?></td>
+                                <td style="padding-bottom:0.8em;">
+									<?php echo $filterWidget; ?>
+                                </td>
                             </tr>
 							<?php
 						}
@@ -544,19 +590,25 @@ function openestate_wrapper_setup() {
                 <h4>
                     <input type="radio" id="immotool_wrap_script_expose" name="immotool_wrap_script" value="expose"
                            onchange="show_wrapper_settings('expose');build_tag();"/>
-                    <label for="immotool_wrap_script_expose"><?php echo __( 'view_expose', 'openestate-php-wrapper' ); ?></label>
+                    <label for="immotool_wrap_script_expose">
+						<?php echo __( 'view_expose', 'openestate-php-wrapper' ); ?>
+                    </label>
                 </h4>
                 <table cellpadding="0" cellspacing="0" border="0" id="immotool_wrap_script_expose_settings"
                        style="width:100%;visibility:collapse;">
                     <tr>
-                        <td style="width:20%; text-align:right; white-space:nowrap; padding-right:1em; vertical-align:top;"><?php echo __( 'view_expose_id', 'openestate-php-wrapper' ); ?></td>
+                        <td style="width:20%; text-align:right; white-space:nowrap; padding-right:1em; vertical-align:top;">
+							<?php echo __( 'view_expose_id', 'openestate-php-wrapper' ); ?>
+                        </td>
                         <td style="padding-bottom:0.8em;">
                             <input id="expose_id" type="text" style="border:1px solid #c0c0c0;" maxlength="15" value=""
                                    onchange="build_tag();"/>
                         </td>
                     </tr>
                     <tr>
-                        <td style="width:20%; text-align:right; white-space:nowrap; padding-right:1em; vertical-align:top;"><?php echo __( 'view_expose_view', 'openestate-php-wrapper' ); ?></td>
+                        <td style="width:20%; text-align:right; white-space:nowrap; padding-right:1em; vertical-align:top;">
+							<?php echo __( 'view_expose_view', 'openestate-php-wrapper' ); ?>
+                        </td>
                         <td style="padding-bottom:0.8em;">
                             <select id="expose_view" style="border:1px solid #c0c0c0;" onchange="build_tag();">
                                 <option value="details"><?php echo __( 'view_expose_view_details', 'openestate-php-wrapper' ); ?></option>
@@ -568,15 +620,20 @@ function openestate_wrapper_setup() {
                         </td>
                     </tr>
                     <tr>
-                        <td style="width:20%; text-align:right; white-space:nowrap; padding-right:1em; vertical-align:top;"><?php echo __( 'view_expose_language', 'openestate-php-wrapper' ); ?></td>
+                        <td style="width:20%; text-align:right; white-space:nowrap; padding-right:1em; vertical-align:top;">
+							<?php echo __( 'view_expose_language', 'openestate-php-wrapper' ); ?>
+                        </td>
                         <td style="padding-bottom:0.8em;">
                             <select id="expose_lang" style="border:1px solid #c0c0c0;" onchange="build_tag();">
 								<?php
 								$languageCodes = immotool_functions::get_language_codes();
 								if ( is_array( $languageCodes ) ) {
 									foreach ( $languageCodes as $code ) {
-										$selected = ( isset( $settings ) && $settings['immotool_expose']['lang'] == $code ) ? 'selected="selected"' : '';
-										echo '<option value="' . $code . '" ' . $selected . '>' . immotool_functions::get_language_name( $code ) . '</option>';
+										$selected = ( isset( $settings ) && $settings['immotool_expose']['lang'] == $code ) ?
+											'selected="selected"' : '';
+										echo '<option value="' . $code . '" ' . $selected . '>'
+										     . immotool_functions::get_language_name( $code )
+										     . '</option>';
 									}
 								}
 								?>
@@ -648,7 +705,9 @@ function openestate_wrapper_shortcode( $attributes ) {
 		//wp_die('<h1>' . __('setup_problem', 'openestate-php-wrapper') . '</h1><ul><li>' . implode('</li><li>', $environmentErrors) . '</li></ul>');
 		$output = '<h2>' . __( 'setup_problem', 'openestate-php-wrapper' ) . '</h2>';
 		if ( isset( $GLOBALS['openestate_environment_errors'] ) ) {
-			$output .= '<ul><li>' . implode( '</li><li>', $GLOBALS['openestate_environment_errors'] ) . '</li></ul>';
+			$output .= '<ul><li>'
+			           . implode( '</li><li>', $GLOBALS['openestate_environment_errors'] )
+			           . '</li></ul>';
 		}
 
 		return $output;
@@ -770,5 +829,12 @@ function openestate_wrapper_shortcode( $attributes ) {
 		$hiddenParams['page_id'] = $_REQUEST['page_id'];
 	}
 
-	return immotool_functions::wrap_page( $page, $wrap, get_permalink(), IMMOTOOL_BASE_URL, $stylesheets, $hiddenParams );
+	return immotool_functions::wrap_page(
+		$page,
+		$wrap,
+		get_permalink(),
+		IMMOTOOL_BASE_URL,
+		$stylesheets,
+		$hiddenParams
+	);
 }
