@@ -77,16 +77,16 @@ Screenshots
 -----------
 
 **Setup script path & URL:**
-![Screenshot](src/screenshot-1.png?raw=true)
+![Screenshot](assets/screenshot-1.png?raw=true)
 
 **Generate a shortcode for a property listing:**
-![Screenshot](src/screenshot-2.png?raw=true)
+![Screenshot](assets/screenshot-2.png?raw=true)
 
 **Generate a shortcode for a property detailled view:**
-![Screenshot](src/screenshot-3.png?raw=true)
+![Screenshot](assets/screenshot-3.png?raw=true)
 
 **Integrate the shortcode into your articles / pages:**
-![Screenshot](src/screenshot-4.png?raw=true)
+![Screenshot](assets/screenshot-4.png?raw=true)
 
 
 Changelog
