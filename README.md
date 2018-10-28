@@ -96,10 +96,6 @@ Screenshots
 Changelog
 ---------
 
-### 0.4.0
-
-*not released yet*
-
 ### 0.3.1
 
 -   minor improvements and fixes
