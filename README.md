@@ -146,7 +146,7 @@ Changelog
 
 ### 0.2.1
 
--   Integration into Wordpress plugin repository
+-   Integration into *Wordpress* plugin repository
 
 ### 0.2
 
