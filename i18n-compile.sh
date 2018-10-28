@@ -1,13 +1,16 @@
-#!/bin/bash
+#!/usr/bin/env bash
+#
+# Copyright 2010-2018 OpenEstate.org
+#
 
 MSGFMT="msgfmt"
 
-PROJECT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-LANGUAGES_DIR="$PROJECT_DIR/src/languages"
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+LANGUAGES_DIR="$DIR/src/languages"
 
-for f in $LANGUAGES_DIR/*.po
+for f in "$LANGUAGES_DIR"/*.po
 do
-  NAME="$(basename -s .po $f)"
-  echo "compiling \"$NAME.po\" to \"$NAME.mo\""
-  $MSGFMT --output-file="$LANGUAGES_DIR/$NAME.mo" $LANGUAGES_DIR/$NAME.po
+  name="$(basename -s .po $f)"
+  echo "compiling \"$name.po\" to \"$name.mo\""
+  "$MSGFMT" --output-file="$LANGUAGES_DIR/$name.mo" "$LANGUAGES_DIR/$name.po"
 done

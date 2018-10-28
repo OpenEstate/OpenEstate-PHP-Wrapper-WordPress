@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="WEB_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/3rdparty/phpexport/include" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/3rdparty/phpexport/include/PHPMailer" />
+      <excludeFolder url="file://$MODULE_DIR$/3rdparty/phpexport/include/TrueBV" />
+      <excludeFolder url="file://$MODULE_DIR$/3rdparty/phpexport/include/colorbox" />
+      <excludeFolder url="file://$MODULE_DIR$/3rdparty/phpexport/include/fonts" />
+      <excludeFolder url="file://$MODULE_DIR$/3rdparty/phpexport/include/jquery" />
+      <excludeFolder url="file://$MODULE_DIR$/3rdparty/phpexport/include/lightbox2" />
+      <excludeFolder url="file://$MODULE_DIR$/3rdparty/temp" />
+      <excludeFolder url="file://$MODULE_DIR$/temp" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>
