@@ -18,6 +18,8 @@ As one certain feature of this software, the managed properties can be exported 
 Together with this plugin the exported properties can be easily integrated into a *WordPress* based website without any 
 frames.
 
+**Please notice:** This plugin version does only work with PHP exports in version 1.x!
+
 ### Deutsch
 
 Im Rahmen des [*OpenEstate*-Projekts](https://openestate.org)) wird unter anderem eine kostenlose Immobiliensoftware 
@@ -27,6 +29,8 @@ Immobilienunternehmen.
 Unter anderem können die im *OpenEstate-ImmoTool* verwalteten Immobilien als *PHP*-Skripte auf die eigene Webseite 
 exportiert werden. Mit Hilfe dieses Plugins kann der *PHP*-Export unkompliziert in eine auf *WordPress* basierende 
 Webseite integriert werden.
+
+**Bitte beachten:** Diese Version des Plugins kann nur mit PHP-Exporten in Version 1.x genutzt werden!
 
 
 Installation
@@ -122,7 +126,7 @@ Changelog
 
 ### 0.2.4
 
--   Predefined filters / orderings is handled incorrectly under certain circumstances.
+-   Predefined filters / orderings are handled incorrectly under certain circumstances.
 -   Show all available ordering-options within administration dashboard.
 
 ### 0.2.3

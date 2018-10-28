@@ -4,9 +4,10 @@ Donate link: https://openestate.org/openestate/sponsors
 Tags: homes, listings, openestate, promote, properties, property, real estate, realestate, real-estate, realty, wrapper
 Requires PHP: 5.0
 Requires at least: 3.0.0
-Tested up to: 4.0.1
+Tested up to: 4.9.8
 Stable tag: 0.4-SNAPSHOT
 License: GPLv3
+License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
 This plugin integrates real estates from OpenEstate-ImmoTool into your WordPress blog.
 
@@ -19,11 +20,15 @@ The [*OpenEstate* project](https://openestate.org) provides a freeware software 
 
 As one certain feature of this software, the managed properties can be exported to any website that supports *PHP*. Together with this plugin the exported properties can be easily integrated into a *WordPress* based website without any frames.
 
+**Please notice:** This plugin version does only work with PHP exports in version 1.x!
+
 = Deutsch =
 
 Im Rahmen des [*OpenEstate*-Projekts](https://openestate.org)) wird unter anderem eine kostenlose Immobiliensoftware unter dem Namen *OpenEstate-ImmoTool* entwickelt. Dies ist eine Softwarelösung für kleine bis mittelgroße Immobilienunternehmen.
 
 Unter anderem können die im *OpenEstate-ImmoTool* verwalteten Immobilien als *PHP*-Skripte auf die eigene Webseite exportiert werden. Mit Hilfe dieses Plugins kann der *PHP*-Export unkompliziert in eine auf *WordPress* basierende Webseite integriert werden.
+
+**Bitte beachten:** Diese Version des Plugins kann nur mit PHP-Exporten in Version 1.x genutzt werden!
 
 
 == Installation ==
@@ -102,7 +107,7 @@ Register an account at [OpenEstate.org](https://openestate.org/) and [open a tic
 
 = 0.2.4 =
 
--   Predefined filters / orderings is handled incorrectly under certain circumstances.
+-   Predefined filters / orderings are handled incorrectly under certain circumstances.
 -   Show all available ordering-options within administration dashboard.
 
 = 0.2.3 =
