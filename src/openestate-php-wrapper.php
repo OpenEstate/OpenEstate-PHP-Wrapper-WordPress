@@ -6,7 +6,6 @@ Description: This plugin integrates OpenEstate-PHP-Export 1.x into a WordPress b
 Version: 0.4-SNAPSHOT
 Author: Andreas Rudolph, Walter Wagner (OpenEstate.org)
 Author URI: https://openestate.org/
-License: GPL3
 */
 
 /** @noinspection PhpUnusedParameterInspection, HtmlUnknownTarget, HtmlFormInputWithoutLabel, ES6ConvertVarToLetConst */
@@ -284,8 +283,9 @@ function openestate_wrapper_setup() {
             </div>
             <h3><?php echo __( 'License', 'openestate-php-wrapper' ); ?></h3>
             <div style="text-align:center;">
-                <a href="<?php echo get_bloginfo( 'url' ); ?>/wp-content/plugins/openestate-php-wrapper/gpl-3.0-standalone.html"
-                   target="_blank">GNU General Public License v3</a>
+                <a href="http://www.gnu.org/licenses/gpl-2.0.html" target="_blank">
+                    GNU General Public License v2 (or later)
+                </a>
             </div>
             <h3><?php echo __( 'Authors', 'openestate-php-wrapper' ); ?></h3>
             <div style="text-align:center;">

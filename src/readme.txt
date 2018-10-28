@@ -6,8 +6,8 @@ Requires PHP: 5.0
 Requires at least: 3.0.0
 Tested up to: 4.9.8
 Stable tag: 0.4-SNAPSHOT
-License: GPLv3
-License URI: http://www.gnu.org/licenses/gpl-3.0.html
+License: GPLv2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 This plugin integrates real estates from OpenEstate-ImmoTool into your WordPress blog.
 
