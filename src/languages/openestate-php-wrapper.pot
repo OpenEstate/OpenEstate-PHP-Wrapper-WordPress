@@ -1,13 +1,14 @@
 # Translation of the WordPress plugin OpenEstate-PHP Wrapper by OpenEstate.org.
-# Copyright (C) 2010-2014
+# Copyright (C) 2010-2018
 # This file is distributed under the same license as the package.
-# OpenEstate.org <info@openestate.org>, 2010-214.
+# OpenEstate.org <info@openestate.org>, 2010-2018.
 #
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: openestate-php-wrapper 0.3.0\n"
 "Report-Msgid-Bugs-To: info@openestate.org\n"
-"POT-Creation-Date: 2014-11-26 01:05+0100\n"
+"POT-Creation-Date: 2018-10-28 16:09+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,182 +17,182 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: openestate-php-wrapper.php:73
+#: openestate-php-wrapper.php:75
 msgid "error_no_export_path"
 msgstr ""
 
-#: openestate-php-wrapper.php:81
+#: openestate-php-wrapper.php:84
 msgid "error_no_export_file_found"
 msgstr ""
 
-#: openestate-php-wrapper.php:93
+#: openestate-php-wrapper.php:97
 msgid "error_no_export_version_found"
 msgstr ""
 
-#: openestate-php-wrapper.php:198
+#: openestate-php-wrapper.php:203
 msgid "error_access_denied"
 msgstr ""
 
-#: openestate-php-wrapper.php:242
+#: openestate-php-wrapper.php:247
 msgid "error_no_translation_found"
 msgstr ""
 
-#: openestate-php-wrapper.php:251
+#: openestate-php-wrapper.php:256
 msgid "info_module"
 msgstr ""
 
-#: openestate-php-wrapper.php:254 openestate-php-wrapper.php:292
+#: openestate-php-wrapper.php:259 openestate-php-wrapper.php:300
 msgid "info_version"
 msgstr ""
 
-#: openestate-php-wrapper.php:256
+#: openestate-php-wrapper.php:261
 msgid "info_license"
 msgstr ""
 
-#: openestate-php-wrapper.php:260
+#: openestate-php-wrapper.php:266
 msgid "info_authors"
 msgstr ""
 
-#: openestate-php-wrapper.php:267
+#: openestate-php-wrapper.php:274
 msgid "info_support_us"
 msgstr ""
 
-#: openestate-php-wrapper.php:281
+#: openestate-php-wrapper.php:289
 msgid "setup"
 msgstr ""
 
-#: openestate-php-wrapper.php:291
+#: openestate-php-wrapper.php:299
 msgid "setup_success"
 msgstr ""
 
-#: openestate-php-wrapper.php:296 openestate-php-wrapper.php:620
+#: openestate-php-wrapper.php:303 openestate-php-wrapper.php:649
 msgid "setup_problem"
 msgstr ""
 
-#: openestate-php-wrapper.php:298
+#: openestate-php-wrapper.php:305
 msgid "setup_step_export"
 msgstr ""
 
-#: openestate-php-wrapper.php:299
+#: openestate-php-wrapper.php:306
 msgid "setup_step_config"
 msgstr ""
 
-#: openestate-php-wrapper.php:301
+#: openestate-php-wrapper.php:308
 msgid "setup_errors"
 msgstr ""
 
-#: openestate-php-wrapper.php:312
+#: openestate-php-wrapper.php:319
 msgid "setup_path"
 msgstr ""
 
-#: openestate-php-wrapper.php:313
+#: openestate-php-wrapper.php:322
 msgid "setup_path_info"
 msgstr ""
 
-#: openestate-php-wrapper.php:316
+#: openestate-php-wrapper.php:327
 msgid "setup_url"
 msgstr ""
 
-#: openestate-php-wrapper.php:317
+#: openestate-php-wrapper.php:329
 msgid "setup_url_info"
 msgstr ""
 
-#: openestate-php-wrapper.php:320
+#: openestate-php-wrapper.php:335
 msgid "setup_submit"
 msgstr ""
 
-#: openestate-php-wrapper.php:409
+#: openestate-php-wrapper.php:420
 msgid "view"
 msgstr ""
 
-#: openestate-php-wrapper.php:410
+#: openestate-php-wrapper.php:421
 msgid "view_info"
 msgstr ""
 
-#: openestate-php-wrapper.php:414
+#: openestate-php-wrapper.php:429
 msgid "view_index"
 msgstr ""
 
-#: openestate-php-wrapper.php:419
+#: openestate-php-wrapper.php:435
 msgid "view_index_view"
 msgstr ""
 
-#: openestate-php-wrapper.php:422
+#: openestate-php-wrapper.php:438
 msgid "view_index_view_summary"
 msgstr ""
 
-#: openestate-php-wrapper.php:423
+#: openestate-php-wrapper.php:439
 msgid "view_index_view_fav"
 msgstr ""
 
-#: openestate-php-wrapper.php:429
+#: openestate-php-wrapper.php:445
 msgid "view_index_mode"
 msgstr ""
 
-#: openestate-php-wrapper.php:432
+#: openestate-php-wrapper.php:448
 msgid "view_index_mode_entry"
 msgstr ""
 
-#: openestate-php-wrapper.php:433
+#: openestate-php-wrapper.php:449
 msgid "view_index_mode_gallery"
 msgstr ""
 
-#: openestate-php-wrapper.php:439
+#: openestate-php-wrapper.php:455
 msgid "view_index_language"
 msgstr ""
 
-#: openestate-php-wrapper.php:455
+#: openestate-php-wrapper.php:471
 msgid "view_index_order"
 msgstr ""
 
-#: openestate-php-wrapper.php:490
+#: openestate-php-wrapper.php:506
 msgid "view_index_order_asc"
 msgstr ""
 
-#: openestate-php-wrapper.php:491
+#: openestate-php-wrapper.php:507
 msgid "view_index_order_desc"
 msgstr ""
 
-#: openestate-php-wrapper.php:516
+#: openestate-php-wrapper.php:532
 msgid "view_index_filter"
 msgstr ""
 
-#: openestate-php-wrapper.php:527
+#: openestate-php-wrapper.php:547
 msgid "view_expose"
 msgstr ""
 
-#: openestate-php-wrapper.php:531
+#: openestate-php-wrapper.php:552
 msgid "view_expose_id"
 msgstr ""
 
-#: openestate-php-wrapper.php:537
+#: openestate-php-wrapper.php:559
 msgid "view_expose_view"
 msgstr ""
 
-#: openestate-php-wrapper.php:540
+#: openestate-php-wrapper.php:562
 msgid "view_expose_view_details"
 msgstr ""
 
-#: openestate-php-wrapper.php:541
+#: openestate-php-wrapper.php:563
 msgid "view_expose_view_texts"
 msgstr ""
 
-#: openestate-php-wrapper.php:542
+#: openestate-php-wrapper.php:564
 msgid "view_expose_view_gallery"
 msgstr ""
 
-#: openestate-php-wrapper.php:543
+#: openestate-php-wrapper.php:565
 msgid "view_expose_view_contact"
 msgstr ""
 
-#: openestate-php-wrapper.php:544
+#: openestate-php-wrapper.php:566
 msgid "view_expose_view_terms"
 msgstr ""
 
-#: openestate-php-wrapper.php:549
+#: openestate-php-wrapper.php:571
 msgid "view_expose_language"
 msgstr ""
 
-#: openestate-php-wrapper.php:646
+#: openestate-php-wrapper.php:673
 msgid "error_update_is_running"
 msgstr ""
