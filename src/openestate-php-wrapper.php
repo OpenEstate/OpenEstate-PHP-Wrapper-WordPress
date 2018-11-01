@@ -10,152 +10,170 @@ Author URI: https://openestate.org/
 
 /** @noinspection PhpUnusedParameterInspection, HtmlUnknownTarget, HtmlFormInputWithoutLabel, ES6ConvertVarToLetConst */
 
+use \OpenEstate\PhpExport\Environment;
+use \OpenEstate\PhpExport\MyConfig;
+use \OpenEstate\PhpExport\Utils;
+use const \OpenEstate\PhpExport\VERSION;
+use function htmlspecialchars as html;
+
 /**
  * Init script environment.
  *
  * @param string $scriptPath Path, that contains to the script environment.
  * @param string $scriptUrl URL, that points to the script environment.
- * @param array $environmentErrors Errors during initialization.
+ * @param boolean $initSession Initialize the user session.
+ * @param array $errors Errors during initialization.
  *
- * @return boolean True, if the wrapper was loaded successfully.
+ * @return Environment The initialized environment or null, if initialization failed.
  */
-function openestate_wrapper_load( $scriptPath, $scriptUrl, &$environmentErrors ) {
-	if ( ! defined( 'OPENESTATE_WRAPPER' ) ) {
-		define( 'OPENESTATE_WRAPPER', '1' );
-	}
-
-	// define name of URL parameters for the wrapped scripts
-	if ( ! defined( 'IMMOTOOL_PARAM_LANG' ) ) {
-		define( 'IMMOTOOL_PARAM_LANG', 'wrapped_lang' );
-	}
-	if ( ! defined( 'IMMOTOOL_PARAM_FAV' ) ) {
-		define( 'IMMOTOOL_PARAM_FAV', 'wrapped_fav' );
-	}
-	if ( ! defined( 'IMMOTOOL_PARAM_INDEX_PAGE' ) ) {
-		define( 'IMMOTOOL_PARAM_INDEX_PAGE', 'wrapped_page' );
-	}
-	if ( ! defined( 'IMMOTOOL_PARAM_INDEX_RESET' ) ) {
-		define( 'IMMOTOOL_PARAM_INDEX_RESET', 'wrapped_reset' );
-	}
-	if ( ! defined( 'IMMOTOOL_PARAM_INDEX_ORDER' ) ) {
-		define( 'IMMOTOOL_PARAM_INDEX_ORDER', 'wrapped_order' );
-	}
-	if ( ! defined( 'IMMOTOOL_PARAM_INDEX_FILTER' ) ) {
-		define( 'IMMOTOOL_PARAM_INDEX_FILTER', 'wrapped_filter' );
-	}
-	if ( ! defined( 'IMMOTOOL_PARAM_INDEX_FILTER_CLEAR' ) ) {
-		define( 'IMMOTOOL_PARAM_INDEX_FILTER_CLEAR', 'wrapped_clearFilters' );
-	}
-	if ( ! defined( 'IMMOTOOL_PARAM_INDEX_VIEW' ) ) {
-		define( 'IMMOTOOL_PARAM_INDEX_VIEW', 'wrapped_view' );
-	}
-	if ( ! defined( 'IMMOTOOL_PARAM_INDEX_MODE' ) ) {
-		define( 'IMMOTOOL_PARAM_INDEX_MODE', 'wrapped_mode' );
-	}
-	if ( ! defined( 'IMMOTOOL_PARAM_EXPOSE_ID' ) ) {
-		define( 'IMMOTOOL_PARAM_EXPOSE_ID', 'wrapped_id' );
-	}
-	if ( ! defined( 'IMMOTOOL_PARAM_EXPOSE_VIEW' ) ) {
-		define( 'IMMOTOOL_PARAM_EXPOSE_VIEW', 'wrapped_view' );
-	}
-	if ( ! defined( 'IMMOTOOL_PARAM_EXPOSE_IMG' ) ) {
-		define( 'IMMOTOOL_PARAM_EXPOSE_IMG', 'wrapped_img' );
-	}
-	if ( ! defined( 'IMMOTOOL_PARAM_EXPOSE_CONTACT' ) ) {
-		define( 'IMMOTOOL_PARAM_EXPOSE_CONTACT', 'wrapped_contact' );
-	}
-	if ( ! defined( 'IMMOTOOL_PARAM_EXPOSE_CAPTCHA' ) ) {
-		define( 'IMMOTOOL_PARAM_EXPOSE_CAPTCHA', 'wrapped_captchacode' );
-	}
-
-	// load minimal script environment
-	$environmentFiles = array( 'config.php', 'private.php', 'include/functions.php', 'data/language.php' );
+function openestate_wrapper_env( $scriptPath, $scriptUrl, $initSession, &$errors ) {
 	if ( ! is_dir( $scriptPath ) ) {
-		$environmentErrors[] = __( 'Please enter a valid script path.', 'openestate-php-wrapper' );
+		$errors[] = __( 'Please enter a valid script path.', 'openestate-php-wrapper' );
 
-		return false;
-	}
-	if ( ! defined( 'IMMOTOOL_BASE_PATH' ) ) {
-		define( 'IMMOTOOL_BASE_PATH', $scriptPath );
-	}
-	foreach ( $environmentFiles as $file ) {
-		if ( ! is_file( IMMOTOOL_BASE_PATH . $file ) ) {
-			$environmentErrors[] = __( 'The file was not found in the script path.', 'openestate-php-wrapper' ) . ': <i>' . $file . '</i>';
-		}
-	}
-	if ( count( $environmentErrors ) == 0 ) {
-		if ( ! defined( 'IN_WEBSITE' ) ) {
-			define( 'IN_WEBSITE', 1 );
-		}
-		foreach ( $environmentFiles as $file ) {
-			//echo IMMOTOOL_BASE_PATH . $file . '<hr/>';
-			/** @noinspection PhpIncludeInspection */
-			require_once( IMMOTOOL_BASE_PATH . $file );
-		}
-		if ( ! defined( 'IMMOTOOL_SCRIPT_VERSION' ) ) {
-			$environmentErrors[] = __( 'Can\'t detect the script version.', 'openestate-php-wrapper' );
-		}
+		return null;
 	}
 
-	return count( $environmentErrors ) == 0;
+	//echo '<pre>'.print_r($_SERVER, true).'</pre>';
+	//echo '<pre>'.print_r($_COOKIE, true).'</pre>';
+
+	if ( is_file( $scriptPath . 'include/functions.php' ) ) {
+		/** @noinspection PhpIncludeInspection */
+		require_once( $scriptPath . 'include/functions.php' );
+
+		$oldVersionNumber = ( defined( 'IMMOTOOL_SCRIPT_VERSION' ) ) ? IMMOTOOL_SCRIPT_VERSION : '???';
+		$errors[]         = __( 'It seems, that you\'re using an unsupported version of PHP export.', 'openestate-php-wrapper' )
+		                    . ' (' . $oldVersionNumber . ')';
+	} else if ( ! is_file( $scriptPath . 'index.php' ) ||
+	            ! is_file( $scriptPath . 'expose.php' ) ||
+	            ! is_file( $scriptPath . 'fav.php' ) ||
+	            ! is_file( $scriptPath . 'config.php' ) ||
+	            ! is_dir( $scriptPath . 'include' ) ||
+	            ! is_dir( $scriptPath . 'include/OpenEstate' ) ||
+	            ! is_file( $scriptPath . 'include/init.php' )
+	) {
+		$errors[] = __( 'It seems, that there is no PHP export available within the script path.', 'openestate-php-wrapper' );
+	}
+	if ( count( $errors ) > 0 ) {
+		return null;
+	}
+
+	/** @noinspection PhpIncludeInspection */
+	require_once( $scriptPath . 'include/init.php' );
+
+	/** @noinspection PhpIncludeInspection */
+	require_once( $scriptPath . 'config.php' );
+
+	if ( ! defined( 'OpenEstate\PhpExport\VERSION' ) ) {
+		$errors[] = __( 'Can\'t detect the script version.', 'openestate-php-wrapper' );
+
+		return null;
+	}
+
+	/**
+	 * Extended configuration for integration into the website.
+	 */
+	class WrapperConfig extends MyConfig {
+		public function __construct( $basePath, $baseUrl = '.' ) {
+			parent::__construct( $basePath, $baseUrl );
+		}
+
+		public function getExposeUrl( $parameters = null ) {
+			if ( $parameters == null ) {
+				$parameters = array();
+			}
+
+			$parameters['wrap'] = 'expose';
+			foreach ( $_REQUEST as $key => $value ) {
+				if ( ! isset( $parameters[ $key ] ) ) {
+					$parameters[ $key ] = $value;
+				}
+			}
+
+			$baseUrl = explode( '?', $_SERVER['REQUEST_URI'] );
+
+			return $baseUrl[0] . Utils::getUrlParameters( $parameters );
+		}
+
+		public function getFavoriteUrl( $parameters = null ) {
+			if ( $parameters == null ) {
+				$parameters = array();
+			}
+
+			$parameters['wrap'] = 'fav';
+			foreach ( $_REQUEST as $key => $value ) {
+				if ( ! isset( $parameters[ $key ] ) ) {
+					$parameters[ $key ] = $value;
+				}
+			}
+
+			$baseUrl = explode( '?', $_SERVER['REQUEST_URI'] );
+
+			return $baseUrl[0] . Utils::getUrlParameters( $parameters );
+		}
+
+		public function getListingUrl( $parameters = null ) {
+			if ( $parameters == null ) {
+				$parameters = array();
+			}
+
+			$parameters['wrap'] = 'index';
+			foreach ( $_REQUEST as $key => $value ) {
+				if ( ! isset( $parameters[ $key ] ) ) {
+					$parameters[ $key ] = $value;
+				}
+			}
+
+			$baseUrl = explode( '?', $_SERVER['REQUEST_URI'] );
+
+			return $baseUrl[0] . Utils::getUrlParameters( $parameters );
+		}
+
+		public function setupExposeHtml( \OpenEstate\PhpExport\View\ExposeHtml $view ) {
+			parent::setupExposeHtml( $view );
+			$view->setBodyOnly( true );
+		}
+
+		public function setupFavoriteHtml( \OpenEstate\PhpExport\View\FavoriteHtml $view ) {
+			parent::setupFavoriteHtml( $view );
+			$view->setBodyOnly( true );
+		}
+
+		public function setupListingHtml( \OpenEstate\PhpExport\View\ListingHtml $view ) {
+			parent::setupListingHtml( $view );
+			$view->setBodyOnly( true );
+		}
+
+		public function setupTheme( \OpenEstate\PhpExport\Theme\AbstractTheme $theme ) {
+			parent::setupTheme( $theme );
+
+			// register disabled components
+			$disabledComponents = explode( ',', trim( get_option( 'openestate_wrapper_disabledComponents' ) ) );
+			foreach ( $disabledComponents as $componentId ) {
+				$theme->setComponentEnabled( $componentId, false );
+			}
+		}
+	}
+
+	try {
+		$config = new WrapperConfig( $scriptPath, $scriptUrl );
+
+		//echo '<pre>' . print_r( $config, true ) . '</pre>';
+		return new Environment( $config, $initSession );
+	} catch ( \Exception $e ) {
+		$errors[] = __( 'Can\'t init script environment.', 'openestate-php-wrapper' ) . ' ' . $e->getMessage();;
+
+		return null;
+	}
 }
 
-/**
- * Init script environment from the provided settings.
- */
-function openestate_wrapper_load_from_settings() {
-	//wp_die('<pre>' . print_r( $GLOBALS, true ) . '</pre>');
-	//wp_die( $GLOBALS['pagenow'] );
-
-	if ( ! defined( 'OPENESTATE_WRAPPER_LOADED' ) ) {
-
-		// setup path to the scripts of OpenEstate-PHP-Export
-		if ( ! defined( 'IMMOTOOL_BASE_PATH' ) ) {
-			$scriptPath = trim( get_option( 'openestate_wrapper_script_path' ) );
-			if ( strlen( $scriptPath ) > 0 && substr( $scriptPath, - 1 ) != '/' ) {
-				$scriptPath .= '/';
-			}
-			define( 'IMMOTOOL_BASE_PATH', $scriptPath );
-		}
-
-		// setup URL to the scripts of OpenEstate-PHP-Export
-		if ( ! defined( 'IMMOTOOL_BASE_URL' ) ) {
-			$scriptUrl = trim( get_option( 'openestate_wrapper_script_url' ) );
-			if ( strlen( $scriptUrl ) > 0 && substr( $scriptUrl, - 1 ) != '/' ) {
-				$scriptUrl .= '/';
-			}
-			define( 'IMMOTOOL_BASE_URL', $scriptUrl );
-		}
-
-		// init OpenEstate-PHP-Export with the configured script path / URL
-		$environmentErrors  = array();
-		$environmentIsValid = openestate_wrapper_load(
-			IMMOTOOL_BASE_PATH,
-			IMMOTOOL_BASE_URL,
-			$environmentErrors
-		);
-		if ( ! $environmentIsValid ) {
-			define( 'OPENESTATE_WRAPPER_LOADED', '0' );
-			if ( is_array( $environmentErrors ) && count( $environmentErrors ) > 0 ) {
-				$GLOBALS['openestate_environment_errors'] = $environmentErrors;
-			}
-		} else {
-			define( 'OPENESTATE_WRAPPER_LOADED', '1' );
-
-			// init session for OpenEstate-PHP-Export
-			if ( ! headers_sent() && is_callable( array( 'immotool_functions', 'init_session' ) ) ) {
-				immotool_functions::init_session();
-			}
-		}
-	}
-}
-
-// Init script environment on public pages.
-// see http://codex.wordpress.org/Plugin_API/Action_Reference/init
+// Init the plugin.
+// see https://codex.wordpress.org/Plugin_API/Action_Reference/init
 add_action( 'init', 'openestate_wrapper_init' );
 
 /**
- * Init script environment on public pages.
+ * Init the plugin.
+ *
+ * @see https://codex.wordpress.org/Plugin_API/Action_Reference/init
  */
 function openestate_wrapper_init() {
 
@@ -166,64 +184,263 @@ function openestate_wrapper_init() {
 		false,
 		'openestate-php-wrapper/languages'
 	);
+}
 
-	if ( ! is_admin() && ! in_array( $GLOBALS['pagenow'], array( 'wp-login.php', 'wp-register.php' ) ) ) {
-		openestate_wrapper_load_from_settings();
+// Init the script environment.
+// see https://codex.wordpress.org/Plugin_API/Action_Reference/wp
+add_action( 'wp', 'openestate_wrapper_wp' );
+
+/**
+ * Init the script environment.
+ *
+ * @return void
+ * @see https://codex.wordpress.org/Plugin_API/Action_Reference/wp
+ */
+function openestate_wrapper_wp() {
+	//$vars = array_keys( $GLOBALS );
+	//die( '<pre>' . print_r( $vars, true ) . '</pre>' );
+
+	// don't init the environment in the admin section
+	if ( is_admin() ) {
+		return;
+	}
+
+	// don't init the environment, if we're not on a singular page view
+	if ( ! is_singular() ) {
+		return;
+	}
+
+	// don't init the environment for certain pages
+	if ( isset( $GLOBALS['pagenow'] ) && in_array( $GLOBALS['pagenow'], array( 'wp-login.php', 'wp-register.php' ) ) ) {
+		return;
+	}
+
+	// don't init the environment, if the shortcode is not present on the current page
+	//if ( ! shortcode_exists( 'OpenEstatePhpWrapper' ) ) {
+	//	return;
+	//}
+
+	// don't init the environment, if it was already loaded
+	if ( isset( $GLOBALS['openestate']['wrapper'] ) ) {
+		return;
+	}
+
+	/**
+	 * current posting
+	 * @var WP_Post
+	 */
+	$post = get_post();
+
+	// don't init the environment, if no post was found
+	if ( ! is_object( $post ) ) {
+		return;
+	}
+	//die( '<pre>' . print_r( $post, true ) . '</pre>' );
+
+	// search page content for the short code and extract its attributes
+	$shortcodeMatches = array();
+	if ( ! preg_match_all( '/' . get_shortcode_regex() . '/s', $post->post_content, $shortcodeMatches ) ) {
+		return;
+	}
+	if ( ! array_key_exists( 2, $shortcodeMatches ) || ! array_key_exists( 3, $shortcodeMatches ) ) {
+		return;
+	}
+	$shortcodeIndex = array_search( 'OpenEstatePhpWrapper', $shortcodeMatches[2] );
+	if ( $shortcodeIndex === false ) {
+		return;
+	}
+	$shortcodeAttribs = shortcode_parse_atts( $shortcodeMatches[3][ $shortcodeIndex ] );
+	//die( '<pre>' . print_r( $shortcodeAttribs, true ) . '</pre>' );
+
+	// setup path to the scripts of OpenEstate-PHP-Export
+	$scriptPath = trim( get_option( 'openestate_wrapper_script_path' ) );
+	if ( strlen( $scriptPath ) > 0 && substr( $scriptPath, - 1 ) != '/' ) {
+		$scriptPath .= '/';
+	}
+
+	// setup URL to the scripts of OpenEstate-PHP-Export
+	$scriptUrl = trim( get_option( 'openestate_wrapper_script_url' ) );
+	if ( strlen( $scriptUrl ) > 0 && substr( $scriptUrl, - 1 ) != '/' ) {
+		$scriptUrl .= '/';
+	}
+
+	// init script environment
+	if ( ! isset( $GLOBALS['openestate'] ) || ! is_array( $GLOBALS['openestate'] ) ) {
+		$GLOBALS['openestate'] = array();
+	}
+	$errors      = array();
+	$environment = openestate_wrapper_env(
+		$scriptPath,
+		$scriptUrl,
+		true,
+		$errors
+	);
+
+	// register script environment
+	$GLOBALS['openestate']['wrapper']['environment'] = $environment;
+
+	// make sure, that the script environment was properly loaded
+	if ( $environment === null || count( $errors ) > 0 ) {
+		$content = '<h2>' . esc_html__( 'The exported scripts are NOT correctly configured.', 'openestate-php-wrapper' ) . '</h2>';
+		if ( count( $errors ) > 0 ) {
+			$content .= '<ul><li>' . implode( '</li><li>', $errors ) . '</li></ul>';
+		}
+
+		// register generated content for later inclusion
+		$GLOBALS['openestate']['wrapper']['content'] = $content;
+
+		return;
+	}
+
+	// make sure, that the script environment is not currently updated
+	if ( is_file( Utils::joinPath( $environment->getConfig()->basePath, 'immotool.php.lock' ) ) ) {
+		$content = '<h3>' . esc_html__( 'The properties are currently updated.', 'openestate-php-wrapper' ) . '</h3>' .
+		           '<p>' . esc_html__( 'Please revisit this page after some minutes.', 'openestate-php-wrapper' ) . '</p>';
+
+		// register generated content for later inclusion
+		$GLOBALS['openestate']['wrapper']['content'] = $content;
+
+		return;
+	}
+
+	// load attributes from the shortcode
+	$settings = array();
+	foreach ( $shortcodeAttribs as $key => $value ) {
+		$key = trim( $key );
+		if ( substr( $key, 0, 7 ) == 'filter_' ) {
+			if ( ! isset( $settings['filter'] ) ) {
+				$settings['filter'] = array();
+			}
+			$settings['filter'][ substr( $key, 7 ) ] = $value;
+		} else {
+			$settings[ $key ] = $value;
+		}
+	}
+
+	try {
+		// set requested language
+		$lang = ( isset( $settings['lang'] ) ) ? strtolower( trim( $settings['lang'] ) ) : null;
+		if ( $lang != null && $environment->isSupportedLanguage( $lang ) ) {
+			$environment->setLanguage( $lang );
+		}
+
+		// process the requested action, if necessary
+		$environment->processAction();
+
+		// determine the script to load
+		$wrap = ( isset( $_REQUEST['wrap'] ) ) ? $_REQUEST['wrap'] : null;
+		if ( ! is_string( $wrap ) && isset( $settings['wrap'] ) ) {
+			$wrap = $settings['wrap'];
+		}
+
+		// wrap expose.php
+		if ( strtolower( $wrap ) == 'expose' ) {
+			$view = $environment->newExposeHtml();
+		} // wrap fav.php
+		else if ( strtolower( $wrap ) == 'fav' ) {
+			$view = $environment->newFavoriteHtml();
+		} // wrap index.php by default
+		else {
+			$view = $environment->newListingHtml();
+		}
+
+		// register generated content for later inclusion
+		$GLOBALS['openestate']['wrapper']['view']    = $view;
+		$GLOBALS['openestate']['wrapper']['content'] = $view->process();
+
+	} catch ( \Exception $e ) {
+
+		//Utils::logError($e);
+		Utils::logWarning( $e );
+
+		// register generated content for later inclusion
+		$GLOBALS['openestate']['wrapper']['content'] = '<h2>An internal error occurred!</h2>'
+		                                               . '<p>' . $e->getMessage() . '</p>'
+		                                               . '<pre>' . $e . '</pre>';
+	} finally {
+
+		$environment->shutdown();
+
 	}
 }
 
+
 // Add setup form to the administration menu.
-// see http://codex.wordpress.org/Plugin_API/Action_Reference/admin_menu
-add_action( 'admin_menu', 'openestate_wrapper_menu' );
+// see https://codex.wordpress.org/Plugin_API/Action_Reference/admin_menu
+add_action( 'admin_menu', 'openestate_wrapper_admin_menu' );
 
 /**
  * Add setup form to the administration menu.
  *
- * @see http://codex.wordpress.org/Administration_Menus
+ * @see https://codex.wordpress.org/Administration_Menus
+ * @see https://codex.wordpress.org/Plugin_API/Action_Reference/admin_menu
  */
-function openestate_wrapper_menu() {
+function openestate_wrapper_admin_menu() {
 
 	// add an OpenEstate-Wrapper into WordPress administration
-	// see http://codex.wordpress.org/Function_Reference/add_options_page
+	// see https://codex.wordpress.org/Function_Reference/add_options_page
 	add_options_page(
 		'OpenEstate PHP-Wrapper',
 		'OpenEstate-Wrapper',
 		'manage_options',
-		'openestate_wrapper_setup',
-		'openestate_wrapper_setup'
+		'openestate_wrapper_admin_options',
+		'openestate_wrapper_admin_options'
 	);
 
 	// call register settings function
-	// see http://codex.wordpress.org/Plugin_API/Action_Reference/admin_init
-	add_action( 'admin_init', 'openestate_wrapper_settings' );
+	// see https://codex.wordpress.org/Plugin_API/Action_Reference/admin_init
+	add_action( 'admin_init', 'openestate_wrapper_admin_init' );
 }
 
 /**
  * Register settings for the wrapper plugin.
  *
- * @see http://codex.wordpress.org/Function_Reference/register_setting
+ * @see https://codex.wordpress.org/Administration_Menus
+ * @see https://codex.wordpress.org/Plugin_API/Action_Reference/admin_init
  */
-function openestate_wrapper_settings() {
+function openestate_wrapper_admin_init() {
+	// register script path setting
+	// see https://codex.wordpress.org/Function_Reference/register_setting
 	register_setting(
 		'openestate-wrapper-setup',
 		'openestate_wrapper_script_path'
 	);
+
+	// register script url setting
+	// see https://codex.wordpress.org/Function_Reference/register_setting
 	register_setting(
 		'openestate-wrapper-setup',
 		'openestate_wrapper_script_url'
+	);
+
+	// register disabled components setting
+	// see https://codex.wordpress.org/Function_Reference/register_setting
+	register_setting(
+		'openestate-wrapper-theme',
+		'openestate_wrapper_disabledComponents'
+	);
+
+	// register custom css setting
+	// see https://codex.wordpress.org/Function_Reference/register_setting
+	register_setting(
+		'openestate-wrapper-theme',
+		'openestate_wrapper_customCss'
 	);
 }
 
 /**
  * Show setup form in the administration area.
+ *
+ * @see https://codex.wordpress.org/Administration_Menus
+ * @see https://codex.wordpress.org/Function_Reference/add_options_page
  */
-function openestate_wrapper_setup() {
+function openestate_wrapper_admin_options() {
 	if ( ! current_user_can( 'manage_options' ) ) {
 		wp_die( __( 'You\'re not authorized to setup this plugin.', 'openestate-php-wrapper' ) );
 	}
 
 	// get information about this plugin
-	// see http://codex.wordpress.org/Function_Reference/get_plugin_data
+	// see https://codex.wordpress.org/Function_Reference/get_plugin_data
 	$pluginData    = get_plugin_data( __FILE__ );
 	$pluginVersion = ( is_array( $pluginData ) && isset( $pluginData['Version'] ) ) ?
 		$pluginData['Version'] : '???';
@@ -240,35 +457,24 @@ function openestate_wrapper_setup() {
 		$scriptUrl .= '/';
 	}
 
+	// get disabled components
+	$disabledComponents = explode( ',', trim( get_option( 'openestate_wrapper_disabledComponents' ) ) );
+
 	// init environment of OpenEstate-PHP-Export with configured script path / URL
-	$environmentErrors  = array();
-	$environmentIsValid = openestate_wrapper_load( $scriptPath, $scriptUrl, $environmentErrors );
+	$errors      = array();
+	$environment = openestate_wrapper_env( $scriptPath, $scriptUrl, false, $errors );
 
-	// show additional admin actions,
-	// if the scripts of OpenEstate-PHP-Export were correctly loaded
-	$setupIndex = null;
-	//$setupExpose = null;
-	$setupTranslations = null;
-	$setupLang         = null;
-	if ( $environmentIsValid ) {
-
-		// init configuration of OpenEstate-PHP-Export
-		$setupIndex = new immotool_setup_index();
-		//$setupExpose = new immotool_setup_expose();
-		if ( is_callable( array( 'immotool_functions', 'init_config' ) ) ) {
-			immotool_functions::init_config( $setupIndex, 'load_config_index' );
-			//immotool_functions::init_config($setupExpose, 'load_config_expose');
-		}
-
-		// init translations of OpenEstate-PHP-Export
-		$setupLang = immotool_functions::init_language(
-			$setupIndex->DefaultLanguage,
-			$setupIndex->DefaultLanguage,
-			$setupTranslations
-		);
-		if ( ! is_array( $setupTranslations ) ) {
-			$environmentErrors[] = __( 'Can\'t find translation.', 'openestate-php-wrapper' );
-			$environmentIsValid  = false;
+	// set current language, if available
+	$locale = get_locale();
+	if ( in_array( $locale, $environment->getLanguageCodes() ) ) {
+		//echo 'SET LANGUAGE: ' . $locale;
+		$environment->setLanguage( $locale );
+	} else {
+		$l    = explode( '_', $locale );
+		$lang = strtolower( $l[0] );
+		if ( in_array( $lang, $environment->getLanguageCodes() ) ) {
+			//echo 'SET LANGUAGE: ' . $lang;
+			$environment->setLanguage( $lang );
 		}
 	}
 
@@ -276,26 +482,26 @@ function openestate_wrapper_setup() {
 	?>
     <div class="wrap">
         <div style="clear:both; float:right; width:175px; background-color: #F0F0F0; padding:5px 5px 3px 5px; margin-top: 0.5em;">
-            <h3 style="padding:0; margin:0;"><?php echo __( 'Module', 'openestate-php-wrapper' ); ?></h3>
+            <h3 style="padding:0; margin:0;"><?= esc_html__( 'Module', 'openestate-php-wrapper' ) ?></h3>
             <div style="text-align:center;">
                 OpenEstate PHP-Wrapper<br/>
-				<?php echo __( 'version', 'openestate-php-wrapper' ) . ' ' . $pluginVersion; ?>
+				<?= html( $pluginVersion ) ?>
             </div>
-            <h3><?php echo __( 'License', 'openestate-php-wrapper' ); ?></h3>
+            <h3><?= esc_html__( 'License', 'openestate-php-wrapper' ) ?></h3>
             <div style="text-align:center;">
                 <a href="http://www.gnu.org/licenses/gpl-2.0.html" target="_blank">
                     GNU General Public License v2 (or later)
                 </a>
             </div>
-            <h3><?php echo __( 'Authors', 'openestate-php-wrapper' ); ?></h3>
+            <h3><?= esc_html__( 'Authors', 'openestate-php-wrapper' ) ?></h3>
             <div style="text-align:center;">
                 <a href="http://www.openestate.org/" target="_blank">
-                    <img src="<?php echo get_bloginfo( 'url' ); ?>/wp-content/plugins/openestate-php-wrapper/openestate.png"
+                    <img src="<?= get_bloginfo( 'url' ) ?>/wp-content/plugins/openestate-php-wrapper/openestate.png"
                          border="0" alt="0"/>
                     <div style="margin-top:0.5em;">Andreas Rudolph, Walter Wagner</div>
                 </a>
             </div>
-            <h3><?php echo __( 'Support us!', 'openestate-php-wrapper' ); ?></h3>
+            <h3><?= esc_html__( 'Support us!', 'openestate-php-wrapper' ) ?></h3>
             <div style="text-align:center;">
                 <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
                     <input type="hidden" name="cmd" value="_s-xclick">
@@ -310,7 +516,8 @@ function openestate_wrapper_setup() {
         <div style="margin-right:200px;">
             <h2>OpenEstate PHP-Wrapper</h2>
 
-            <h3 style="margin-top:1.5em;"><?php echo __( 'Configure exported scripts', 'openestate-php-wrapper' ); ?></h3>
+            <hr>
+            <h3><?= esc_html__( 'Configure exported scripts', 'openestate-php-wrapper' ) ?></h3>
             <form method="post" action="options.php">
 				<?php settings_fields( 'openestate-wrapper-setup' ); ?>
                 <table cellpadding="0" cellspacing="0" border="0" style="width:100%;">
@@ -318,23 +525,23 @@ function openestate_wrapper_setup() {
                         <td style="text-align:right; width:100px; vertical-align:top;">&nbsp;</td>
                         <td>
 							<?php
-							if ( $environmentIsValid ) {
-								echo '<h3 style="color:green; margin:0;">' .
-								     __( 'The exported scripts are correctly configured.', 'openestate-php-wrapper' ) . '<br/>' .
-								     '<span style="font-size:0.7em;">'
-								     . __( 'version', 'openestate-php-wrapper' ) . ' ' . IMMOTOOL_SCRIPT_VERSION
+							if ( $environment !== null ) {
+								echo '<h3 style="color:green; margin:0;">'
+								     . esc_html__( 'The exported scripts are correctly configured.', 'openestate-php-wrapper' ) . '<br/>'
+								     . '<span style="font-size:0.7em;">'
+								     . esc_html__( 'version', 'openestate-php-wrapper' ) . ' ' . html( VERSION )
 								     . '</span>' .
 								     '</h3>';
 							} else {
-								echo '<h3 style="color:red; margin-top:0;">' . __( 'The exported scripts are NOT correctly configured.', 'openestate-php-wrapper' ) . '</h3>';
-								echo '<ul>';
-								echo '<li style="color:red;">&raquo; ' . __( 'Export your properties from ImmoTool to your website via PHP.', 'openestate-php-wrapper' ) . '</li>';
-								echo '<li style="color:red;">&raquo; ' . __( 'Configure path and URL, that points to the exported scripts, and click \'Save\' to perform a new validation.', 'openestate-php-wrapper' ) . '</li>';
-								echo '</ul>';
-								echo '<h3 style="color:red;">' . __( 'Error messages', 'openestate-php-wrapper' ) . '</h3>';
-								echo '<ul>';
-								foreach ( $environmentErrors as $error ) {
-									echo '<li style="color:red;">&raquo; ' . $error . '</li>';
+								echo '<h3 style="color:red; margin-top:0;">' . esc_html__( 'The exported scripts are NOT correctly configured.', 'openestate-php-wrapper' ) . '</h3>'
+								     . '<ul>'
+								     . '<li style="color:red;">&raquo; ' . esc_html__( 'Export your properties from ImmoTool to your website via PHP.', 'openestate-php-wrapper' ) . '</li>'
+								     . '<li style="color:red;">&raquo; ' . esc_html__( 'Configure path and URL, that points to the exported scripts, and click \'Save\' to perform a new validation.', 'openestate-php-wrapper' ) . '</li>'
+								     . '</ul>'
+								     . '<h3 style="color:red;">' . esc_html__( 'Error messages', 'openestate-php-wrapper' ) . '</h3>'
+								     . '<ul>';
+								foreach ( $errors as $error ) {
+									echo '<li style="color:red;">&raquo; ' . html( $error ) . '</li>';
 								}
 								echo '</ul>';
 							}
@@ -343,310 +550,474 @@ function openestate_wrapper_setup() {
                     </tr>
                     <tr>
                         <td style="width:20%; text-align:right; white-space:nowrap; padding-right:1em; vertical-align:top;">
-							<?php echo __( 'Script path', 'openestate-php-wrapper' ); ?>
+                            <label for="openestate_wrapper_script_path">
+								<?= esc_html__( 'script path', 'openestate-php-wrapper' ) ?>
+                            </label>
                         </td>
                         <td>
-                            <input type="text" name="openestate_wrapper_script_path" value="<?php echo $scriptPath; ?>"
-                                   style="width:100%;"/><br/><i><?php echo __( 'Enter the path on your server, that points to the exported scripts. The path of this CMS installation is:', 'openestate-php-wrapper' ); ?></i>
-                            <span style="font-weight:bold; white-space:nowrap;"><?php echo get_home_path(); ?></span>
+                            <input type="text" id="openestate_wrapper_script_path" name="openestate_wrapper_script_path"
+                                   value="<?= html( $scriptPath ) ?>" style="width:100%;"/><br/>
+                            <i><?= esc_html__( 'Enter the path on your server, that points to the exported scripts. The path of this CMS installation is:', 'openestate-php-wrapper' ) ?></i>
+                            <span style="font-weight:bold; white-space:nowrap;"><?= get_home_path() ?></span>
                         </td>
                     </tr>
                     <tr>
                         <td style="width:20%; text-align:right; white-space:nowrap; padding-right:1em; vertical-align:top;">
-							<?php echo __( 'Script URL', 'openestate-php-wrapper' ); ?>
+                            <label for="openestate_wrapper_script_url">
+								<?= esc_html__( 'script URL', 'openestate-php-wrapper' ) ?>
+                            </label>
                         </td>
                         <td>
-                            <input type="text" name="openestate_wrapper_script_url" value="<?php echo $scriptUrl; ?>"
-                                   style="width:100%;"/><br/>
-                            <i><?php echo __( 'Enter the URL on your server, that points to the exported scripts. The URL of this CMS installation is:', 'openestate-php-wrapper' ); ?></i>
-                            <span style="font-weight:bold; white-space:nowrap;"><?php echo get_bloginfo( 'url' ); ?></span>
+                            <input type="text" id="openestate_wrapper_script_url" name="openestate_wrapper_script_url"
+                                   value="<?= html( $scriptUrl ) ?>" style="width:100%;"/><br/>
+                            <i><?= esc_html__( 'Enter the URL on your server, that points to the exported scripts. The URL of this CMS installation is:', 'openestate-php-wrapper' ) ?></i>
+                            <span style="font-weight:bold; white-space:nowrap;"><?= get_bloginfo( 'url' ) ?></span>
                         </td>
                     </tr>
                     <tr>
                         <td colspan="2" style="text-align:center; padding:1em;">
                             <input type="submit" class="button-primary"
-                                   value="<?php echo __( 'Save', 'openestate-php-wrapper' ); ?>"/>
+                                   value="<?= esc_html__( 'Save', 'openestate-php-wrapper' ) ?>"/>
                         </td>
                     </tr>
                 </table>
             </form>
 
-			<?php if ( $environmentIsValid ) { ?>
-                <script language="JavaScript" type="text/javascript">
+			<?php if ( $environment !== null ) { ?>
+                <script type="text/javascript">
                     <!--
-                    function show_wrapper_settings($value) {
-                        document.getElementById('immotool_wrap_script_index_settings').style.visibility = ($value === 'index') ? 'visible' : 'collapse';
-                        document.getElementById('immotool_wrap_script_expose_settings').style.visibility = ($value === 'expose') ? 'visible' : 'collapse';
+                    function openestate_update_settings(value) {
+                        document.getElementById('openestate_wrap_index_settings').style.visibility = (value === 'index') ?
+                            'visible' : 'collapse';
+                        document.getElementById('openestate_wrap_expose_settings').style.visibility = (value === 'expose') ?
+                            'visible' : 'collapse';
+                        document.getElementById('openestate_wrap_fav_settings').style.visibility = (value === 'fav') ?
+                            'visible' : 'collapse';
                     }
 
-                    function build_tag() {
-                        //alert( 'build_tag' );
-                        var obj = document.getElementById('openestate_wrapper');
-                        if (obj == null) return;
-                        var wrap_index = document.getElementById('immotool_wrap_script_index');
-                        var wrap_expose = document.getElementById('immotool_wrap_script_expose');
+                    function openestate_update_shortcode() {
+                        //alert( 'openestate_update_shortcode' );
+                        var shortcodeField = document.getElementById('openestate_shortcode');
+                        if (shortcodeField == null) return;
 
-                        var obj2 = null;
+                        var indexWrapField = document.getElementById('openestate_wrap_index');
+                        var exposeWrapField = document.getElementById('openestate_wrap_expose');
+                        var favWrapField = document.getElementById('openestate_wrap_fav');
+
+                        var inputField = null;
                         var params = '';
 
-                        if (wrap_index != null && wrap_index.checked === true) {
-                            params += ' wrap="' + wrap_index.value + '"';
+                        if (indexWrapField.checked === true) {
+                            openestate_update_settings('index');
 
-                            obj2 = document.getElementById('index_view');
-                            if (obj2 != null) params += ' view="' + obj2.value + '"';
+                            params += ' wrap="' + indexWrapField.value + '"';
 
-                            obj2 = document.getElementById('index_mode');
-                            if (obj2 != null) params += ' mode="' + obj2.value + '"';
+                            inputField = document.getElementById('openestate_wrap_index_view');
+                            if (inputField != null) params += ' view="' + inputField.value + '"';
 
-                            obj2 = document.getElementById('index_lang');
-                            if (obj2 != null) params += ' lang="' + obj2.value + '"';
+                            inputField = document.getElementById('openestate_wrap_index_order_by');
+                            if (inputField != null) params += ' order_by="' + inputField.value + '"';
 
-                            obj2 = document.getElementById('index_order_by');
-                            if (obj2 != null) params += ' order_by="' + obj2.value + '"';
-
-                            obj2 = document.getElementById('index_order_dir');
-                            if (obj2 != null) params += ' order_dir="' + obj2.value + '"';
+                            inputField = document.getElementById('openestate_wrap_index_order_dir');
+                            if (inputField != null) params += ' order_dir="' + inputField.value + '"';
 
                             var filters = [];
 							<?php
 							$i = 0;
-							$filters = immotool_functions::list_available_filters();
-							if ( is_array( $filters ) ) {
-								foreach ( $filters as $key ) {
-									echo '                            ';
-									echo 'filters[' . $i . '] = \'' . $key . '\';' . "\n";
-									$i ++;
-								}
-							}?>
+							foreach ( $environment->getConfig()->getFilterObjects() as $filterObj ) {
+								/**
+								 * filter instance
+								 * @var \OpenEstate\PhpExport\Filter\AbstractFilter $filterObj
+								 */
+								echo '                            ';
+								echo 'filters[' . $i . '] = \'' . html( $filterObj->getName() ) . '\';' . "\n";
+								$i ++;
+							}
+							?>
                             for (var i = 0; i < filters.length; i++) {
-                                obj2 = document.getElementById('filter_' + filters[i]);
-                                if (obj2 == null) continue;
+                                inputField = document.getElementById('openestate_wrap_index_filter_' + filters[i]);
+                                if (inputField == null) continue;
                                 var val = '';
                                 //alert( filters[i] + ': ' + obj2.checked );
-                                if (obj2.checked === true || obj2.checked === false) {
-                                    if (obj2.checked === true) val = obj2.value;
+                                if (inputField.checked === true || inputField.checked === false) {
+                                    if (inputField.checked === true) val = inputField.value;
                                 }
                                 else {
-                                    val = obj2.value;
+                                    val = inputField.value;
                                 }
-                                if (val !== '' && obj2 != null) params += ' filter_' + filters[i] + '="' + val + '"';
+                                if (val !== '' && inputField != null) params += ' filter_' + filters[i] + '="' + val + '"';
                             }
+
+                            inputField = document.getElementById('openestate_wrap_index_lang');
+                            if (inputField != null) params += ' lang="' + inputField.value + '"';
                         }
 
-                        else if (wrap_expose != null && wrap_expose.checked === true) {
-                            params += ' wrap="' + wrap_expose.value + '"';
+                        else if (favWrapField.checked === true) {
+                            openestate_update_settings('fav');
 
-                            obj2 = document.getElementById('expose_view');
-                            if (obj2 != null) params += ' view="' + obj2.value + '"';
+                            params += ' wrap="' + favWrapField.value + '"';
 
-                            obj2 = document.getElementById('expose_lang');
-                            if (obj2 != null) params += ' lang="' + obj2.value + '"';
+                            inputField = document.getElementById('openestate_wrap_fav_view');
+                            if (inputField != null) params += ' view="' + inputField.value + '"';
 
-                            obj2 = document.getElementById('expose_id');
-                            if (obj2 != null && obj2.value !== '') params += ' id="' + obj2.value + '"';
+                            inputField = document.getElementById('openestate_wrap_fav_order_by');
+                            if (inputField != null) params += ' order_by="' + inputField.value + '"';
+
+                            inputField = document.getElementById('openestate_wrap_fav_order_dir');
+                            if (inputField != null) params += ' order_dir="' + inputField.value + '"';
+
+                            inputField = document.getElementById('openestate_wrap_fav_lang');
+                            if (inputField != null) params += ' lang="' + inputField.value + '"';
                         }
 
-                        obj.innerHTML = '[OpenEstatePhpWrapper' + params + ']';
+                        else if (exposeWrapField.checked === true) {
+                            openestate_update_settings('expose');
+
+                            params += ' wrap="' + exposeWrapField.value + '"';
+
+                            inputField = document.getElementById('openestate_wrap_expose_id');
+                            if (inputField != null && inputField.value !== '') params += ' id="' + inputField.value + '"';
+
+                            inputField = document.getElementById('openestate_wrap_expose_lang');
+                            if (inputField != null) params += ' lang="' + inputField.value + '"';
+                        }
+
+                        shortcodeField.innerHTML = '[OpenEstatePhpWrapper' + params + ']';
                     }
 
                     //-->
                 </script>
-                <h3 style="margin-top:1.5em;"><?php echo __( 'Configure generated view', 'openestate-php-wrapper' ); ?></h3>
-                <p><?php echo __( 'Use the following form to generate a shortcode, that can be inserted into any article or page of your WordPress blog.', 'openestate-php-wrapper' ); ?></p>
-                <textarea id="openestate_wrapper" readonly="readonly" onclick="this.select();" cols="50" rows="2"
+                <hr>
+                <h3><?= esc_html__( 'Configure generated view', 'openestate-php-wrapper' ) ?></h3>
+                <p><?= esc_html__( 'Use the following form to generate a shortcode, that can be inserted into any article or page of your WordPress blog.', 'openestate-php-wrapper' ) ?></p>
+                <textarea id="openestate_shortcode" readonly="readonly" onclick="this.select();" cols="50" rows="2"
                           style="border:1px solid red; background-color:#FFFFE0; padding:0.5em; font-family:monospace; width:100%;">
                     [OpenEstatePhpWrapper]
                 </textarea>
                 <h4>
-                    <input id="immotool_wrap_script_index" type="radio" name="immotool_wrap_script" value="index"
-                           onchange="show_wrapper_settings('index');build_tag();" checked="checked"/>
-                    <label for="immotool_wrap_script_index"><?php echo __( 'Property listing / index.php', 'openestate-php-wrapper' ); ?></label>
+                    <input id="openestate_wrap_index" type="radio" name="openestate_wrap" value="index"
+                           onchange="openestate_update_shortcode();" checked="checked"/>
+                    <label for="openestate_wrap_index">
+						<?= esc_html__( 'Property listing', 'openestate-php-wrapper' ) ?> / index.php
+                    </label>
                 </h4>
-                <table id="immotool_wrap_script_index_settings" cellpadding="0" cellspacing="0" border="0"
+                <table id="openestate_wrap_index_settings" cellpadding="0" cellspacing="0" border="0"
                        style="width:100%;">
 
                     <tr>
                         <td style="width:20%; text-align:right; white-space:nowrap; padding-right:1em; vertical-align:top;">
-							<?php echo __( 'View', 'openestate-php-wrapper' ); ?>
+                            <label for="openestate_wrap_index_view">
+								<?= esc_html__( 'view', 'openestate-php-wrapper' ) ?>
+                            </label>
                         </td>
                         <td style="padding-bottom:0.8em;">
-                            <select id="index_view" style="border:1px solid #c0c0c0;" onchange="build_tag();">
-                                <option value="index"><?php echo __( 'Summary', 'openestate-php-wrapper' ); ?></option>
-                                <option value="fav"><?php echo __( 'Favourites', 'openestate-php-wrapper' ); ?></option>
+                            <select id="openestate_wrap_index_view" onchange="openestate_update_shortcode();">
+                                <option value="detail"><?= esc_html__( 'Tabular mode', 'openestate-php-wrapper' ) ?></option>
+                                <option value="thumb"><?= esc_html__( 'Gallery mode', 'openestate-php-wrapper' ) ?></option>
                             </select>
                         </td>
                     </tr>
 
                     <tr>
                         <td style="width:20%; text-align:right; white-space:nowrap; padding-right:1em; vertical-align:top;">
-							<?php echo __( 'Mode', 'openestate-php-wrapper' ); ?>
+                            <label for="openestate_wrap_index_order_by">
+								<?= esc_html__( 'order by', 'openestate-php-wrapper' ) ?>
+                            </label>
                         </td>
                         <td style="padding-bottom:0.8em;">
-                            <select id="index_mode" style="border:1px solid #c0c0c0;" onchange="build_tag();">
-                                <option value="entry"><?php echo __( 'Tabular mode', 'openestate-php-wrapper' ); ?></option>
-                                <option value="gallery"><?php echo __( 'Gallery mode', 'openestate-php-wrapper' ); ?></option>
-                            </select>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td style="width:20%; text-align:right; white-space:nowrap; padding-right:1em; vertical-align:top;">
-							<?php echo __( 'Language', 'openestate-php-wrapper' ); ?>
-                        </td>
-                        <td style="padding-bottom:0.8em;">
-                            <select id="index_lang" style="border:1px solid #c0c0c0;" onchange="build_tag();">
+                            <select id="openestate_wrap_index_order_by" onchange="openestate_update_shortcode();">
 								<?php
-								$languageCodes = immotool_functions::get_language_codes();
-								if ( is_array( $languageCodes ) ) {
-									foreach ( $languageCodes as $code ) {
-										echo '<option value="' . $code . '">' . immotool_functions::get_language_name( $code ) . '</option>';
-									}
+								$orders = array();
+								$titles = array();
+								foreach ( $environment->getConfig()->getOrderObjects() as $orderObj ) {
+									/**
+									 * order instance
+									 * @var \OpenEstate\PhpExport\Order\AbstractOrder $orderObj
+									 */
+									$name            = $orderObj->getName();
+									$titles[ $name ] = strtolower( $orderObj->getTitle( $environment->getLanguage() ) );
+									$orders[ $name ] = $orderObj;
 								}
-								?>
-                            </select>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td style="width:20%; text-align:right; white-space:nowrap; padding-right:1em; vertical-align:top;">
-							<?php echo __( 'Order', 'openestate-php-wrapper' ); ?>
-                        </td>
-                        <td style="padding-bottom:0.8em;">
-                            <select id="index_order_by" style="border:1px solid #c0c0c0;" onchange="build_tag();">
-								<?php
-								$sortedOrders    = array();
-								$availableOrders = array();
-								$orderNames      = array();
-
-								// get all available order classes
-								if ( is_callable( array( 'immotool_functions', 'list_available_orders' ) ) ) {
-									$orderNames = immotool_functions::list_available_orders();
-								}
-
-								// get explicitly enabled order classes
-								// this mechanism is a fallback for older versions of the OpenEstate-PHP-Export,
-								// that don't support immotool_functions::list_available_orders()
-								else if ( is_array( $setupIndex->OrderOptions ) ) {
-									$orderNames = $setupIndex->OrderOptions;
-								}
-
-								foreach ( $orderNames as $key ) {
-									$orderObj                = immotool_functions::get_order( $key );
-									$by                      = $orderObj->getTitle( $setupTranslations, $setupLang );
-									$sortedOrders[ $key ]    = $by;
-									$availableOrders[ $key ] = $orderObj;
-								}
-								asort( $sortedOrders );
-
-								foreach ( $sortedOrders as $key => $by ) {
-									//$orderObj = $availableOrders[ $key ];
-									echo '<option value="' . $key . '">' . $by . '</option>';
+								asort( $titles );
+								foreach ( array_keys( $titles ) as $name ) {
+									$selected = ( $name == 'ObjectId' ) ? 'selected="selected"' : '';
+									echo '<option value="' . html( $name ) . '" ' . $selected . '>'
+									     . html( $orders[ $name ]->getTitle( $environment->getLanguage() ) )
+									     . '</option>';
 								}
 								?>
                             </select><br/>
-                            <select id="index_order_dir" style="border:1px solid #c0c0c0;" onchange="build_tag();">
-                                <option value="asc"><?php echo __( 'ascending', 'openestate-php-wrapper' ); ?></option>
-                                <option value="desc"><?php echo __( 'descending', 'openestate-php-wrapper' ); ?></option>
+                            <select id="openestate_wrap_index_order_dir" onchange="openestate_update_shortcode();">
+                                <option value="asc"><?= esc_html__( 'ascending', 'openestate-php-wrapper' ) ?></option>
+                                <option value="desc"><?= esc_html__( 'descending', 'openestate-php-wrapper' ) ?></option>
                             </select>
                         </td>
                     </tr>
 
 					<?php
-					$filters = immotool_functions::list_available_filters();
-					if ( is_array( $filters ) ) {
-						foreach ( $filters as $key ) {
-							$filterObj = immotool_functions::get_filter( $key );
-							if ( ! is_object( $filterObj ) ) {
-								//echo "Can't find filter object $key<hr/>";
-								continue;
-							}
-							$filterValue  = ( isset( $settings ) && isset( $settings['immotool_index']['filter'][ $key ] ) ) ? $settings['immotool_index']['filter'][ $key ] : '';
-							$filterWidget = $filterObj->getWidget( $filterValue, $setupLang, $setupTranslations, $setupIndex );
-							if ( ! is_string( $filterWidget ) || strlen( $filterWidget ) == 0 ) {
-								//echo "Can't create widget for filter object $key<hr/>";
-								continue;
-							}
-							$filterWidget = str_replace( '<select ', '<select style="border:1px solid #c0c0c0;" ', $filterWidget );
-							$filterWidget = str_replace( '<select ', '<select onchange="build_tag();" ', $filterWidget );
-							$filterWidget = str_replace( '<input ', '<input onchange="build_tag();" ', $filterWidget );
-							?>
-                            <tr>
-                                <td style="width:20%; text-align:right; white-space:nowrap; padding-right:1em; vertical-align:top;">
-									<?php echo __( 'Filter', 'openestate-php-wrapper' ); ?><br/>
-                                    <span style="font-style:italic;font-size:0.9em;">
-                                        <?php echo $filterObj->getTitle( $setupTranslations, $setupLang ); ?>
-                                    </span>
-                                </td>
-                                <td style="padding-bottom:0.8em;">
-									<?php echo $filterWidget; ?>
-                                </td>
-                            </tr>
-							<?php
-						}
+					$filters = array();
+					$titles  = array();
+					foreach ( $environment->getConfig()->getFilterObjects() as $filterObj ) {
+						/**
+						 * filter instance
+						 * @var \OpenEstate\PhpExport\Filter\AbstractFilter $filterObj
+						 */
+						$name             = $filterObj->getName();
+						$filters[ $name ] = $filterObj;
+						$titles[ $name ]  = strtolower( $filterObj->getTitle( $environment->getLanguage() ) );
+					}
+					asort( $titles );
+					foreach ( array_keys( $titles ) as $name ) {
+						/**
+						 * filter instance
+						 * @var \OpenEstate\PhpExport\Filter\AbstractFilter $filterObj
+						 */
+						$filterObj   = $filters[ $name ];
+						$filterValue = ( isset( $settings ) && isset( $settings['immotool_index']['filter'][ $name ] ) ) ?
+							$settings['immotool_index']['filter'][ $name ] : '';
+
+						// create filter widget
+						$filterWidget           = $filterObj->getWidget( $environment, $filterValue );
+						$filterWidget->id       = 'openestate_wrap_index_filter_' . $name;
+						$filterWidget->onChange = 'openestate_update_shortcode();';
+						?>
+                        <tr>
+                            <td style="width:20%; text-align:right; white-space:nowrap; padding-right:1em; vertical-align:top;">
+                                <label for="<?= html( $filterWidget->id ) ?>">
+									<?= sprintf(
+										esc_html__( 'filter by %s', 'openestate-php-wrapper' ),
+										'<q>' . html( $filterObj->getTitle( $environment->getLanguage() ) ) . '</q>'
+									) ?>
+                                </label>
+                            </td>
+                            <td style="padding-bottom:0.8em;">
+								<?= $filterWidget->generate() ?>
+                            </td>
+                        </tr>
+						<?php
 					}
 					?>
-                </table>
 
-                <h4>
-                    <input type="radio" id="immotool_wrap_script_expose" name="immotool_wrap_script" value="expose"
-                           onchange="show_wrapper_settings('expose');build_tag();"/>
-                    <label for="immotool_wrap_script_expose">
-						<?php echo __( 'Property details / expose.php', 'openestate-php-wrapper' ); ?>
-                    </label>
-                </h4>
-                <table cellpadding="0" cellspacing="0" border="0" id="immotool_wrap_script_expose_settings"
-                       style="width:100%;visibility:collapse;">
                     <tr>
                         <td style="width:20%; text-align:right; white-space:nowrap; padding-right:1em; vertical-align:top;">
-							<?php echo __( 'Property ID', 'openestate-php-wrapper' ); ?>
+                            <label for="openestate_wrap_index_lang">
+								<?= esc_html__( 'language', 'openestate-php-wrapper' ) ?>
+                            </label>
                         </td>
                         <td style="padding-bottom:0.8em;">
-                            <input id="expose_id" type="text" style="border:1px solid #c0c0c0;" maxlength="15" value=""
-                                   onchange="build_tag();"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="width:20%; text-align:right; white-space:nowrap; padding-right:1em; vertical-align:top;">
-							<?php echo __( 'View', 'openestate-php-wrapper' ); ?>
-                        </td>
-                        <td style="padding-bottom:0.8em;">
-                            <select id="expose_view" style="border:1px solid #c0c0c0;" onchange="build_tag();">
-                                <option value="details"><?php echo __( 'Details', 'openestate-php-wrapper' ); ?></option>
-                                <option value="texts"><?php echo __( 'Description', 'openestate-php-wrapper' ); ?></option>
-                                <option value="gallery"><?php echo __( 'Gallery', 'openestate-php-wrapper' ); ?></option>
-                                <option value="contact"><?php echo __( 'Contact', 'openestate-php-wrapper' ); ?></option>
-                                <option value="terms"><?php echo __( 'Terms', 'openestate-php-wrapper' ); ?></option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="width:20%; text-align:right; white-space:nowrap; padding-right:1em; vertical-align:top;">
-							<?php echo __( 'Language', 'openestate-php-wrapper' ); ?>
-                        </td>
-                        <td style="padding-bottom:0.8em;">
-                            <select id="expose_lang" style="border:1px solid #c0c0c0;" onchange="build_tag();">
+                            <select id="openestate_wrap_index_lang" onchange="openestate_update_shortcode();">
 								<?php
-								$languageCodes = immotool_functions::get_language_codes();
-								if ( is_array( $languageCodes ) ) {
-									foreach ( $languageCodes as $code ) {
-										$selected = ( isset( $settings ) && $settings['immotool_expose']['lang'] == $code ) ?
-											'selected="selected"' : '';
-										echo '<option value="' . $code . '" ' . $selected . '>'
-										     . immotool_functions::get_language_name( $code )
-										     . '</option>';
-									}
+								foreach ( $environment->getLanguageCodes() as $code ) {
+									echo '<option value="' . html( $code ) . '">'
+									     . html( $environment->getLanguageName( $code ) )
+									     . '</option>';
 								}
 								?>
                             </select>
                         </td>
                     </tr>
                 </table>
-                <script language="JavaScript" type="text/javascript">
+
+                <h4>
+                    <input type="radio" id="openestate_wrap_expose" name="openestate_wrap" value="expose"
+                           onchange="openestate_update_shortcode();"/>
+                    <label for="openestate_wrap_expose">
+						<?= esc_html__( 'Property details', 'openestate-php-wrapper' ) ?> / expose.php
+                    </label>
+                </h4>
+                <table cellpadding="0" cellspacing="0" border="0" id="openestate_wrap_expose_settings"
+                       style="width:100%;visibility:collapse;">
+                    <tr>
+                        <td style="width:20%; text-align:right; white-space:nowrap; padding-right:1em; vertical-align:top;">
+                            <label for="openestate_wrap_expose_id">
+								<?= esc_html__( 'property ID', 'openestate-php-wrapper' ) ?>
+                            </label>
+                        </td>
+                        <td style="padding-bottom:0.8em;">
+                            <input id="openestate_wrap_expose_id" type="text" maxlength="100" value=""
+                                   onchange="openestate_update_shortcode();"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:20%; text-align:right; white-space:nowrap; padding-right:1em; vertical-align:top;">
+                            <label for="openestate_wrap_expose_lang">
+								<?= esc_html__( 'language', 'openestate-php-wrapper' ) ?>
+                            </label>
+                        </td>
+                        <td style="padding-bottom:0.8em;">
+                            <select id="openestate_wrap_expose_lang" onchange="openestate_update_shortcode();">
+								<?php
+								foreach ( $environment->getLanguageCodes() as $code ) {
+									$selected = ( isset( $settings ) && $settings['immotool_expose']['lang'] == $code ) ?
+										'selected="selected"' : '';
+									echo '<option value="' . html( $code ) . '" ' . $selected . '>'
+									     . html( $environment->getLanguageName( $code ) )
+									     . '</option>';
+								}
+								?>
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+
+                <h4>
+                    <input type="radio" id="openestate_wrap_fav" name="openestate_wrap" value="fav"
+                           onchange="openestate_update_shortcode();"/>
+                    <label for="openestate_wrap_fav">
+						<?= esc_html__( 'Favourites', 'openestate-php-wrapper' ) ?> / fav.php
+                    </label>
+                </h4>
+                <table cellpadding="0" cellspacing="0" border="0" id="openestate_wrap_fav_settings"
+                       style="width:100%;visibility:collapse;">
+                    <tr>
+                        <td style="width:20%; text-align:right; white-space:nowrap; padding-right:1em; vertical-align:top;">
+                            <label for="openestate_wrap_fav_view">
+								<?= esc_html__( 'view', 'openestate-php-wrapper' ) ?>
+                            </label>
+                        </td>
+                        <td style="padding-bottom:0.8em;">
+                            <select id="openestate_wrap_fav_view" onchange="openestate_update_shortcode();">
+                                <option value="detail"><?= esc_html__( 'Tabular mode', 'openestate-php-wrapper' ) ?></option>
+                                <option value="thumb"><?= esc_html__( 'Gallery mode', 'openestate-php-wrapper' ) ?></option>
+                            </select>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="width:20%; text-align:right; white-space:nowrap; padding-right:1em; vertical-align:top;">
+                            <label for="openestate_wrap_fav_order_by">
+								<?= esc_html__( 'order by', 'openestate-php-wrapper' ) ?>
+                            </label>
+                        </td>
+                        <td style="padding-bottom:0.8em;">
+                            <select id="openestate_wrap_fav_order_by" onchange="openestate_update_shortcode();">
+								<?php
+								$orders = array();
+								$titles = array();
+								foreach ( $environment->getConfig()->getOrderObjects() as $orderObj ) {
+									$name            = $orderObj->getName();
+									$titles[ $name ] = strtolower( $orderObj->getTitle( $environment->getLanguage() ) );
+									$orders[ $name ] = $orderObj;
+								}
+								asort( $titles );
+								foreach ( array_keys( $titles ) as $name ) {
+									$selected = ( $name == 'ObjectId' ) ? 'selected="selected"' : '';
+									echo '<option value="' . html( $name ) . '" ' . $selected . '>'
+									     . html( $orders[ $name ]->getTitle( $environment->getLanguage() ) )
+									     . '</option>';
+								}
+								?>
+                            </select><br/>
+                            <select id="openestate_wrap_fav_order_dir" onchange="openestate_update_shortcode();">
+                                <option value="asc"><?= esc_html__( 'ascending', 'openestate-php-wrapper' ) ?></option>
+                                <option value="desc"><?= esc_html__( 'descending', 'openestate-php-wrapper' ) ?></option>
+                            </select>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="width:20%; text-align:right; white-space:nowrap; padding-right:1em; vertical-align:top;">
+                            <label for="openestate_wrap_fav_lang">
+								<?= esc_html__( 'language', 'openestate-php-wrapper' ) ?>
+                            </label>
+                        </td>
+                        <td style="padding-bottom:0.8em;">
+                            <select id="openestate_wrap_fav_lang" onchange="openestate_update_shortcode();">
+								<?php
+								foreach ( $environment->getLanguageCodes() as $code ) {
+									echo '<option value="' . html( $code ) . '">'
+									     . html( $environment->getLanguageName( $code ) )
+									     . '</option>';
+								}
+								?>
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+
+
+                <script type="text/javascript">
                     <!--
-                    build_tag();
+                    openestate_update_shortcode();
                     //-->
                 </script>
 			<?php } ?>
+
+			<?php if ( $environment !== null ) { ?>
+                <script type="text/javascript">
+                    <!--
+                    function openestate_update_components() {
+                        var components = [];
+						<?php
+						$i = 0;
+						foreach ( $environment->getTheme()->getComponentIds() as $componentId ) {
+							echo '						';
+							echo 'components[' . $i . '] = \'' . html( $componentId ) . '\';' . "\n";
+							$i ++;
+						}
+						?>
+                        var params = '';
+                        for (var i = 0; i < components.length; i++) {
+                            var inputField = document.getElementById('openestate_wrapper_component_' + components[i]);
+                            if (inputField == null) continue;
+                            if (inputField.checked === false) {
+                                if (params !== '') params += ',';
+                                params += components[i];
+                            }
+                            document.getElementById('openestate_wrapper_disabledComponents').value = params;
+                        }
+                    }
+
+                    //-->
+                </script>
+
+                <hr>
+                <h3><?= esc_html__( 'Further options', 'openestate-php-wrapper' ) ?></h3>
+                <form method="post" action="options.php">
+					<?php settings_fields( 'openestate-wrapper-theme' ); ?>
+                    <table cellpadding="0" cellspacing="0" border="0" style="width:100%;">
+                        <h4><?= esc_html__( 'Custom stylesheet', 'openestate-php-wrapper' ) ?></h4>
+                        <p>
+							<?= esc_html__( 'You can provide custom stylesheets, that are loaded together with the PHP export.', 'openestate-php-wrapper' ) ?>
+                        </p>
+                        <textarea id="openestate_wrapper_customCss" name="openestate_wrapper_customCss"
+                                  style="width:100%; height:8em;"><?= html( get_option( 'openestate_wrapper_customCss' ) ) ?></textarea>
+                        <h4><?= esc_html__( 'Embedded components', 'openestate-php-wrapper' ) ?></h4>
+                        <p>
+							<?= esc_html__( 'The PHP export integrates the following third party components into your WordPress blog.', 'openestate-php-wrapper' ) ?>
+							<?= esc_html__( 'If your website already uses some of these components, you can disable them accordingly through the following options.', 'openestate-php-wrapper' ) ?>
+                        </p>
+                        <input id="openestate_wrapper_disabledComponents" name="openestate_wrapper_disabledComponents"
+                               type="text" readonly="readonly" style="display:none;"
+                               value="<?= html( implode( ',', $disabledComponents ) ) ?>">
+						<?php foreach ( $environment->getTheme()->getComponentIds() as $componentId ) { ?>
+                            <tr>
+                                <td style="width:20%; text-align:right; white-space:nowrap; padding-right:1em; vertical-align:top;">
+                                    &nbsp;
+                                </td>
+                                <td>
+                                    <input type="checkbox" id="openestate_wrapper_component_<?= html( $componentId ) ?>"
+                                           value="<?= html( $componentId ) ?>"
+										<?= ( ! in_array( $componentId, $disabledComponents ) ) ? 'checked="checked"' : '' ?>
+                                           onchange="openestate_update_components();"/>
+                                    <label for="openestate_wrapper_component_<?= html( $componentId ) ?>">
+                                        <i><?= html( $componentId ) ?></i>
+                                    </label>
+                                </td>
+                            </tr>
+						<?php } ?>
+                        <tr>
+                            <td colspan="2" style="text-align:center; padding:1em;">
+                                <input type="submit" class="button-primary"
+                                       value="<?= esc_html__( 'Save', 'openestate-php-wrapper' ) ?>"/>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+
+
+			<?php } ?>
+
         </div>
     </div>
 	<?php
@@ -654,7 +1025,7 @@ function openestate_wrapper_setup() {
 
 /**
  * Load HTML headers for the wrapped environment.
- * @see http://codex.wordpress.org/Plugin_API/Action_Reference/wp_head
+ * @see https://codex.wordpress.org/Plugin_API/Action_Reference/wp_head
  */
 add_action( 'wp_head', 'openestate_wrapper_header' );
 
@@ -662,29 +1033,51 @@ add_action( 'wp_head', 'openestate_wrapper_header' );
  * Load HTML headers for the wrapped environment.
  */
 function openestate_wrapper_header() {
-	if ( defined( 'OPENESTATE_WRAPPER_LOADED' ) && OPENESTATE_WRAPPER_LOADED == '1' ) {
-		echo "\n\n<!-- OpenEstate-Wrapper v" . IMMOTOOL_SCRIPT_VERSION . " (begin) -->";
 
-		// load general stylesheet (style.php)
-		echo "\n" . '<link rel="stylesheet" type="text/css" media="all" href="' . IMMOTOOL_BASE_URL . 'style.php?wrapped=1" />';
+	if ( ! isset( $GLOBALS['openestate']['wrapper']['view'] ) ) {
+		return;
+	}
 
-		// load additional stylesheet, if configured
-		if ( class_exists( 'immotool_setup' ) ) {
-			$setup = new immotool_setup();
-			if ( is_callable( array( 'immotool_myconfig', 'load_config_default' ) ) ) {
-				immotool_myconfig::load_config_default( $setup );
-			}
-			if ( is_string( $setup->AdditionalStylesheet ) && strlen( $setup->AdditionalStylesheet ) > 0 ) {
-				echo "\n" . '<link rel="stylesheet" type="text/css" media="all" href="' . $setup->AdditionalStylesheet . '" />';
+	/**
+	 * currently generated view
+	 *
+	 * @var \OpenEstate\PhpExport\View\AbstractHtmlView $view
+	 */
+	$view = $GLOBALS['openestate']['wrapper']['view'];
+
+	$headers = $view->getHeaders();
+	if ( ! is_array( $headers ) || count( $headers ) < 1 ) {
+		return;
+	}
+
+	echo "\n\n<!-- OpenEstate-Wrapper v" . VERSION . " (begin) -->";
+
+	foreach ( $view->getHeaders() as $header ) {
+		if ( $header instanceof \OpenEstate\PhpExport\Html\Javascript ) {
+			echo "\n" . $header->generate();
+		} else if ( $header instanceof \OpenEstate\PhpExport\Html\Stylesheet ) {
+			echo "\n" . $header->generate();
+		} else if ( $header instanceof \OpenEstate\PhpExport\Html\Meta ) {
+			if ( $header->name == 'description' || $header->name == 'keywords' ) {
+				echo "\n" . $header->generate();
 			}
 		}
-		echo "\n<!-- OpenEstate-Wrapper v" . IMMOTOOL_SCRIPT_VERSION . " (end) -->\n\n";
 	}
+
+	// add custom css
+	$customCss = trim( get_option( 'openestate_wrapper_customCss' ) );
+	if ( $customCss !== '' ) {
+		echo "\n" . '<style type="text/css">';
+		echo "\n" . html( $customCss );
+		echo "\n" . '</style>';
+	}
+
+	echo "\n<!-- OpenEstate-Wrapper v" . VERSION . " (end) -->\n\n";
 }
 
 /**
  * Register the [OpenEstatePhpWrapper] shortcode.
- * see http://codex.wordpress.org/Function_Reference/add_shortcode
+ * see https://codex.wordpress.org/Function_Reference/add_shortcode
  */
 add_shortcode( 'OpenEstatePhpWrapper', 'openestate_wrapper_shortcode' );
 
@@ -695,147 +1088,59 @@ add_shortcode( 'OpenEstatePhpWrapper', 'openestate_wrapper_shortcode' );
  *
  * @return string Wrapped content.
  *
- * @see http://codex.wordpress.org/Shortcode_API
+ * @see https://codex.wordpress.org/Shortcode_API
  */
 function openestate_wrapper_shortcode( $attributes ) {
 
-	// init OpenEstate-PHP-Export, if that was not already done
-	openestate_wrapper_load_from_settings();
-	if ( ! defined( 'OPENESTATE_WRAPPER_LOADED' ) || OPENESTATE_WRAPPER_LOADED == '0' ) {
-		//wp_die('<h1>' . __('The exported scripts are NOT correctly configured.', 'openestate-php-wrapper') . '</h1><ul><li>' . implode('</li><li>', $environmentErrors) . '</li></ul>');
-		$output = '<h2>' . __( 'The exported scripts are NOT correctly configured.', 'openestate-php-wrapper' ) . '</h2>';
-		if ( isset( $GLOBALS['openestate_environment_errors'] ) ) {
-			$output .= '<ul><li>'
-			           . implode( '</li><li>', $GLOBALS['openestate_environment_errors'] )
-			           . '</li></ul>';
-		}
-
-		return $output;
-	}
-
-	// load attributes from the shortcode
-	$settings = array();
-	foreach ( $attributes as $key => $value ) {
-		$key = trim( $key );
-		if ( substr( $key, 0, 7 ) == 'filter_' ) {
-			if ( ! isset( $settings['filter'] ) ) {
-				$settings['filter'] = array();
-			}
-			$settings['filter'][ substr( $key, 7 ) ] = $value;
-		} else {
-			$settings[ $key ] = $value;
-		}
-	}
-	//echo '<pre>' . print_r($settings, true) . '</pre>';
-
-	if ( is_file( IMMOTOOL_BASE_PATH . 'immotool.php.lock' ) ) {
-		return '<h3>' . __( 'The properties are currently updated.', 'openestate-php-wrapper' ) . '</h3>' .
-		       '<p>' . __( 'Please revisit this page after some minutes.', 'openestate-php-wrapper' ) . '</p>';
-	}
-
-	// keep wrapper settings in a global variable for further use
-	$GLOBALS['openestate_wrapper_settings'] = $settings;
-
-	// determine the script to load
-	$wrap = ( isset( $_REQUEST['wrap'] ) ) ? $_REQUEST['wrap'] : null;
-	if ( ! is_string( $wrap ) && isset( $settings['wrap'] ) ) {
-		$wrap = $settings['wrap'];
-	}
-	if ( $wrap == 'expose' ) {
-		$wrap   = 'expose';
-		$script = 'expose.php';
-		//echo '<pre>' . print_r($_REQUEST, true) . '</pre>'; return;
-
-		// set default configuration values on the first request of the page
-		if ( ! isset( $_REQUEST['wrap'] ) ) {
-			if ( isset( $settings['lang'] ) ) {
-				$_REQUEST[ IMMOTOOL_PARAM_LANG ] = $settings['lang'];
-			}
-			if ( isset( $settings['id'] ) ) {
-				$_REQUEST[ IMMOTOOL_PARAM_EXPOSE_ID ] = $settings['id'];
-			}
-			if ( isset( $settings['view'] ) ) {
-				$_REQUEST[ IMMOTOOL_PARAM_EXPOSE_VIEW ] = $settings['view'];
-			}
-		}
+	if ( isset( $GLOBALS['openestate']['wrapper']['content'] ) ) {
+		return $GLOBALS['openestate']['wrapper']['content'];
+	} else if ( ! is_singular() ) {
+		return '<em>' . esc_html__( 'Properties are only loaded on a singular page view.' ) . '</em>';
 	} else {
-		$wrap   = 'index';
-		$script = 'index.php';
-		//echo '<pre>' . print_r($_REQUEST, true) . '</pre>'; return;
+		return '<em>' . esc_html__( 'Can\'t load properties.' ) . '</em>';
+	}
+}
 
-		// set default configuration values on the first request of the page
-		if ( ! isset( $_REQUEST['wrap'] ) ) {
-			$_REQUEST[ IMMOTOOL_PARAM_INDEX_FILTER_CLEAR ] = '1';
-			if ( isset( $settings['lang'] ) ) {
-				$_REQUEST[ IMMOTOOL_PARAM_LANG ] = $settings['lang'];
-			}
-			if ( isset( $settings['view'] ) ) {
-				$_REQUEST[ IMMOTOOL_PARAM_INDEX_VIEW ] = $settings['view'];
-			}
-			if ( isset( $settings['mode'] ) ) {
-				$_REQUEST[ IMMOTOOL_PARAM_INDEX_MODE ] = $settings['mode'];
-			}
-			if ( isset( $settings['order_by'] ) ) {
-				$order = $settings['order_by'];
-				if ( isset( $settings['order_dir'] ) ) {
-					$order .= '-' . $settings['order_dir'];
-				} else {
-					$order .= '-asc';
-				}
-				$_REQUEST[ IMMOTOOL_PARAM_INDEX_ORDER ] = $order;
-			}
-		}
+// update the page title
+// see https://developer.wordpress.org/reference/hooks/document_title_parts/
+add_filter( 'document_title_parts', 'openestate_wrapper_document_title_parts' );
 
-		// clear filter selections, if this is explicitly selected
-		if ( isset( $_REQUEST[ IMMOTOOL_PARAM_INDEX_RESET ] ) ) {
-			unset( $_REQUEST[ IMMOTOOL_PARAM_INDEX_RESET ] );
-			$_REQUEST[ IMMOTOOL_PARAM_INDEX_FILTER ]       = array();
-			$_REQUEST[ IMMOTOOL_PARAM_INDEX_FILTER_CLEAR ] = '1';
-		}
+/**
+ * Update the page title.
+ *
+ * @param array $title
+ * The document title parts.
+ *
+ * @return array
+ * Modified title parts.
+ *
+ * @see https://developer.wordpress.org/reference/hooks/document_title_parts/
+ */
+function openestate_wrapper_document_title_parts( $title ) {
 
-		// load configured filter criteria into the request
-		if ( ! isset( $_REQUEST['wrap'] ) || isset( $_REQUEST[ IMMOTOOL_PARAM_INDEX_FILTER ] ) ) {
-			$filters = ( isset( $settings['filter'] ) ) ? $settings['filter'] : null;
-			if ( is_array( $filters ) ) {
-				foreach ( $filters as $filter => $value ) {
-					if ( ! isset( $_REQUEST[ IMMOTOOL_PARAM_INDEX_FILTER ] ) || ! is_array( $_REQUEST[ IMMOTOOL_PARAM_INDEX_FILTER ] ) ) {
-						$_REQUEST[ IMMOTOOL_PARAM_INDEX_FILTER ] = array();
-					}
-					if ( ! isset( $_REQUEST[ IMMOTOOL_PARAM_INDEX_FILTER ][ $filter ] ) ) {
-						$_REQUEST[ IMMOTOOL_PARAM_INDEX_FILTER ][ $filter ] = $value;
-					}
-				}
-			}
-		}
+	if ( ! isset( $GLOBALS['openestate']['wrapper']['view'] ) ) {
+		return $title;
 	}
 
-	// execute the script
-	//echo 'wrap: ' . IMMOTOOL_BASE_PATH . $script;
-	ob_start();
-	/** @noinspection PhpIncludeInspection */
-	include( IMMOTOOL_BASE_PATH . $script );
-	$page = ob_get_contents();
-	ob_end_clean();
+	/**
+	 * @var \OpenEstate\PhpExport\View\AbstractHtmlView $view
+	 */
+	$view = $GLOBALS['openestate']['wrapper']['view'];
 
-	// convert and return the script output
-	$stylesheets  = array();
-	$hiddenParams = array();
-	if ( isset( $_REQUEST['p'] ) ) {
-		$hiddenParams['p'] = $_REQUEST['p'];
-	}
-	if ( isset( $_REQUEST['cat'] ) ) {
-		$hiddenParams['cat'] = $_REQUEST['cat'];
-	}
-	if ( isset( $_REQUEST['page_id'] ) ) {
-		$hiddenParams['page_id'] = $_REQUEST['page_id'];
+	// change page title for expose views
+	if ( $view instanceof \OpenEstate\PhpExport\View\ExposeHtml ) {
+		$title['title'] = $view->getTitle();
 	}
 
-	return immotool_functions::wrap_page(
-		$page,
-		$wrap,
-		get_permalink(),
-		IMMOTOOL_BASE_URL,
-		$stylesheets,
-		$hiddenParams
-	);
+	// change page title for favorite views
+	if ( $view instanceof \OpenEstate\PhpExport\View\FavoriteHtml ) {
+		$title['title'] = $view->getTitle();
+	}
+
+	// change page title for listing views
+	//if ( $view instanceof \OpenEstate\PhpExport\View\ListingHtml ) {
+	//	$title['title'] = $view->getTitle();
+	//}
+
+	return $title;
 }

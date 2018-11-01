@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenEstate PHP-Wrapper\n"
 "Report-Msgid-Bugs-To: info@openestate.org\n"
-"POT-Creation-Date: 2018-10-28 18:06+0100\n"
-"PO-Revision-Date: 2018-10-28 22:51+0100\n"
+"POT-Creation-Date: 2018-11-01 20:06+0100\n"
+"PO-Revision-Date: 2018-11-01 20:08+0100\n"
 "Last-Translator: Andreas Rudolph <andy@openindex.de>\n"
 "Language-Team: OpenEstate.org <info@openestate.org>\n"
 "Language: de_DE\n"
@@ -19,64 +19,78 @@ msgstr ""
 "X-Generator: Poedit 2.2\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
-#: openestate-php-wrapper.php:75
+#: openestate-php-wrapper.php:31
 msgid "Please enter a valid script path."
 msgstr "Bitte tragen Sie einen gültigen Export-Pfad ein."
 
-#: openestate-php-wrapper.php:84
-msgid "The file was not found in the script path."
-msgstr "Datei befindet sich nicht im Export-Pfad."
+#: openestate-php-wrapper.php:44
+msgid "It seems, that you're using an unsupported version of PHP export."
+msgstr ""
+"Es wird anscheinend eine nicht unterstützte Version des PHP-Exports "
+"verwendet."
 
-#: openestate-php-wrapper.php:97
+#: openestate-php-wrapper.php:54
+msgid "It seems, that there is no PHP export available within the script path."
+msgstr "Es ist anscheinend kein PHP-Export unter dem Skript-Pfad vorhanden."
+
+#: openestate-php-wrapper.php:67
 msgid "Can't detect the script version."
 msgstr "Die Skript-Version konnte nicht ermittelt werden."
 
-#: openestate-php-wrapper.php:223
+#: openestate-php-wrapper.php:163
+msgid "Can't init script environment."
+msgstr "Die Skript-Umgebung kann nicht initialisiert werden."
+
+#: openestate-php-wrapper.php:284 openestate-php-wrapper.php:536
+msgid "The exported scripts are NOT correctly configured."
+msgstr "Die ImmoTool-Skripte sind NICHT korrekt eingebunden."
+
+#: openestate-php-wrapper.php:297
+msgid "The properties are currently updated."
+msgstr "Der Immobilienbestand wird momentan aktualisiert."
+
+#: openestate-php-wrapper.php:298
+msgid "Please revisit this page after some minutes."
+msgstr "Bitte besuchen Sie diese Seite in wenigen Minuten erneut."
+
+#: openestate-php-wrapper.php:439
 msgid "You're not authorized to setup this plugin."
 msgstr ""
 "Sie haben keine ausreichenden Rechte, um dieses Plugin zu konfigurieren."
 
-#: openestate-php-wrapper.php:271
-msgid "Can't find translation."
-msgstr "Übersetzung kann nicht ermittelt werden."
-
-#: openestate-php-wrapper.php:280
+#: openestate-php-wrapper.php:485
 msgid "Module"
 msgstr "Modul"
 
-#: openestate-php-wrapper.php:283 openestate-php-wrapper.php:325
-msgid "version"
-msgstr "version"
-
-#: openestate-php-wrapper.php:285
+#: openestate-php-wrapper.php:490
 msgid "License"
 msgstr "Lizenz"
 
-#: openestate-php-wrapper.php:290
+#: openestate-php-wrapper.php:496
 msgid "Authors"
 msgstr "Autoren"
 
-#: openestate-php-wrapper.php:298
+#: openestate-php-wrapper.php:504
 msgid "Support us!"
 msgstr "Unterstützen Sie uns!"
 
-#: openestate-php-wrapper.php:313
+#: openestate-php-wrapper.php:520
 msgid "Configure exported scripts"
 msgstr "Anbindung der ImmoTool-Skripte"
 
-#: openestate-php-wrapper.php:323
+#: openestate-php-wrapper.php:530
 msgid "The exported scripts are correctly configured."
 msgstr "Die ImmoTool-Skripte sind korrekt eingebunden."
 
-#: openestate-php-wrapper.php:329 openestate-php-wrapper.php:706
-msgid "The exported scripts are NOT correctly configured."
-msgstr "Die ImmoTool-Skripte sind NICHT korrekt eingebunden."
+#: openestate-php-wrapper.php:532
+msgid "version"
+msgstr "version"
 
-#: openestate-php-wrapper.php:331
+#: openestate-php-wrapper.php:538
 msgid "Export your properties from ImmoTool to your website via PHP."
 msgstr "Führen Sie einen PHP-Export via ImmoTool auf diesen Webspace durch."
 
-#: openestate-php-wrapper.php:332
+#: openestate-php-wrapper.php:539
 msgid ""
 "Configure path and URL, that points to the exported scripts, and click "
 "'Save' to perform a new validation."
@@ -84,15 +98,15 @@ msgstr ""
 "Tragen Sie Pfad und URL des Exports ein und klicken Sie zur erneuten Prüfung "
 "auf 'Speichern'."
 
-#: openestate-php-wrapper.php:334
+#: openestate-php-wrapper.php:541
 msgid "Error messages"
 msgstr "Fehlermeldungen"
 
-#: openestate-php-wrapper.php:346
-msgid "Script path"
+#: openestate-php-wrapper.php:554
+msgid "script path"
 msgstr "Skript-Pfad"
 
-#: openestate-php-wrapper.php:350
+#: openestate-php-wrapper.php:560
 msgid ""
 "Enter the path on your server, that points to the exported scripts. The path "
 "of this CMS installation is:"
@@ -100,11 +114,11 @@ msgstr ""
 "Tragen Sie den Pfad des Servers ein, unter dem die vom ImmoTool erzeugten "
 "Skripte abgelegt wurden. Der Serverpfad dieser WordPress-Installation lautet:"
 
-#: openestate-php-wrapper.php:356
-msgid "Script URL"
+#: openestate-php-wrapper.php:567
+msgid "script URL"
 msgstr "Skript-URL"
 
-#: openestate-php-wrapper.php:361
+#: openestate-php-wrapper.php:573
 msgid ""
 "Enter the URL on your server, that points to the exported scripts. The URL "
 "of this CMS installation is:"
@@ -112,15 +126,15 @@ msgstr ""
 "Tragen Sie die Webadresse ein, unter welcher der ImmoTool-Export aus dem "
 "Internet erreichbar ist. Die Webadresse dieser WordPress-Installation lautet:"
 
-#: openestate-php-wrapper.php:368
+#: openestate-php-wrapper.php:580 openestate-php-wrapper.php:1012
 msgid "Save"
 msgstr "Speichern"
 
-#: openestate-php-wrapper.php:454
+#: openestate-php-wrapper.php:691
 msgid "Configure generated view"
 msgstr "Darstellung auf der Webseite"
 
-#: openestate-php-wrapper.php:455
+#: openestate-php-wrapper.php:692
 msgid ""
 "Use the following form to generate a shortcode, that can be inserted into "
 "any article or page of your WordPress blog."
@@ -129,86 +143,129 @@ msgstr ""
 "erzeugte Shortcode kann in einen Artikel oder eine Seite von WordPress "
 "eingefügt werden."
 
-#: openestate-php-wrapper.php:463
-msgid "Property listing / index.php"
-msgstr "Immobilienübersicht / index.php"
-
-#: openestate-php-wrapper.php:470 openestate-php-wrapper.php:610
-msgid "View"
-msgstr "Ansicht"
-
-#: openestate-php-wrapper.php:474
-msgid "Summary"
+#: openestate-php-wrapper.php:701
+msgid "Property listing"
 msgstr "Immobilienübersicht"
 
-#: openestate-php-wrapper.php:475
-msgid "Favourites"
-msgstr "Vormerkliste"
+#: openestate-php-wrapper.php:710 openestate-php-wrapper.php:875
+msgid "view"
+msgstr "Ansicht"
 
-#: openestate-php-wrapper.php:482
-msgid "Mode"
-msgstr "Darstellung"
-
-#: openestate-php-wrapper.php:486
+#: openestate-php-wrapper.php:715 openestate-php-wrapper.php:880
 msgid "Tabular mode"
 msgstr "Ansicht als Liste"
 
-#: openestate-php-wrapper.php:487
+#: openestate-php-wrapper.php:716 openestate-php-wrapper.php:881
 msgid "Gallery mode"
 msgstr "Ansicht als Galerie"
 
-#: openestate-php-wrapper.php:494 openestate-php-wrapper.php:624
-msgid "Language"
-msgstr "Sprache"
+#: openestate-php-wrapper.php:724 openestate-php-wrapper.php:889
+msgid "order by"
+msgstr "sortieren nach"
 
-#: openestate-php-wrapper.php:512
-msgid "Order"
-msgstr "Sortierung"
-
-#: openestate-php-wrapper.php:548
+#: openestate-php-wrapper.php:751 openestate-php-wrapper.php:912
 msgid "ascending"
 msgstr "aufsteigend"
 
-#: openestate-php-wrapper.php:549
+#: openestate-php-wrapper.php:752 openestate-php-wrapper.php:913
 msgid "descending"
 msgstr "absteigend"
 
-#: openestate-php-wrapper.php:575
-msgid "Filter"
-msgstr "Filterkriterium"
+#: openestate-php-wrapper.php:788
+#, php-format
+msgid "filter by %s"
+msgstr "nach %s filtern"
 
-#: openestate-php-wrapper.php:594
-msgid "Property details / expose.php"
-msgstr "Exposéansicht / expose.php"
+#: openestate-php-wrapper.php:804 openestate-php-wrapper.php:844
+#: openestate-php-wrapper.php:921
+msgid "language"
+msgstr "Sprache"
 
-#: openestate-php-wrapper.php:601
-msgid "Property ID"
-msgstr "ID der Immobilie"
+#: openestate-php-wrapper.php:825
+msgid "Property details"
+msgstr "Exposéansicht"
 
-#: openestate-php-wrapper.php:614
-msgid "Details"
-msgstr "Details"
+#: openestate-php-wrapper.php:833
+msgid "property ID"
+msgstr "Immobilien-ID"
 
-#: openestate-php-wrapper.php:615
-msgid "Description"
-msgstr "Beschreibung"
+#: openestate-php-wrapper.php:867
+msgid "Favourites"
+msgstr "Vormerkliste"
 
-#: openestate-php-wrapper.php:616
-msgid "Gallery"
-msgstr "Galerie"
+#: openestate-php-wrapper.php:975
+msgid "Further options"
+msgstr "Weitere Optionen"
 
-#: openestate-php-wrapper.php:617
-msgid "Contact"
-msgstr "Kontakt"
+#: openestate-php-wrapper.php:979
+msgid "Custom stylesheet"
+msgstr "Individueller Stylesheet"
 
-#: openestate-php-wrapper.php:618
-msgid "Terms"
-msgstr "AGB"
+#: openestate-php-wrapper.php:981
+msgid ""
+"You can provide custom stylesheets, that are loaded together with the PHP "
+"export."
+msgstr ""
+"Sie können individuelle Stylesheets hinterlegen, die zusätzlich zum PHP-"
+"Export geladen werden."
 
-#: openestate-php-wrapper.php:732
-msgid "The properties are currently updated."
-msgstr "Der Immobilienbestand wird momentan aktualisiert."
+#: openestate-php-wrapper.php:985
+msgid "Embedded components"
+msgstr "Eingebettete Komponenten"
 
-#: openestate-php-wrapper.php:733
-msgid "Please revisit this page after some minutes."
-msgstr "Bitte besuchen Sie diese Seite in wenigen Minuten erneut."
+#: openestate-php-wrapper.php:987
+msgid ""
+"The PHP export integrates the following third party components into your "
+"WordPress blog."
+msgstr ""
+"Der PHP-Export integriert die folgenden Komponenten von Drittanbietern in "
+"Ihre WordPress-Seite."
+
+#: openestate-php-wrapper.php:988
+msgid ""
+"If your website already uses some of these components, you can disable them "
+"accordingly through the following options."
+msgstr ""
+"Wenn Ihre Webseite bereits eine dieser Komponenten verwenden, können Sie "
+"diese durch die folgenden Optionen deaktivieren."
+
+#: openestate-php-wrapper.php:1098
+msgid "Properties are only loaded on a singular page view."
+msgstr "Immobilien werden nur auf der Einzelansicht einer Seite dargestellt."
+
+#: openestate-php-wrapper.php:1100
+msgid "Can't load properties."
+msgstr "Immobilien konnten nicht geladen werden."
+
+#~ msgid "The file was not found in the script path."
+#~ msgstr "Datei befindet sich nicht im Export-Pfad."
+
+#~ msgid "Can't find translation."
+#~ msgstr "Übersetzung kann nicht ermittelt werden."
+
+#~ msgid "View"
+#~ msgstr "Ansicht"
+
+#~ msgid "Summary"
+#~ msgstr "Immobilienübersicht"
+
+#~ msgid "Mode"
+#~ msgstr "Darstellung"
+
+#~ msgid "Filter"
+#~ msgstr "Filterkriterium"
+
+#~ msgid "Details"
+#~ msgstr "Details"
+
+#~ msgid "Description"
+#~ msgstr "Beschreibung"
+
+#~ msgid "Gallery"
+#~ msgstr "Galerie"
+
+#~ msgid "Contact"
+#~ msgstr "Kontakt"
+
+#~ msgid "Terms"
+#~ msgstr "AGB"

@@ -2,8 +2,8 @@
 Contributors: OpenEstate
 Donate link: https://openestate.org/openestate/sponsors
 Tags: homes, listings, openestate, promote, properties, property, real estate, realestate, real-estate, realty, wrapper
-Requires PHP: 5.0
-Requires at least: 3.0.0
+Requires PHP: 5.6
+Requires at least: 3.6.0
 Tested up to: 4.9.8
 Stable tag: 0.4-SNAPSHOT
 License: GPLv2 or later

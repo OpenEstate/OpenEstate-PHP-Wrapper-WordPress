@@ -18,6 +18,7 @@ cd "$DIR/src"
   --language="PHP" \
   --keyword="__" \
   --keyword="_e" \
+  --keyword="esc_html__" \
   --sort-by-file \
   --from-code="UTF-8" \
   --copyright-holder="$AUTHOR_NAME" \
