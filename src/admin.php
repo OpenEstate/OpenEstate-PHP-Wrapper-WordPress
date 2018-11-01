@@ -46,11 +46,33 @@ if ( $environment->isSupportedLanguage( $locale ) ) {
 
 // show the admin page for the plugin
 ?>
+<style type="text/css">
+    table.openestate-wrapper-admin {
+        border: none;
+        width: 100%;
+    }
+
+    table.openestate-wrapper-admin td {
+        border: none;
+    }
+
+    table.openestate-wrapper-admin td:first-child {
+        vertical-align: top;
+        width: 20%;
+        text-align: right;
+        white-space: nowrap;
+        padding-right: 1em;
+    }
+
+    table.openestate-wrapper-admin td:not(first-child) {
+        padding-bottom: 0.8em;
+    }
+</style>
 <div class="wrap">
     <div style="clear:both; float:right; width:175px; background-color: #F0F0F0; padding:5px 5px 3px 5px; margin-top: 0.5em;">
         <h3 style="padding:0; margin:0;"><?= esc_html__( 'Module', 'openestate-php-wrapper' ) ?></h3>
         <div style="text-align:center;">
-            OpenEstate PHP-Wrapper<br/>
+            OpenEstate PHP-Wrapper<br>
 			<?= html( $pluginVersion ) ?>
         </div>
         <h3><?= esc_html__( 'License', 'openestate-php-wrapper' ) ?></h3>
@@ -86,14 +108,14 @@ if ( $environment->isSupportedLanguage( $locale ) ) {
         <h3><?= esc_html__( 'Configure exported scripts', 'openestate-php-wrapper' ) ?></h3>
         <form method="post" action="options.php">
 			<?php settings_fields( 'openestate-wrapper-setup' ); ?>
-            <table cellpadding="0" cellspacing="0" border="0" style="width:100%;">
+            <table class="openestate-wrapper-admin">
                 <tr>
-                    <td style="text-align:right; width:100px; vertical-align:top;">&nbsp;</td>
+                    <td>&nbsp;</td>
                     <td>
 						<?php
 						if ( $environment !== null ) {
 							echo '<h3 style="color:green; margin:0;">'
-							     . esc_html__( 'The exported scripts are correctly configured.', 'openestate-php-wrapper' ) . '<br/>'
+							     . esc_html__( 'The exported scripts are correctly configured.', 'openestate-php-wrapper' ) . '<br>'
 							     . '<span style="font-size:0.7em;">'
 							     . esc_html__( 'version', 'openestate-php-wrapper' ) . ' ' . html( VERSION )
 							     . '</span>' .
@@ -115,38 +137,36 @@ if ( $environment->isSupportedLanguage( $locale ) ) {
                     </td>
                 </tr>
                 <tr>
-                    <td style="width:20%; text-align:right; white-space:nowrap; padding-right:1em; vertical-align:top;">
+                    <td>
                         <label for="openestate_wrapper_script_path">
 							<?= esc_html__( 'script path', 'openestate-php-wrapper' ) ?>
                         </label>
                     </td>
                     <td>
                         <input type="text" id="openestate_wrapper_script_path" name="openestate_wrapper_script_path"
-                               value="<?= html( $scriptPath ) ?>" style="width:100%;"/><br/>
-                        <i><?= esc_html__( 'Enter the path on your server, that points to the exported scripts. The path of this CMS installation is:', 'openestate-php-wrapper' ) ?></i>
+                               value="<?= html( $scriptPath ) ?>" style="width:100%;"/><br>
+                        <em><?= esc_html__( 'Enter the path on your server, that points to the exported scripts. The path of this CMS installation is:', 'openestate-php-wrapper' ) ?></em>
                         <span style="font-weight:bold; white-space:nowrap;"><?= get_home_path() ?></span>
                     </td>
                 </tr>
                 <tr>
-                    <td style="width:20%; text-align:right; white-space:nowrap; padding-right:1em; vertical-align:top;">
+                    <td>
                         <label for="openestate_wrapper_script_url">
 							<?= esc_html__( 'script URL', 'openestate-php-wrapper' ) ?>
                         </label>
                     </td>
                     <td>
                         <input type="text" id="openestate_wrapper_script_url" name="openestate_wrapper_script_url"
-                               value="<?= html( $scriptUrl ) ?>" style="width:100%;"/><br/>
-                        <i><?= esc_html__( 'Enter the URL on your server, that points to the exported scripts. The URL of this CMS installation is:', 'openestate-php-wrapper' ) ?></i>
+                               value="<?= html( $scriptUrl ) ?>" style="width:100%;"/><br>
+                        <em><?= esc_html__( 'Enter the URL on your server, that points to the exported scripts. The URL of this CMS installation is:', 'openestate-php-wrapper' ) ?></em>
                         <span style="font-weight:bold; white-space:nowrap;"><?= get_bloginfo( 'url' ) ?></span>
                     </td>
                 </tr>
-                <tr>
-                    <td colspan="2" style="text-align:center; padding:1em;">
-                        <input type="submit" class="button-primary"
-                               value="<?= esc_html__( 'Save', 'openestate-php-wrapper' ) ?>"/>
-                    </td>
-                </tr>
             </table>
+            <p style="text-align:center;">
+                <input type="submit" class="button-primary"
+                       value="<?= esc_html__( 'Save', 'openestate-php-wrapper' ) ?>"/>
+            </p>
         </form>
 
 		<?php if ( $environment !== null ) { ?>
@@ -267,16 +287,14 @@ if ( $environment->isSupportedLanguage( $locale ) ) {
 					<?= esc_html__( 'Property listing', 'openestate-php-wrapper' ) ?> / index.php
                 </label>
             </h4>
-            <table id="openestate_wrap_index_settings" cellpadding="0" cellspacing="0" border="0"
-                   style="width:100%;">
-
+            <table id="openestate_wrap_index_settings" class="openestate-wrapper-admin">
                 <tr>
-                    <td style="width:20%; text-align:right; white-space:nowrap; padding-right:1em; vertical-align:top;">
+                    <td>
                         <label for="openestate_wrap_index_view">
 							<?= esc_html__( 'view', 'openestate-php-wrapper' ) ?>
                         </label>
                     </td>
-                    <td style="padding-bottom:0.8em;">
+                    <td>
                         <select id="openestate_wrap_index_view" onchange="openestate_update_shortcode();">
                             <option value="detail"><?= esc_html__( 'Tabular mode', 'openestate-php-wrapper' ) ?></option>
                             <option value="thumb"><?= esc_html__( 'Gallery mode', 'openestate-php-wrapper' ) ?></option>
@@ -285,12 +303,12 @@ if ( $environment->isSupportedLanguage( $locale ) ) {
                 </tr>
 
                 <tr>
-                    <td style="width:20%; text-align:right; white-space:nowrap; padding-right:1em; vertical-align:top;">
+                    <td>
                         <label for="openestate_wrap_index_order_by">
 							<?= esc_html__( 'order by', 'openestate-php-wrapper' ) ?>
                         </label>
                     </td>
-                    <td style="padding-bottom:0.8em;">
+                    <td>
                         <select id="openestate_wrap_index_order_by" onchange="openestate_update_shortcode();">
 							<?php
 							$orders = array();
@@ -312,7 +330,7 @@ if ( $environment->isSupportedLanguage( $locale ) ) {
 								     . '</option>';
 							}
 							?>
-                        </select><br/>
+                        </select><br>
                         <select id="openestate_wrap_index_order_dir" onchange="openestate_update_shortcode();">
                             <option value="asc"><?= esc_html__( 'ascending', 'openestate-php-wrapper' ) ?></option>
                             <option value="desc"><?= esc_html__( 'descending', 'openestate-php-wrapper' ) ?></option>
@@ -348,7 +366,7 @@ if ( $environment->isSupportedLanguage( $locale ) ) {
 					$filterWidget->onChange = 'openestate_update_shortcode();';
 					?>
                     <tr>
-                        <td style="width:20%; text-align:right; white-space:nowrap; padding-right:1em; vertical-align:top;">
+                        <td>
                             <label for="<?= html( $filterWidget->id ) ?>">
 								<?= sprintf(
 									esc_html__( 'filter by %s', 'openestate-php-wrapper' ),
@@ -356,7 +374,7 @@ if ( $environment->isSupportedLanguage( $locale ) ) {
 								) ?>
                             </label>
                         </td>
-                        <td style="padding-bottom:0.8em;">
+                        <td>
 							<?= $filterWidget->generate() ?>
                         </td>
                     </tr>
@@ -365,12 +383,12 @@ if ( $environment->isSupportedLanguage( $locale ) ) {
 				?>
 
                 <tr>
-                    <td style="width:20%; text-align:right; white-space:nowrap; padding-right:1em; vertical-align:top;">
+                    <td>
                         <label for="openestate_wrap_index_lang">
 							<?= esc_html__( 'language', 'openestate-php-wrapper' ) ?>
                         </label>
                     </td>
-                    <td style="padding-bottom:0.8em;">
+                    <td>
                         <select id="openestate_wrap_index_lang" onchange="openestate_update_shortcode();">
 							<?php
 							foreach ( $environment->getLanguageCodes() as $code ) {
@@ -391,26 +409,25 @@ if ( $environment->isSupportedLanguage( $locale ) ) {
 					<?= esc_html__( 'Property details', 'openestate-php-wrapper' ) ?> / expose.php
                 </label>
             </h4>
-            <table cellpadding="0" cellspacing="0" border="0" id="openestate_wrap_expose_settings"
-                   style="width:100%;visibility:collapse;">
+            <table id="openestate_wrap_expose_settings" class="openestate-wrapper-admin" style="visibility:collapse;">
                 <tr>
-                    <td style="width:20%; text-align:right; white-space:nowrap; padding-right:1em; vertical-align:top;">
+                    <td>
                         <label for="openestate_wrap_expose_id">
 							<?= esc_html__( 'property ID', 'openestate-php-wrapper' ) ?>
                         </label>
                     </td>
-                    <td style="padding-bottom:0.8em;">
+                    <td>
                         <input id="openestate_wrap_expose_id" type="text" maxlength="100" value=""
                                onchange="openestate_update_shortcode();"/>
                     </td>
                 </tr>
                 <tr>
-                    <td style="width:20%; text-align:right; white-space:nowrap; padding-right:1em; vertical-align:top;">
+                    <td>
                         <label for="openestate_wrap_expose_lang">
 							<?= esc_html__( 'language', 'openestate-php-wrapper' ) ?>
                         </label>
                     </td>
-                    <td style="padding-bottom:0.8em;">
+                    <td>
                         <select id="openestate_wrap_expose_lang" onchange="openestate_update_shortcode();">
 							<?php
 							foreach ( $environment->getLanguageCodes() as $code ) {
@@ -433,15 +450,14 @@ if ( $environment->isSupportedLanguage( $locale ) ) {
 					<?= esc_html__( 'Favourites', 'openestate-php-wrapper' ) ?> / fav.php
                 </label>
             </h4>
-            <table cellpadding="0" cellspacing="0" border="0" id="openestate_wrap_fav_settings"
-                   style="width:100%;visibility:collapse;">
+            <table id="openestate_wrap_fav_settings" class="openestate-wrapper-admin" style="visibility:collapse;">
                 <tr>
-                    <td style="width:20%; text-align:right; white-space:nowrap; padding-right:1em; vertical-align:top;">
+                    <td>
                         <label for="openestate_wrap_fav_view">
 							<?= esc_html__( 'view', 'openestate-php-wrapper' ) ?>
                         </label>
                     </td>
-                    <td style="padding-bottom:0.8em;">
+                    <td>
                         <select id="openestate_wrap_fav_view" onchange="openestate_update_shortcode();">
                             <option value="detail"><?= esc_html__( 'Tabular mode', 'openestate-php-wrapper' ) ?></option>
                             <option value="thumb"><?= esc_html__( 'Gallery mode', 'openestate-php-wrapper' ) ?></option>
@@ -450,12 +466,12 @@ if ( $environment->isSupportedLanguage( $locale ) ) {
                 </tr>
 
                 <tr>
-                    <td style="width:20%; text-align:right; white-space:nowrap; padding-right:1em; vertical-align:top;">
+                    <td>
                         <label for="openestate_wrap_fav_order_by">
 							<?= esc_html__( 'order by', 'openestate-php-wrapper' ) ?>
                         </label>
                     </td>
-                    <td style="padding-bottom:0.8em;">
+                    <td>
                         <select id="openestate_wrap_fav_order_by" onchange="openestate_update_shortcode();">
 							<?php
 							$orders = array();
@@ -473,7 +489,7 @@ if ( $environment->isSupportedLanguage( $locale ) ) {
 								     . '</option>';
 							}
 							?>
-                        </select><br/>
+                        </select><br>
                         <select id="openestate_wrap_fav_order_dir" onchange="openestate_update_shortcode();">
                             <option value="asc"><?= esc_html__( 'ascending', 'openestate-php-wrapper' ) ?></option>
                             <option value="desc"><?= esc_html__( 'descending', 'openestate-php-wrapper' ) ?></option>
@@ -482,12 +498,12 @@ if ( $environment->isSupportedLanguage( $locale ) ) {
                 </tr>
 
                 <tr>
-                    <td style="width:20%; text-align:right; white-space:nowrap; padding-right:1em; vertical-align:top;">
+                    <td>
                         <label for="openestate_wrap_fav_lang">
 							<?= esc_html__( 'language', 'openestate-php-wrapper' ) ?>
                         </label>
                     </td>
-                    <td style="padding-bottom:0.8em;">
+                    <td>
                         <select id="openestate_wrap_fav_lang" onchange="openestate_update_shortcode();">
 							<?php
 							foreach ( $environment->getLanguageCodes() as $code ) {
@@ -538,49 +554,57 @@ if ( $environment->isSupportedLanguage( $locale ) ) {
             </script>
 
             <hr>
+
             <h3><?= esc_html__( 'Further options', 'openestate-php-wrapper' ) ?></h3>
             <form method="post" action="options.php">
 				<?php settings_fields( 'openestate-wrapper-theme' ); ?>
-                <table cellpadding="0" cellspacing="0" border="0" style="width:100%;">
-                    <h4><?= esc_html__( 'Custom stylesheet', 'openestate-php-wrapper' ) ?></h4>
-                    <p>
-						<?= esc_html__( 'You can provide custom stylesheets, that are loaded together with the PHP export.', 'openestate-php-wrapper' ) ?>
-                    </p>
-                    <textarea id="openestate_wrapper_customCss" name="openestate_wrapper_customCss"
-                              style="width:100%; height:8em;"><?= html( get_option( 'openestate_wrapper_customCss' ) ) ?></textarea>
-                    <h4><?= esc_html__( 'Embedded components', 'openestate-php-wrapper' ) ?></h4>
-                    <p>
-						<?= esc_html__( 'The PHP export integrates the following third party components into your WordPress blog.', 'openestate-php-wrapper' ) ?>
-						<?= esc_html__( 'If your website already uses some of these components, you can disable them accordingly through the following options.', 'openestate-php-wrapper' ) ?>
-                    </p>
-                    <input id="openestate_wrapper_disabledComponents" name="openestate_wrapper_disabledComponents"
-                           type="text" readonly="readonly" style="display:none;"
-                           value="<?= html( implode( ',', $disabledComponents ) ) ?>">
-					<?php foreach ( $environment->getTheme()->getComponentIds() as $componentId ) { ?>
-                        <tr>
-                            <td style="width:20%; text-align:right; white-space:nowrap; padding-right:1em; vertical-align:top;">
-                                &nbsp;
-                            </td>
-                            <td>
-                                <input type="checkbox" id="openestate_wrapper_component_<?= html( $componentId ) ?>"
-                                       value="<?= html( $componentId ) ?>"
-									<?= ( ! in_array( $componentId, $disabledComponents ) ) ? 'checked="checked"' : '' ?>
-                                       onchange="openestate_update_components();"/>
-                                <label for="openestate_wrapper_component_<?= html( $componentId ) ?>">
+                <table class="openestate-wrapper-admin">
+                    <tr>
+                        <td>
+                            <label for="openestate_wrapper_customCss">
+								<?= esc_html__( 'custom stylesheet', 'openestate-php-wrapper' ) ?>
+                            </label>
+                        </td>
+                        <td>
+                            <textarea id="openestate_wrapper_customCss" name="openestate_wrapper_customCss"
+                                      style="width:100%; height:8em;"><?= html( get_option( 'openestate_wrapper_customCss' ) ) ?></textarea>
+                            <br>
+                            <em>
+								<?= esc_html__( 'You can provide custom stylesheets, that are loaded together with the PHP export.', 'openestate-php-wrapper' ) ?>
+                            </em>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+							<?= esc_html__( 'embedded components', 'openestate-php-wrapper' ) ?>
+                        </td>
+                        <td>
+                            <input id="openestate_wrapper_disabledComponents"
+                                   name="openestate_wrapper_disabledComponents"
+                                   type="text" readonly="readonly" style="display:none;"
+                                   value="<?= html( implode( ',', $disabledComponents ) ) ?>">
+							<?php foreach ( $environment->getTheme()->getComponentIds() as $componentId ) { ?>
+                                <label style="margin-right:1em; white-space:nowrap;">
+                                    <input type="checkbox" id="openestate_wrapper_component_<?= html( $componentId ) ?>"
+                                           value="<?= html( $componentId ) ?>"
+										<?= ( ! in_array( $componentId, $disabledComponents ) ) ? 'checked="checked"' : '' ?>
+                                           onchange="openestate_update_components();"/>
                                     <i><?= html( $componentId ) ?></i>
                                 </label>
-                            </td>
-                        </tr>
-					<?php } ?>
-                    <tr>
-                        <td colspan="2" style="text-align:center; padding:1em;">
-                            <input type="submit" class="button-primary"
-                                   value="<?= esc_html__( 'Save', 'openestate-php-wrapper' ) ?>"/>
+							<?php } ?>
+                            <br>
+                            <em>
+								<?= esc_html__( 'The PHP export integrates these third party components into your WordPress blog.', 'openestate-php-wrapper' ) ?>
+								<?= esc_html__( 'If your website already uses some of these components, you can disable them accordingly.', 'openestate-php-wrapper' ) ?>
+                            </em>
                         </td>
                     </tr>
                 </table>
+                <p style="text-align:center;">
+                    <input type="submit" class="button-primary"
+                           value="<?= esc_html__( 'Save', 'openestate-php-wrapper' ) ?>"/>
+                </p>
             </form>
-
 
 		<?php } ?>
 
