@@ -11,8 +11,8 @@ Author URI: https://openestate.org/
 /** @noinspection PhpUnusedParameterInspection */
 
 use \OpenEstate\PhpExport\Environment;
-use \OpenEstate\PhpExport\MyConfig;
 use \OpenEstate\PhpExport\Utils;
+use \OpenEstate\PhpExport\WrapperConfig;
 use const \OpenEstate\PhpExport\VERSION;
 use function htmlspecialchars as html;
 
@@ -69,90 +69,7 @@ function openestate_wrapper_env( $scriptPath, $scriptUrl, $initSession, &$errors
 		return null;
 	}
 
-	/**
-	 * Extended configuration for integration into the website.
-	 */
-	class WrapperConfig extends MyConfig {
-		public function __construct( $basePath, $baseUrl = '.' ) {
-			parent::__construct( $basePath, $baseUrl );
-		}
-
-		public function getExposeUrl( $parameters = null ) {
-			if ( $parameters == null ) {
-				$parameters = array();
-			}
-
-			$parameters['wrap'] = 'expose';
-			foreach ( $_REQUEST as $key => $value ) {
-				if ( ! isset( $parameters[ $key ] ) ) {
-					$parameters[ $key ] = $value;
-				}
-			}
-
-			$baseUrl = explode( '?', $_SERVER['REQUEST_URI'] );
-
-			return $baseUrl[0] . Utils::getUrlParameters( $parameters );
-		}
-
-		public function getFavoriteUrl( $parameters = null ) {
-			if ( $parameters == null ) {
-				$parameters = array();
-			}
-
-			$parameters['wrap'] = 'fav';
-			foreach ( $_REQUEST as $key => $value ) {
-				if ( ! isset( $parameters[ $key ] ) ) {
-					$parameters[ $key ] = $value;
-				}
-			}
-
-			$baseUrl = explode( '?', $_SERVER['REQUEST_URI'] );
-
-			return $baseUrl[0] . Utils::getUrlParameters( $parameters );
-		}
-
-		public function getListingUrl( $parameters = null ) {
-			if ( $parameters == null ) {
-				$parameters = array();
-			}
-
-			$parameters['wrap'] = 'index';
-			foreach ( $_REQUEST as $key => $value ) {
-				if ( ! isset( $parameters[ $key ] ) ) {
-					$parameters[ $key ] = $value;
-				}
-			}
-
-			$baseUrl = explode( '?', $_SERVER['REQUEST_URI'] );
-
-			return $baseUrl[0] . Utils::getUrlParameters( $parameters );
-		}
-
-		public function setupExposeHtml( \OpenEstate\PhpExport\View\ExposeHtml $view ) {
-			parent::setupExposeHtml( $view );
-			$view->setBodyOnly( true );
-		}
-
-		public function setupFavoriteHtml( \OpenEstate\PhpExport\View\FavoriteHtml $view ) {
-			parent::setupFavoriteHtml( $view );
-			$view->setBodyOnly( true );
-		}
-
-		public function setupListingHtml( \OpenEstate\PhpExport\View\ListingHtml $view ) {
-			parent::setupListingHtml( $view );
-			$view->setBodyOnly( true );
-		}
-
-		public function setupTheme( \OpenEstate\PhpExport\Theme\AbstractTheme $theme ) {
-			parent::setupTheme( $theme );
-
-			// register disabled components
-			$disabledComponents = explode( ',', trim( get_option( 'openestate_wrapper_disabledComponents' ) ) );
-			foreach ( $disabledComponents as $componentId ) {
-				$theme->setComponentEnabled( $componentId, false );
-			}
-		}
-	}
+	require_once( __DIR__ . '/config.php' );
 
 	try {
 		$config = new WrapperConfig( $scriptPath, $scriptUrl );
@@ -313,32 +230,78 @@ function openestate_wrapper_wp() {
 			$settings[ $key ] = $value;
 		}
 	}
+	//die( '<pre>' . print_r( $settings, true ) . '</pre>' );
 
+	// determine the script to load
+	$wrap = ( isset( $_REQUEST['wrap'] ) ) ? $_REQUEST['wrap'] : null;
+	if ( ! is_string( $wrap ) && isset( $settings['wrap'] ) ) {
+		$wrap = $settings['wrap'];
+	}
+
+	$wrapAction = $wrap == 'action';
 	try {
 		// set requested language
-		$lang = ( isset( $settings['lang'] ) ) ? strtolower( trim( $settings['lang'] ) ) : null;
-		if ( $lang != null && $environment->isSupportedLanguage( $lang ) ) {
-			$environment->setLanguage( $lang );
+		if ( ! isset( $_REQUEST['wrap'] ) ) {
+			$lang = ( isset( $settings['lang'] ) ) ? strtolower( trim( $settings['lang'] ) ) : null;
+			if ( $lang != null && $environment->isSupportedLanguage( $lang ) ) {
+				$environment->setLanguage( $lang );
+			}
 		}
 
 		// process the requested action, if necessary
-		$environment->processAction();
+		$actionResult = $environment->processAction();
 
-		// determine the script to load
-		$wrap = ( isset( $_REQUEST['wrap'] ) ) ? $_REQUEST['wrap'] : null;
-		if ( ! is_string( $wrap ) && isset( $settings['wrap'] ) ) {
-			$wrap = $settings['wrap'];
+		// send the result of the requested action
+		if ( $wrapAction ) {
+			ob_start();
+			if ( $actionResult === null ) {
+				\http_response_code( 501 );
+				echo Utils::getJson( array( 'error' => 'No action was executed!' ) );
+			} else {
+				echo Utils::getJson( $actionResult );
+			}
+
+			return;
 		}
 
-		// wrap expose.php
+		// wrap expose view
 		if ( strtolower( $wrap ) == 'expose' ) {
+
 			$view = $environment->newExposeHtml();
-		} // wrap fav.php
+
+			if ( $view->getObjectId() == null ) {
+				$view->setObjectId( isset( $settings['id'] ) ? $settings['id'] : null );
+			}
+
+		} // wrap favorite view
 		else if ( strtolower( $wrap ) == 'fav' ) {
+
 			$view = $environment->newFavoriteHtml();
-		} // wrap index.php by default
+			if ( ! isset( $_REQUEST['wrap'] ) && ! isset( $_REQUEST['update'] ) ) {
+				$environment->getSession()->setFavoritePage( null );
+				$environment->getSession()->setFavoriteView(
+					( isset( $settings['view'] ) ) ? $settings['view'] : null );
+				$environment->getSession()->setFavoriteOrder(
+					( isset( $settings['order_by'] ) ) ? $settings['order_by'] : null );
+				$environment->getSession()->setFavoriteOrderDirection(
+					( isset( $settings['order_dir'] ) ) ? $settings['order_dir'] : null );
+			}
+
+		} // wrap listing view by default
 		else {
+
 			$view = $environment->newListingHtml();
+			if ( ! isset( $_REQUEST['wrap'] ) && ! isset( $_REQUEST['update'] ) ) {
+				$environment->getSession()->setListingPage( null );
+				$environment->getSession()->setListingView(
+					( isset( $settings['view'] ) ) ? $settings['view'] : null );
+				$environment->getSession()->setListingFilters(
+					( isset( $settings['filter'] ) ) ? $settings['filter'] : null );
+				$environment->getSession()->setListingOrder(
+					( isset( $settings['order_by'] ) ) ? $settings['order_by'] : null );
+				$environment->getSession()->setListingOrderDirection(
+					( isset( $settings['order_dir'] ) ) ? $settings['order_dir'] : null );
+			}
 		}
 
 		// register generated content for later inclusion
@@ -350,14 +313,34 @@ function openestate_wrapper_wp() {
 		//Utils::logError($e);
 		Utils::logWarning( $e );
 
+		// send error as action result
+		if ( $wrapAction ) {
+			// ignore previously buffered output
+			\ob_end_clean();
+			\ob_start();
+
+			if ( ! \headers_sent() ) {
+				\http_response_code( 500 );
+			}
+			echo Utils::getJson( array( 'error' => $e->getMessage() ) );
+			exit( 0 );
+		}
+
 		// register generated content for later inclusion
 		$GLOBALS['openestate']['wrapper']['content'] = '<h2>An internal error occurred!</h2>'
 		                                               . '<p>' . $e->getMessage() . '</p>'
 		                                               . '<pre>' . $e . '</pre>';
 	} finally {
 
-		$environment->shutdown();
+		// send action result
+		if ( $wrapAction ) {
+			$actionResult = ob_get_clean();
+			$environment->shutdown();
+			echo $actionResult;
+			exit( 0 );
+		}
 
+		$environment->shutdown();
 	}
 }
 
@@ -394,34 +377,61 @@ function openestate_wrapper_admin_menu() {
  *
  * @see https://codex.wordpress.org/Administration_Menus
  * @see https://codex.wordpress.org/Plugin_API/Action_Reference/admin_init
+ * @see https://codex.wordpress.org/Function_Reference/register_setting
  */
 function openestate_wrapper_admin_init() {
 	// register script path setting
-	// see https://codex.wordpress.org/Function_Reference/register_setting
 	register_setting(
 		'openestate-wrapper-setup',
 		'openestate_wrapper_script_path'
 	);
 
 	// register script url setting
-	// see https://codex.wordpress.org/Function_Reference/register_setting
 	register_setting(
 		'openestate-wrapper-setup',
 		'openestate_wrapper_script_url'
 	);
 
 	// register disabled components setting
-	// see https://codex.wordpress.org/Function_Reference/register_setting
 	register_setting(
 		'openestate-wrapper-theme',
 		'openestate_wrapper_disabledComponents'
 	);
 
 	// register custom css setting
-	// see https://codex.wordpress.org/Function_Reference/register_setting
 	register_setting(
 		'openestate-wrapper-theme',
 		'openestate_wrapper_customCss'
+	);
+
+	// register charset setting
+	register_setting(
+		'openestate-wrapper-theme',
+		'openestate_wrapper_charset'
+	);
+
+	// register favorites setting
+	register_setting(
+		'openestate-wrapper-theme',
+		'openestate_wrapper_favorites'
+	);
+
+	// register language selection setting
+	register_setting(
+		'openestate-wrapper-theme',
+		'openestate_wrapper_languages'
+	);
+
+	// register filtering setting
+	register_setting(
+		'openestate-wrapper-theme',
+		'openestate_wrapper_filtering'
+	);
+
+	// register ordering setting
+	register_setting(
+		'openestate-wrapper-theme',
+		'openestate_wrapper_ordering'
 	);
 }
 

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenEstate PHP-Wrapper\n"
 "Report-Msgid-Bugs-To: info@openestate.org\n"
-"POT-Creation-Date: 2018-11-01 23:25+0100\n"
-"PO-Revision-Date: 2018-11-01 23:25+0100\n"
+"POT-Creation-Date: 2018-11-02 06:10+0100\n"
+"PO-Revision-Date: 2018-11-02 06:10+0100\n"
 "Last-Translator: Andreas Rudolph <andy@openindex.de>\n"
 "Language-Team: OpenEstate.org <info@openestate.org>\n"
 "Language: de_DE\n"
@@ -47,7 +47,7 @@ msgstr "Die ImmoTool-Skripte sind korrekt eingebunden."
 msgid "version"
 msgstr "Version"
 
-#: admin.php:124 openestate-php-wrapper.php:281
+#: admin.php:124 openestate-php-wrapper.php:198
 msgid "The exported scripts are NOT correctly configured."
 msgstr "Die ImmoTool-Skripte sind NICHT korrekt eingebunden."
 
@@ -91,7 +91,7 @@ msgstr ""
 "Tragen Sie die Webadresse ein, unter welcher der ImmoTool-Export aus dem "
 "Internet erreichbar ist. Die Webadresse dieser WordPress-Installation lautet:"
 
-#: admin.php:168 admin.php:605
+#: admin.php:168 admin.php:654
 msgid "Save"
 msgstr "Speichern"
 
@@ -154,18 +154,27 @@ msgid "property ID"
 msgstr "Immobilien-ID"
 
 #: admin.php:450
-msgid "Favourites"
-msgstr "Vormerkliste"
+msgid "Favorites"
+msgstr "Favoriten"
 
 #: admin.php:558
 msgid "Further options"
 msgstr "Weitere Optionen"
 
 #: admin.php:565
+msgid "charset"
+msgstr "Zeichensatz"
+
+#: admin.php:574
+msgid "Enter the charset, that is used on this website."
+msgstr ""
+"Tragen Sie den Zeichensatz ein, der auf dieser Webseite verwendet wird."
+
+#: admin.php:581
 msgid "custom stylesheet"
 msgstr "individueller Stylesheet"
 
-#: admin.php:573
+#: admin.php:589
 msgid ""
 "You can provide custom stylesheets, that are loaded together with the PHP "
 "export."
@@ -173,11 +182,11 @@ msgstr ""
 "Sie können individuelle Stylesheets hinterlegen, die zusätzlich zum PHP-"
 "Export geladen werden."
 
-#: admin.php:579
+#: admin.php:595
 msgid "embedded components"
 msgstr "eingebettete Komponenten"
 
-#: admin.php:597
+#: admin.php:613
 msgid ""
 "The PHP export integrates these third party components into your WordPress "
 "blog."
@@ -185,13 +194,33 @@ msgstr ""
 "Der PHP-Export integriert diese Komponenten von Drittanbietern in Ihre "
 "WordPress-Seite."
 
-#: admin.php:598
+#: admin.php:614
 msgid ""
 "If your website already uses some of these components, you can disable them "
 "accordingly."
 msgstr ""
 "Wenn Ihre Webseite bereits eine dieser Komponenten verwenden, können Sie "
 "diese entsprechend deaktivieren."
+
+#: admin.php:621
+msgid "features"
+msgstr "Funktionen"
+
+#: admin.php:629
+msgid "Enable filtering of object listings."
+msgstr "Filterung von Listenansichten aktivieren."
+
+#: admin.php:635
+msgid "Enable ordering of object listings."
+msgstr "Sortierung von Listenansichten aktivieren."
+
+#: admin.php:641
+msgid "Enable favorites."
+msgstr "Verwaltung von Favoriten aktivieren."
+
+#: admin.php:647
+msgid "Enable language selection."
+msgstr "Auswahl der Sprache aktivieren."
 
 #: openestate-php-wrapper.php:31
 msgid "Please enter a valid script path."
@@ -211,22 +240,22 @@ msgstr "Es ist anscheinend kein PHP-Export unter dem Skript-Pfad vorhanden."
 msgid "Can't detect the script version."
 msgstr "Die Skript-Version konnte nicht ermittelt werden."
 
-#: openestate-php-wrapper.php:163
+#: openestate-php-wrapper.php:80
 msgid "Can't init script environment."
 msgstr "Die Skript-Umgebung kann nicht initialisiert werden."
 
-#: openestate-php-wrapper.php:294
+#: openestate-php-wrapper.php:211
 msgid "The properties are currently updated."
 msgstr "Der Immobilienbestand wird momentan aktualisiert."
 
-#: openestate-php-wrapper.php:295
+#: openestate-php-wrapper.php:212
 msgid "Please revisit this page after some minutes."
 msgstr "Bitte besuchen Sie diese Seite in wenigen Minuten erneut."
 
-#: openestate-php-wrapper.php:510
+#: openestate-php-wrapper.php:520
 msgid "Properties are only loaded on a singular page view."
 msgstr "Immobilien werden nur auf der Einzelansicht einer Seite dargestellt."
 
-#: openestate-php-wrapper.php:512
+#: openestate-php-wrapper.php:522
 msgid "Can't load properties."
 msgstr "Immobilien konnten nicht geladen werden."

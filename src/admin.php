@@ -447,7 +447,7 @@ if ( $environment->isSupportedLanguage( $locale ) ) {
                 <input type="radio" id="openestate_wrap_fav" name="openestate_wrap" value="fav"
                        onchange="openestate_update_shortcode();"/>
                 <label for="openestate_wrap_fav">
-					<?= esc_html__( 'Favourites', 'openestate-php-wrapper' ) ?> / fav.php
+					<?= esc_html__( 'Favorites', 'openestate-php-wrapper' ) ?> / fav.php
                 </label>
             </h4>
             <table id="openestate_wrap_fav_settings" class="openestate-wrapper-admin" style="visibility:collapse;">
@@ -561,6 +561,22 @@ if ( $environment->isSupportedLanguage( $locale ) ) {
                 <table class="openestate-wrapper-admin">
                     <tr>
                         <td>
+                            <label for="openestate_wrapper_charset">
+								<?= esc_html__( 'charset', 'openestate-php-wrapper' ) ?>
+                            </label>
+                        </td>
+                        <td>
+                            <input id="openestate_wrapper_charset" name="openestate_wrapper_charset" type="text"
+                                   style="width:100%;"
+                                   value="<?= html( get_option( 'openestate_wrapper_charset', 'UTF-8' ) ) ?>">
+                            <br>
+                            <em>
+								<?= esc_html__( 'Enter the charset, that is used on this website.', 'openestate-php-wrapper' ) ?>
+                            </em>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
                             <label for="openestate_wrapper_customCss">
 								<?= esc_html__( 'custom stylesheet', 'openestate-php-wrapper' ) ?>
                             </label>
@@ -589,7 +605,7 @@ if ( $environment->isSupportedLanguage( $locale ) ) {
                                            value="<?= html( $componentId ) ?>"
 										<?= ( ! in_array( $componentId, $disabledComponents ) ) ? 'checked="checked"' : '' ?>
                                            onchange="openestate_update_components();"/>
-                                    <i><?= html( $componentId ) ?></i>
+                                    <?= html( $componentId ) ?>
                                 </label>
 							<?php } ?>
                             <br>
@@ -597,6 +613,39 @@ if ( $environment->isSupportedLanguage( $locale ) ) {
 								<?= esc_html__( 'The PHP export integrates these third party components into your WordPress blog.', 'openestate-php-wrapper' ) ?>
 								<?= esc_html__( 'If your website already uses some of these components, you can disable them accordingly.', 'openestate-php-wrapper' ) ?>
                             </em>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="openestate_wrapper_charset">
+								<?= esc_html__( 'features', 'openestate-php-wrapper' ) ?>
+                            </label>
+                        </td>
+                        <td>
+                            <label style="display:block; margin-bottom:0.5em;">
+                                <input id="openestate_wrapper_filtering" name="openestate_wrapper_filtering"
+                                       type="checkbox" value="1"
+			                        <?= ( \trim( \get_option( 'openestate_wrapper_filtering' ) ) === '1' ) ? 'checked="checked"' : '' ?>/>
+		                        <?= esc_html__( 'Enable filtering of object listings.', 'openestate-php-wrapper' ) ?>
+                            </label>
+                            <label style="display:block; margin-bottom:0.5em;">
+                                <input id="openestate_wrapper_ordering" name="openestate_wrapper_ordering"
+                                       type="checkbox" value="1"
+			                        <?= ( \trim( \get_option( 'openestate_wrapper_ordering' ) ) === '1' ) ? 'checked="checked"' : '' ?>/>
+		                        <?= esc_html__( 'Enable ordering of object listings.', 'openestate-php-wrapper' ) ?>
+                            </label>
+                            <label style="display:block; margin-bottom:0.5em;">
+                                <input id="openestate_wrapper_favorites" name="openestate_wrapper_favorites"
+                                       type="checkbox" value="1"
+			                        <?= ( \trim( \get_option( 'openestate_wrapper_favorites' ) ) === '1' ) ? 'checked="checked"' : '' ?>/>
+		                        <?= esc_html__( 'Enable favorites.', 'openestate-php-wrapper' ) ?>
+                            </label>
+                            <label style="display:block; margin-bottom:0.5em;">
+                                <input id="openestate_wrapper_languages" name="openestate_wrapper_languages"
+                                       type="checkbox" value="1"
+			                        <?= ( \trim( \get_option( 'openestate_wrapper_languages' ) ) === '1' ) ? 'checked="checked"' : '' ?>/>
+		                        <?= esc_html__( 'Enable language selection.', 'openestate-php-wrapper' ) ?>
+                            </label>
                         </td>
                     </tr>
                 </table>

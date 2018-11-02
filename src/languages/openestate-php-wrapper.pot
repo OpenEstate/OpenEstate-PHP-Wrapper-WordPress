@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openestate-php-wrapper 0.3.0\n"
 "Report-Msgid-Bugs-To: info@openestate.org\n"
-"POT-Creation-Date: 2018-11-01 23:25+0100\n"
+"POT-Creation-Date: 2018-11-02 06:10+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -45,7 +45,7 @@ msgstr ""
 msgid "version"
 msgstr ""
 
-#: admin.php:124 openestate-php-wrapper.php:281
+#: admin.php:124 openestate-php-wrapper.php:198
 msgid "The exported scripts are NOT correctly configured."
 msgstr ""
 
@@ -83,7 +83,7 @@ msgid ""
 "of this CMS installation is:"
 msgstr ""
 
-#: admin.php:168 admin.php:605
+#: admin.php:168 admin.php:654
 msgid "Save"
 msgstr ""
 
@@ -143,7 +143,7 @@ msgid "property ID"
 msgstr ""
 
 #: admin.php:450
-msgid "Favourites"
+msgid "Favorites"
 msgstr ""
 
 #: admin.php:558
@@ -151,29 +151,57 @@ msgid "Further options"
 msgstr ""
 
 #: admin.php:565
+msgid "charset"
+msgstr ""
+
+#: admin.php:574
+msgid "Enter the charset, that is used on this website."
+msgstr ""
+
+#: admin.php:581
 msgid "custom stylesheet"
 msgstr ""
 
-#: admin.php:573
+#: admin.php:589
 msgid ""
 "You can provide custom stylesheets, that are loaded together with the PHP "
 "export."
 msgstr ""
 
-#: admin.php:579
+#: admin.php:595
 msgid "embedded components"
 msgstr ""
 
-#: admin.php:597
+#: admin.php:613
 msgid ""
 "The PHP export integrates these third party components into your WordPress "
 "blog."
 msgstr ""
 
-#: admin.php:598
+#: admin.php:614
 msgid ""
 "If your website already uses some of these components, you can disable them "
 "accordingly."
+msgstr ""
+
+#: admin.php:621
+msgid "features"
+msgstr ""
+
+#: admin.php:629
+msgid "Enable filtering of object listings."
+msgstr ""
+
+#: admin.php:635
+msgid "Enable ordering of object listings."
+msgstr ""
+
+#: admin.php:641
+msgid "Enable favorites."
+msgstr ""
+
+#: admin.php:647
+msgid "Enable language selection."
 msgstr ""
 
 #: openestate-php-wrapper.php:31
@@ -192,22 +220,22 @@ msgstr ""
 msgid "Can't detect the script version."
 msgstr ""
 
-#: openestate-php-wrapper.php:163
+#: openestate-php-wrapper.php:80
 msgid "Can't init script environment."
 msgstr ""
 
-#: openestate-php-wrapper.php:294
+#: openestate-php-wrapper.php:211
 msgid "The properties are currently updated."
 msgstr ""
 
-#: openestate-php-wrapper.php:295
+#: openestate-php-wrapper.php:212
 msgid "Please revisit this page after some minutes."
 msgstr ""
 
-#: openestate-php-wrapper.php:510
+#: openestate-php-wrapper.php:520
 msgid "Properties are only loaded on a singular page view."
 msgstr ""
 
-#: openestate-php-wrapper.php:512
+#: openestate-php-wrapper.php:522
 msgid "Can't load properties."
 msgstr ""
