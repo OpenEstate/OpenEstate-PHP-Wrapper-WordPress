@@ -37,6 +37,13 @@ function openestate_wrapper_env( $scriptPath, $scriptUrl, $initSession, &$errors
 	//echo '<pre>'.print_r($_COOKIE, true).'</pre>';
 
 	if ( is_file( $scriptPath . 'include/functions.php' ) ) {
+		if ( ! defined( 'IN_WEBSITE' ) ) {
+			define( 'IN_WEBSITE', 1 );
+		}
+		if ( ! defined( 'IMMOTOOL_BASE_PATH' ) ) {
+			define( 'IMMOTOOL_BASE_PATH', $scriptPath );
+		}
+
 		/** @noinspection PhpIncludeInspection */
 		require_once( $scriptPath . 'include/functions.php' );
 
