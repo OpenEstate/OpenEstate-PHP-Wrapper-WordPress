@@ -2,12 +2,13 @@
 
 /** @noinspection HtmlUnknownTarget, HtmlFormInputWithoutLabel, ES6ConvertVarToLetConst */
 
+use \OpenEstate\PhpExport\Utils;
 use const \OpenEstate\PhpExport\VERSION;
 use function htmlspecialchars as html;
 
 // get information about this plugin
 // see https://codex.wordpress.org/Function_Reference/get_plugin_data
-$pluginData    = get_plugin_data( __FILE__ );
+$pluginData    = get_plugin_data( __DIR__ . '/openestate-php-wrapper.php' );
 $pluginVersion = ( is_array( $pluginData ) && isset( $pluginData['Version'] ) ) ?
 	$pluginData['Version'] : '???';
 
@@ -31,16 +32,18 @@ $errors      = array();
 $environment = openestate_wrapper_env( $scriptPath, $scriptUrl, false, $errors );
 
 // set current language, if available
-$locale = get_locale();
-if ( $environment->isSupportedLanguage( $locale ) ) {
-	//echo 'SET LANGUAGE: ' . $locale;
-	$environment->setLanguage( $locale );
-} else {
-	$l    = explode( '_', $locale );
-	$lang = strtolower( $l[0] );
-	if ( $environment->isSupportedLanguage( $lang ) ) {
-		//echo 'SET LANGUAGE: ' . $lang;
-		$environment->setLanguage( $lang );
+if ( $environment != null ) {
+	$locale = get_locale();
+	if ( $environment->isSupportedLanguage( $locale ) ) {
+		$environment->setLanguage( $locale );
+	} else {
+		$l    = explode( '_', $locale );
+		$lang = strtolower( $l[0] );
+		if ( $environment->isSupportedLanguage( $lang ) ) {
+			$environment->setLanguage( $lang );
+		} else {
+			Utils::createTranslator( $environment )->register();
+		}
 	}
 }
 
@@ -215,7 +218,7 @@ if ( $environment->isSupportedLanguage( $locale ) ) {
 							 * filter instance
 							 * @var \OpenEstate\PhpExport\Filter\AbstractFilter $filterObj
 							 */
-							echo '                            ';
+							echo '							';
 							echo 'filters[' . $i . '] = \'' . html( $filterObj->getName() ) . '\';' . "\n";
 							$i ++;
 						}
@@ -605,7 +608,7 @@ if ( $environment->isSupportedLanguage( $locale ) ) {
                                            value="<?= html( $componentId ) ?>"
 										<?= ( ! in_array( $componentId, $disabledComponents ) ) ? 'checked="checked"' : '' ?>
                                            onchange="openestate_update_components();"/>
-                                    <?= html( $componentId ) ?>
+									<?= html( $componentId ) ?>
                                 </label>
 							<?php } ?>
                             <br>
@@ -625,26 +628,26 @@ if ( $environment->isSupportedLanguage( $locale ) ) {
                             <label style="display:block; margin-bottom:0.5em;">
                                 <input id="openestate_wrapper_filtering" name="openestate_wrapper_filtering"
                                        type="checkbox" value="1"
-			                        <?= ( \trim( \get_option( 'openestate_wrapper_filtering' ) ) === '1' ) ? 'checked="checked"' : '' ?>/>
-		                        <?= esc_html__( 'Enable filtering of object listings.', 'openestate-php-wrapper' ) ?>
+									<?= ( \trim( \get_option( 'openestate_wrapper_filtering' ) ) === '1' ) ? 'checked="checked"' : '' ?>/>
+								<?= esc_html__( 'Enable filtering of object listings.', 'openestate-php-wrapper' ) ?>
                             </label>
                             <label style="display:block; margin-bottom:0.5em;">
                                 <input id="openestate_wrapper_ordering" name="openestate_wrapper_ordering"
                                        type="checkbox" value="1"
-			                        <?= ( \trim( \get_option( 'openestate_wrapper_ordering' ) ) === '1' ) ? 'checked="checked"' : '' ?>/>
-		                        <?= esc_html__( 'Enable ordering of object listings.', 'openestate-php-wrapper' ) ?>
+									<?= ( \trim( \get_option( 'openestate_wrapper_ordering' ) ) === '1' ) ? 'checked="checked"' : '' ?>/>
+								<?= esc_html__( 'Enable ordering of object listings.', 'openestate-php-wrapper' ) ?>
                             </label>
                             <label style="display:block; margin-bottom:0.5em;">
                                 <input id="openestate_wrapper_favorites" name="openestate_wrapper_favorites"
                                        type="checkbox" value="1"
-			                        <?= ( \trim( \get_option( 'openestate_wrapper_favorites' ) ) === '1' ) ? 'checked="checked"' : '' ?>/>
-		                        <?= esc_html__( 'Enable favorites.', 'openestate-php-wrapper' ) ?>
+									<?= ( \trim( \get_option( 'openestate_wrapper_favorites' ) ) === '1' ) ? 'checked="checked"' : '' ?>/>
+								<?= esc_html__( 'Enable favorites.', 'openestate-php-wrapper' ) ?>
                             </label>
                             <label style="display:block; margin-bottom:0.5em;">
                                 <input id="openestate_wrapper_languages" name="openestate_wrapper_languages"
                                        type="checkbox" value="1"
-			                        <?= ( \trim( \get_option( 'openestate_wrapper_languages' ) ) === '1' ) ? 'checked="checked"' : '' ?>/>
-		                        <?= esc_html__( 'Enable language selection.', 'openestate-php-wrapper' ) ?>
+									<?= ( \trim( \get_option( 'openestate_wrapper_languages' ) ) === '1' ) ? 'checked="checked"' : '' ?>/>
+								<?= esc_html__( 'Enable language selection.', 'openestate-php-wrapper' ) ?>
                             </label>
                         </td>
                     </tr>
