@@ -2,7 +2,7 @@ OpenEstate-PHP-Wrapper for WordPress 0.4-SNAPSHOT
 =================================================
 
 This plugin integrates [*OpenEstate-PHP-Export*](https://github.com/OpenEstate/OpenEstate-PHP-Export) 
-(in **version 1.x**) into a *WordPress* blog. You can find more information at the 
+(in **version 2.x**) into a *WordPress* blog. You can find more information at the 
 [*WordPress* plugin page](https://wordpress.org/plugins/openestate-php-wrapper/).
 
 
@@ -18,7 +18,7 @@ As one certain feature of this software, the managed properties can be exported 
 Together with this plugin the exported properties can be easily integrated into a *WordPress* based website without any 
 frames.
 
-**Please notice:** This plugin version does only work with PHP exports in version 1.x!
+**Please notice:** This plugin version does only work with PHP exports in version 2.x!
 
 ### Deutsch
 
@@ -30,7 +30,7 @@ Unter anderem können die im *OpenEstate-ImmoTool* verwalteten Immobilien als *P
 exportiert werden. Mit Hilfe dieses Plugins kann der *PHP*-Export unkompliziert in eine auf *WordPress* basierende 
 Webseite integriert werden.
 
-**Bitte beachten:** Diese Version des Plugins kann nur mit PHP-Exporten in Version 1.x genutzt werden!
+**Bitte beachten:** Diese Version des Plugins kann nur mit PHP-Exporten in Version 2.x genutzt werden!
 
 
 Installation

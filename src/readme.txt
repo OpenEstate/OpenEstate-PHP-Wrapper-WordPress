@@ -2,8 +2,8 @@
 Contributors: OpenEstate
 Donate link: https://openestate.org/openestate/sponsors
 Tags: homes, listings, openestate, promote, properties, property, real estate, realestate, real-estate, realty, wrapper
-Requires PHP: 5.0
-Requires at least: 3.0.0
+Requires PHP: 5.6
+Requires at least: 3.6.0
 Tested up to: 4.9.8
 Stable tag: 0.4-SNAPSHOT
 License: GPLv2 or later
@@ -20,7 +20,7 @@ The [*OpenEstate* project](https://openestate.org) provides a freeware software 
 
 As one certain feature of this software, the managed properties can be exported to any website that supports *PHP*. Together with this plugin the exported properties can be easily integrated into a *WordPress* based website without any frames.
 
-**Please notice:** This plugin version does only work with PHP exports in version 1.x!
+**Please notice:** This plugin version does only work with PHP exports in version 2.x!
 
 = Deutsch =
 
@@ -28,7 +28,7 @@ Im Rahmen des [*OpenEstate*-Projekts](https://openestate.org) wird unter anderem
 
 Unter anderem können die im *OpenEstate-ImmoTool* verwalteten Immobilien als *PHP*-Skripte auf die eigene Webseite exportiert werden. Mit Hilfe dieses Plugins kann der *PHP*-Export unkompliziert in eine auf *WordPress* basierende Webseite integriert werden.
 
-**Bitte beachten:** Diese Version des Plugins kann nur mit PHP-Exporten in Version 1.x genutzt werden!
+**Bitte beachten:** Diese Version des Plugins kann nur mit PHP-Exporten in Version 2.x genutzt werden!
 
 
 == Installation ==
