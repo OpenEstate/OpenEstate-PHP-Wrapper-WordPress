@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openestate-php-wrapper 0.3.0\n"
 "Report-Msgid-Bugs-To: info@openestate.org\n"
-"POT-Creation-Date: 2018-11-02 06:10+0100\n"
+"POT-Creation-Date: 2018-11-25 04:25+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,190 +17,190 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: admin.php:73
+#: admin.php:76
 msgid "Module"
 msgstr ""
 
-#: admin.php:78
+#: admin.php:81
 msgid "License"
 msgstr ""
 
-#: admin.php:84
+#: admin.php:87
 msgid "Authors"
 msgstr ""
 
-#: admin.php:92
+#: admin.php:95
 msgid "Support us!"
 msgstr ""
 
-#: admin.php:108
+#: admin.php:111
 msgid "Configure exported scripts"
 msgstr ""
 
-#: admin.php:118
+#: admin.php:121
 msgid "The exported scripts are correctly configured."
 msgstr ""
 
-#: admin.php:120
+#: admin.php:123
 msgid "version"
 msgstr ""
 
-#: admin.php:124 openestate-php-wrapper.php:198
+#: admin.php:127 openestate-php-wrapper.php:205
 msgid "The exported scripts are NOT correctly configured."
 msgstr ""
 
-#: admin.php:126
+#: admin.php:129
 msgid "Export your properties from ImmoTool to your website via PHP."
 msgstr ""
 
-#: admin.php:127
+#: admin.php:130
 msgid ""
 "Configure path and URL, that points to the exported scripts, and click "
 "'Save' to perform a new validation."
 msgstr ""
 
-#: admin.php:129
+#: admin.php:132
 msgid "Error messages"
 msgstr ""
 
-#: admin.php:142
+#: admin.php:145
 msgid "script path"
 msgstr ""
 
-#: admin.php:148
+#: admin.php:151
 msgid ""
 "Enter the path on your server, that points to the exported scripts. The path "
 "of this CMS installation is:"
 msgstr ""
 
-#: admin.php:155
+#: admin.php:158
 msgid "script URL"
 msgstr ""
 
-#: admin.php:161
+#: admin.php:164
 msgid ""
 "Enter the URL on your server, that points to the exported scripts. The URL "
 "of this CMS installation is:"
 msgstr ""
 
-#: admin.php:168 admin.php:654
+#: admin.php:171 admin.php:657
 msgid "Save"
 msgstr ""
 
-#: admin.php:277
+#: admin.php:280
 msgid "Configure generated view"
 msgstr ""
 
-#: admin.php:278
+#: admin.php:281
 msgid ""
 "Use the following form to generate a shortcode, that can be inserted into "
 "any article or page of your WordPress blog."
 msgstr ""
 
-#: admin.php:287
+#: admin.php:290
 msgid "Property listing"
 msgstr ""
 
-#: admin.php:294 admin.php:457
+#: admin.php:297 admin.php:460
 msgid "view"
 msgstr ""
 
-#: admin.php:299 admin.php:462
+#: admin.php:302 admin.php:465
 msgid "Tabular mode"
 msgstr ""
 
-#: admin.php:300 admin.php:463
+#: admin.php:303 admin.php:466
 msgid "Gallery mode"
 msgstr ""
 
-#: admin.php:308 admin.php:471
+#: admin.php:311 admin.php:474
 msgid "order by"
 msgstr ""
 
-#: admin.php:335 admin.php:494
+#: admin.php:338 admin.php:497
 msgid "ascending"
 msgstr ""
 
-#: admin.php:336 admin.php:495
+#: admin.php:339 admin.php:498
 msgid "descending"
 msgstr ""
 
-#: admin.php:372
+#: admin.php:375
 #, php-format
 msgid "filter by %s"
 msgstr ""
 
-#: admin.php:388 admin.php:427 admin.php:503
+#: admin.php:391 admin.php:430 admin.php:506
 msgid "language"
 msgstr ""
 
-#: admin.php:409
+#: admin.php:412
 msgid "Property details"
 msgstr ""
 
-#: admin.php:416
+#: admin.php:419
 msgid "property ID"
 msgstr ""
 
-#: admin.php:450
+#: admin.php:453
 msgid "Favorites"
 msgstr ""
 
-#: admin.php:558
+#: admin.php:561
 msgid "Further options"
 msgstr ""
 
-#: admin.php:565
+#: admin.php:568
 msgid "charset"
 msgstr ""
 
-#: admin.php:574
+#: admin.php:577
 msgid "Enter the charset, that is used on this website."
 msgstr ""
 
-#: admin.php:581
+#: admin.php:584
 msgid "custom stylesheet"
 msgstr ""
 
-#: admin.php:589
+#: admin.php:592
 msgid ""
 "You can provide custom stylesheets, that are loaded together with the PHP "
 "export."
 msgstr ""
 
-#: admin.php:595
+#: admin.php:598
 msgid "embedded components"
 msgstr ""
 
-#: admin.php:613
+#: admin.php:616
 msgid ""
 "The PHP export integrates these third party components into your WordPress "
 "blog."
 msgstr ""
 
-#: admin.php:614
+#: admin.php:617
 msgid ""
 "If your website already uses some of these components, you can disable them "
 "accordingly."
 msgstr ""
 
-#: admin.php:621
+#: admin.php:624
 msgid "features"
 msgstr ""
 
-#: admin.php:629
+#: admin.php:632
 msgid "Enable filtering of object listings."
 msgstr ""
 
-#: admin.php:635
+#: admin.php:638
 msgid "Enable ordering of object listings."
 msgstr ""
 
-#: admin.php:641
+#: admin.php:644
 msgid "Enable favorites."
 msgstr ""
 
-#: admin.php:647
+#: admin.php:650
 msgid "Enable language selection."
 msgstr ""
 
@@ -208,34 +208,34 @@ msgstr ""
 msgid "Please enter a valid script path."
 msgstr ""
 
-#: openestate-php-wrapper.php:44
+#: openestate-php-wrapper.php:51
 msgid "It seems, that you're using an unsupported version of PHP export."
 msgstr ""
 
-#: openestate-php-wrapper.php:54
+#: openestate-php-wrapper.php:61
 msgid "It seems, that there is no PHP export available within the script path."
 msgstr ""
 
-#: openestate-php-wrapper.php:67
+#: openestate-php-wrapper.php:74
 msgid "Can't detect the script version."
 msgstr ""
 
-#: openestate-php-wrapper.php:80
+#: openestate-php-wrapper.php:87
 msgid "Can't init script environment."
 msgstr ""
 
-#: openestate-php-wrapper.php:211
+#: openestate-php-wrapper.php:218
 msgid "The properties are currently updated."
 msgstr ""
 
-#: openestate-php-wrapper.php:212
+#: openestate-php-wrapper.php:219
 msgid "Please revisit this page after some minutes."
 msgstr ""
 
-#: openestate-php-wrapper.php:520
+#: openestate-php-wrapper.php:527
 msgid "Properties are only loaded on a singular page view."
 msgstr ""
 
-#: openestate-php-wrapper.php:522
+#: openestate-php-wrapper.php:529
 msgid "Can't load properties."
 msgstr ""
