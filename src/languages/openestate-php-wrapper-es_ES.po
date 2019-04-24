@@ -7,255 +7,236 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openestate-php-wrapper 0.4.0\n"
 "Report-Msgid-Bugs-To: info@openestate.org\n"
-"POT-Creation-Date: 2018-11-25 04:22+0100\n"
-"PO-Revision-Date: 2018-11-02 06:10+0100\n"
+"POT-Creation-Date: 2019-04-24 22:46+0200\n"
+"PO-Revision-Date: 2019-04-23 19:41+0200\n"
 "Last-Translator: Andreas Rudolph <andy@openindex.de>\n"
-"Language-Team: OpenEstate.org <info@openestate.org>\n"
-"Language: de_DE\n"
+"Language-Team: \n"
+"Language: es_ES\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.2.1\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.2\n"
-"X-Poedit-SourceCharset: UTF-8\n"
 
 #: admin.php:76
 msgid "Module"
-msgstr "Modul"
+msgstr ""
 
 #: admin.php:81
 msgid "License"
-msgstr "Lizenz"
+msgstr ""
 
 #: admin.php:87
 msgid "Authors"
-msgstr "Autoren"
+msgstr ""
 
 #: admin.php:95
 msgid "Support us!"
-msgstr "Unterstützen Sie uns!"
+msgstr ""
 
 #: admin.php:111
 msgid "Configure exported scripts"
-msgstr "Anbindung der ImmoTool-Skripte"
+msgstr ""
 
 #: admin.php:121
 msgid "The exported scripts are correctly configured."
-msgstr "Die ImmoTool-Skripte sind korrekt eingebunden."
+msgstr ""
 
 #: admin.php:123
 msgid "version"
-msgstr "Version"
+msgstr ""
 
 #: admin.php:127 openestate-php-wrapper.php:205
 msgid "The exported scripts are NOT correctly configured."
-msgstr "Die ImmoTool-Skripte sind NICHT korrekt eingebunden."
+msgstr ""
 
 #: admin.php:129
 msgid "Export your properties from ImmoTool to your website via PHP."
-msgstr "Führen Sie einen PHP-Export via ImmoTool auf diesen Webspace durch."
+msgstr ""
 
 #: admin.php:130
 msgid ""
 "Configure path and URL, that points to the exported scripts, and click "
 "'Save' to perform a new validation."
 msgstr ""
-"Tragen Sie Pfad und URL des Exports ein und klicken Sie zur erneuten Prüfung "
-"auf 'Speichern'."
 
 #: admin.php:132
 msgid "Error messages"
-msgstr "Fehlermeldungen"
+msgstr ""
 
 #: admin.php:145
 msgid "script path"
-msgstr "Skript-Pfad"
+msgstr ""
 
 #: admin.php:151
 msgid ""
 "Enter the path on your server, that points to the exported scripts. The path "
 "of this CMS installation is:"
 msgstr ""
-"Tragen Sie den Pfad des Servers ein, unter dem die vom ImmoTool erzeugten "
-"Skripte abgelegt wurden. Der Serverpfad dieser WordPress-Installation lautet:"
 
 #: admin.php:158
 msgid "script URL"
-msgstr "Skript-URL"
+msgstr ""
 
 #: admin.php:164
 msgid ""
 "Enter the URL on your server, that points to the exported scripts. The URL "
 "of this CMS installation is:"
 msgstr ""
-"Tragen Sie die Webadresse ein, unter welcher der ImmoTool-Export aus dem "
-"Internet erreichbar ist. Die Webadresse dieser WordPress-Installation lautet:"
 
 #: admin.php:171 admin.php:657
 msgid "Save"
-msgstr "Speichern"
+msgstr ""
 
 #: admin.php:280
 msgid "Configure generated view"
-msgstr "Darstellung auf der Webseite"
+msgstr ""
 
 #: admin.php:281
 msgid ""
 "Use the following form to generate a shortcode, that can be inserted into "
 "any article or page of your WordPress blog."
 msgstr ""
-"Verwenden Sie das folgende Formular, um einen Shortcode zu erzeugen. Der "
-"erzeugte Shortcode kann in einen Artikel oder eine Seite von WordPress "
-"eingefügt werden."
 
 #: admin.php:290
 msgid "Property listing"
-msgstr "Immobilienübersicht"
+msgstr ""
 
 #: admin.php:297 admin.php:460
 msgid "view"
-msgstr "Ansicht"
+msgstr ""
 
 #: admin.php:302 admin.php:465
 msgid "Tabular mode"
-msgstr "Ansicht als Liste"
+msgstr ""
 
 #: admin.php:303 admin.php:466
 msgid "Gallery mode"
-msgstr "Ansicht als Galerie"
+msgstr ""
 
 #: admin.php:311 admin.php:474
 msgid "order by"
-msgstr "sortieren nach"
+msgstr ""
 
 #: admin.php:338 admin.php:497
 msgid "ascending"
-msgstr "aufsteigend"
+msgstr ""
 
 #: admin.php:339 admin.php:498
 msgid "descending"
-msgstr "absteigend"
+msgstr ""
 
 #: admin.php:375
 #, php-format
 msgid "filter by %s"
-msgstr "nach %s filtern"
+msgstr ""
 
 #: admin.php:391 admin.php:430 admin.php:506
 msgid "language"
-msgstr "Sprache"
+msgstr ""
 
 #: admin.php:412
 msgid "Property details"
-msgstr "Exposéansicht"
+msgstr ""
 
 #: admin.php:419
 msgid "property ID"
-msgstr "Immobilien-ID"
+msgstr ""
 
 #: admin.php:453
 msgid "Favorites"
-msgstr "Favoriten"
+msgstr ""
 
 #: admin.php:561
 msgid "Further options"
-msgstr "Weitere Optionen"
+msgstr ""
 
 #: admin.php:568
 msgid "charset"
-msgstr "Zeichensatz"
+msgstr ""
 
 #: admin.php:577
 msgid "Enter the charset, that is used on this website."
 msgstr ""
-"Tragen Sie den Zeichensatz ein, der auf dieser Webseite verwendet wird."
 
 #: admin.php:584
 msgid "custom stylesheet"
-msgstr "individueller Stylesheet"
+msgstr ""
 
 #: admin.php:592
 msgid ""
 "You can provide custom stylesheets, that are loaded together with the PHP "
 "export."
 msgstr ""
-"Sie können individuelle Stylesheets hinterlegen, die zusätzlich zum PHP-"
-"Export geladen werden."
 
 #: admin.php:598
 msgid "embedded components"
-msgstr "eingebettete Komponenten"
+msgstr ""
 
 #: admin.php:616
 msgid ""
 "The PHP export integrates these third party components into your WordPress "
 "blog."
 msgstr ""
-"Der PHP-Export integriert diese Komponenten von Drittanbietern in Ihre "
-"WordPress-Seite."
 
 #: admin.php:617
 msgid ""
 "If your website already uses some of these components, you can disable them "
 "accordingly."
 msgstr ""
-"Wenn Ihre Webseite bereits eine dieser Komponenten verwenden, können Sie "
-"diese entsprechend deaktivieren."
 
 #: admin.php:624
 msgid "features"
-msgstr "Funktionen"
+msgstr ""
 
 #: admin.php:632
 msgid "Enable filtering of object listings."
-msgstr "Filterung von Listenansichten aktivieren."
+msgstr ""
 
 #: admin.php:638
 msgid "Enable ordering of object listings."
-msgstr "Sortierung von Listenansichten aktivieren."
+msgstr ""
 
 #: admin.php:644
 msgid "Enable favorites."
-msgstr "Verwaltung von Favoriten aktivieren."
+msgstr ""
 
 #: admin.php:650
 msgid "Enable language selection."
-msgstr "Auswahl der Sprache aktivieren."
+msgstr ""
 
 #: openestate-php-wrapper.php:31
 msgid "Please enter a valid script path."
-msgstr "Bitte tragen Sie einen gültigen Export-Pfad ein."
+msgstr ""
 
 #: openestate-php-wrapper.php:51
 msgid "It seems, that you're using an unsupported version of PHP export."
 msgstr ""
-"Es wird anscheinend eine nicht unterstützte Version des PHP-Exports "
-"verwendet."
 
 #: openestate-php-wrapper.php:61
 msgid "It seems, that there is no PHP export available within the script path."
-msgstr "Es ist anscheinend kein PHP-Export unter dem Skript-Pfad vorhanden."
+msgstr ""
 
 #: openestate-php-wrapper.php:74
 msgid "Can't detect the script version."
-msgstr "Die Skript-Version konnte nicht ermittelt werden."
+msgstr ""
 
 #: openestate-php-wrapper.php:87
 msgid "Can't init script environment."
-msgstr "Die Skript-Umgebung kann nicht initialisiert werden."
+msgstr ""
 
 #: openestate-php-wrapper.php:218
 msgid "The properties are currently updated."
-msgstr "Der Immobilienbestand wird momentan aktualisiert."
+msgstr ""
 
 #: openestate-php-wrapper.php:219
 msgid "Please revisit this page after some minutes."
-msgstr "Bitte besuchen Sie diese Seite in wenigen Minuten erneut."
+msgstr ""
 
 #: openestate-php-wrapper.php:527
 msgid "Properties are only loaded on a singular page view."
-msgstr "Immobilien werden nur auf der Einzelansicht einer Seite dargestellt."
+msgstr ""
 
 #: openestate-php-wrapper.php:529
 msgid "Can't load properties."
-msgstr "Immobilien konnten nicht geladen werden."
+msgstr ""
