@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 #
-# Copyright 2010-2018 OpenEstate.org
+# Copyright 2010-2019 OpenEstate.org
 #
 
 XGETTEXT="xgettext"
 NAME="openestate-php-wrapper"
-VERSION="0.3.0"
+VERSION="0.4.0"
 AUTHOR_NAME="OpenEstate.org"
 AUTHOR_EMAIL="info@openestate.org"
 

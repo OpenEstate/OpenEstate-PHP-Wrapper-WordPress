@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Copyright 2010-2018 OpenEstate.org
+# Copyright 2010-2019 OpenEstate.org
 #
 
 MSGFMT="msgfmt"
